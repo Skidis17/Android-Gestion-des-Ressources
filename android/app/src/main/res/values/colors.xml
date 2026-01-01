@@ -1,0 +1,13 @@
+<resources>
+    <color name="grh_primary">#3B82F6</color>
+    <color name="grh_primary_dark">#1E40AF</color>
+    <color name="grh_secondary">#E2E8F0</color>
+    <color name="grh_background">#F8FAFC</color>
+    <color name="grh_surface">#FFFFFF</color>
+    <color name="grh_text_primary">#0F172A</color>
+    <color name="grh_text_secondary">#64748B</color>
+    <color name="grh_success">#16A34A</color>
+    <color name="grh_warning">#F59E0B</color>
+    <color name="grh_error">#DC2626</color>
+    <color name="grh_accent">#E0F2FE</color>
+</resources>

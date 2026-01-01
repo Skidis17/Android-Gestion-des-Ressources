@@ -1,0 +1,35 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="ma.ensate.myapplication.HomeFragment"
+        android:label="Accueil" />
+
+    <fragment
+        android:id="@+id/personnelFragment"
+        android:name="ma.ensate.myapplication.PersonnelFragment"
+        android:label="Personnel" />
+
+    <fragment
+        android:id="@+id/demandesFragment"
+        android:name="ma.ensate.myapplication.DemandesFragment"
+        android:label="Demandes" />
+
+    <fragment
+        android:id="@+id/recrutementFragment"
+        android:name="ma.ensate.myapplication.RecrutementFragment"
+        android:label="Recrutement" />
+
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="ma.ensate.myapplication.NotificationsFragment"
+        android:label="Notifications" />
+
+    <fragment
+        android:id="@+id/notFoundFragment"
+        android:name="ma.ensate.myapplication.NotFoundFragment"
+        android:label="Not Found" />
+</navigation>
