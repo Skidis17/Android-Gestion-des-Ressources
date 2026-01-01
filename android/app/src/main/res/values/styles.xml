@@ -25,4 +25,8 @@
         <item name="cardElevation">2dp</item>
         <item name="cardUseCompatPadding">true</item>
     </style>
+    <style name="Theme.GRHDemo.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

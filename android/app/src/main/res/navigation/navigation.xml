@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation"
@@ -26,10 +27,5 @@
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="ma.ensate.myapplication.NotificationsFragment"
-        android:label="Notifications" />
-
-    <fragment
-        android:id="@+id/notFoundFragment"
-        android:name="ma.ensate.myapplication.NotFoundFragment"
-        android:label="Not Found" />
+        android:label="Alertes" />
 </navigation>
