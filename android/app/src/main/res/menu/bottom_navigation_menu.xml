@@ -5,6 +5,11 @@
         android:icon="@drawable/ic_home"
         android:title="Accueil" />
     <item
+        android:id="@+id/loginFragment"
+        android:icon="@drawable/ic_lock"
+        android:title="Login" />
+
+    <item
         android:id="@+id/personnelFragment"
         android:icon="@drawable/ic_personnel"
         android:title="Personnel" />
