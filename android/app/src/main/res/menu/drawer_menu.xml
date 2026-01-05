@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/besoinsFragment"
+        android:icon="@drawable/ic_demandes"
+        android:title="@string/nav_besoins" />
+    <item
+        android:id="@+id/depensesFragment"
+        android:icon="@drawable/ic_dollar"
+        android:title="@string/nav_depenses" />
+    <item
+        android:id="@+id/commandesFragment"
+        android:icon="@drawable/ic_briefcase"
+        android:title="@string/nav_commandes" />
+</menu>
+

@@ -8,27 +8,67 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="ma.ensate.myapplication.HomeFragment"
-        android:label="Accueil" />
+        android:label="@string/nav_home" />
 
     <fragment
         android:id="@+id/personnelFragment"
         android:name="ma.ensate.myapplication.PersonnelFragment"
-        android:label="Personnel" />
+        android:label="@string/nav_personnel" />
 
     <fragment
         android:id="@+id/demandesFragment"
         android:name="ma.ensate.myapplication.DemandesFragment"
-        android:label="Demandes" />
+        android:label="@string/nav_demandes" />
 
     <fragment
         android:id="@+id/recrutementFragment"
         android:name="ma.ensate.myapplication.RecrutementFragment"
-        android:label="Recrutement" />
+        android:label="@string/nav_recrutement" />
 
-    <fragment
-        android:id="@+id/notificationsFragment"
-        android:name="ma.ensate.myapplication.NotificationsFragment"
-        android:label="Alertes" />
+        <fragment
+            android:id="@+id/notificationsFragment"
+            android:name="ma.ensate.myapplication.NotificationsFragment"
+            android:label="@string/nav_notifications" />
+
+        <fragment
+            android:id="@+id/besoinsFragment"
+            android:name="ma.ensate.myapplication.ui.BesoinListFragment"
+            android:label="@string/nav_besoins">
+            <action
+                android:id="@+id/action_besoinsFragment_to_besoinFormFragment"
+                app:destination="@id/besoinFormFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/besoinFormFragment"
+            android:name="ma.ensate.myapplication.ui.BesoinFormFragment"
+            android:label="Formulaire Besoin">
+            <argument
+                android:name="besoinId"
+                app:argType="integer"
+                android:defaultValue="-1" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/besoinDetailFragment"
+            android:name="ma.ensate.myapplication.ui.BesoinDetailFragment"
+            android:label="Détails du Besoin">
+            <argument
+                android:name="besoinId"
+                app:argType="integer"
+                android:defaultValue="-1" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/depensesFragment"
+            android:name="ma.ensate.myapplication.ui.DepenseListFragment"
+            android:label="@string/nav_depenses" />
+
+        <fragment
+            android:id="@+id/commandesFragment"
+            android:name="ma.ensate.myapplication.ui.CommandeListFragment"
+            android:label="@string/nav_commandes" />
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="ma.ensate.myapplication.LoginFragment"

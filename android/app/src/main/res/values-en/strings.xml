@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">My Application</string>
+
+    <!-- Navigation labels (English) -->
+    <string name="nav_home">Home</string>
+    <string name="nav_login">Login</string>
+    <string name="nav_personnel">Personnel</string>
+    <string name="nav_demandes">Requests</string>
+    <string name="nav_recrutement">Recruitment</string>
+    <string name="nav_notifications">Notifications</string>
+    <string name="nav_besoins">Needs</string>
+    <string name="nav_depenses">Expenses</string>
+    <string name="nav_commandes">Orders</string>
+</resources>

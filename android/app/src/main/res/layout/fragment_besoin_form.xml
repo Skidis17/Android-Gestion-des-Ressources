@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Type de besoin" />
+
+        <EditText
+            android:id="@+id/et_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:lines="4" />
+
+        <EditText
+            android:id="@+id/et_quantite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Quantité"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/et_montant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Montant estimé"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/et_priorite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Priorité (BASSE/MOYENNE/HAUTE)" />
+
+        <EditText
+            android:id="@+id/et_date_livraison"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Date de livraison (YYYY-MM-DD)" />
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enregistrer"
+            android:layout_marginTop="12dp" />
+
+    </LinearLayout>
+
+</ScrollView>
