@@ -72,6 +72,12 @@ public class BesoinAdapter extends RecyclerView.Adapter<BesoinAdapter.ViewHolder
         int color = getStatusColor(statut);
         holder.statut.setTextColor(color);
 
+        // Set priority badge
+        String priorite = b.getPriorite() != null ? b.getPriorite().toUpperCase() : "MOYENNE";
+        holder.priority.setText(priorite);
+        int priorityColor = getPriorityColor(priorite);
+        holder.priority.setBackgroundColor(priorityColor);
+
         // Only allow edit/delete if status is EN_ATTENTE
         boolean canEdit = "EN_ATTENTE".equals(statut);
         holder.btnEdit.setEnabled(canEdit);
@@ -121,11 +127,24 @@ public class BesoinAdapter extends RecyclerView.Adapter<BesoinAdapter.ViewHolder
         }
     }
 
+    private int getPriorityColor(String priorite) {
+        switch (priorite) {
+            case "HAUTE":
+                return 0xFFEF4444; // Red
+            case "MOYENNE":
+                return 0xFFF59E0B; // Orange
+            case "BASSE":
+                return 0xFF10B981; // Green
+            default:
+                return 0xFF6B7280; // Gray
+        }
+    }
+
     @Override
     public int getItemCount() { return items.size(); }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title, sub, statut;
+        TextView title, sub, statut, priority;
         ImageButton btnEdit, btnDelete;
         
         ViewHolder(View v) {
@@ -133,6 +152,7 @@ public class BesoinAdapter extends RecyclerView.Adapter<BesoinAdapter.ViewHolder
             title = v.findViewById(R.id.tv_title);
             sub = v.findViewById(R.id.tv_sub);
             statut = v.findViewById(R.id.tv_statut);
+            priority = v.findViewById(R.id.tv_priority);
             btnEdit = v.findViewById(R.id.btn_edit);
             btnDelete = v.findViewById(R.id.btn_delete);
         }
