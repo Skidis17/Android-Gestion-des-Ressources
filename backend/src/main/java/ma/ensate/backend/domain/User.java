@@ -30,6 +30,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+    private String email;
 
     @Column(name = "derniere_connexion")
     private Date derniereConnexion;
