@@ -2,6 +2,7 @@ package ma.ensate.myapplication.network;
 
 import ma.ensate.myapplication.model.Besoin;
 import ma.ensate.myapplication.model.Commande;
+import ma.ensate.myapplication.model.Recrutement;
 import ma.ensate.myapplication.model.Depense;
 import retrofit2.Call;
 import retrofit2.http.*;
@@ -60,4 +61,20 @@ public interface ApiService {
 
     @GET("api/v1/commandes/by-besoin/{besoinId}")
     Call<List<Commande>> getCommandesByBesoin(@Path("besoinId") Long besoinId);
+
+    // Recrutements
+    @GET("api/v1/recrutements")
+    Call<List<Recrutement>> getRecrutements();
+
+    @GET("api/v1/recrutements/{id}")
+    Call<Recrutement> getRecrutement(@Path("id") Long id);
+
+    @POST("api/v1/recrutements")
+    Call<Recrutement> createRecrutement(@Body Recrutement recrutement);
+
+    @PUT("api/v1/recrutements/{id}")
+    Call<Recrutement> updateRecrutement(@Path("id") Long id, @Body Recrutement recrutement);
+
+    @POST("api/v1/recrutements/{id}/status")
+    Call<Recrutement> changeRecrutementStatus(@Path("id") Long id, @Query("statut") String statut);
 }
