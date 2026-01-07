@@ -1,6 +1,7 @@
 package ma.ensate.backend.controller;
 
 import ma.ensate.backend.dto.LoginRequest;
+import ma.ensate.backend.dto.PasswordChangeRequest;
 import ma.ensate.backend.dto.RegisterRequest;
 import ma.ensate.backend.dto.RegisterResponse;
 import ma.ensate.backend.service.AuthService;

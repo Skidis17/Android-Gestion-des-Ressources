@@ -85,19 +85,27 @@ public class AuthService {
         user.setUsername(request.getUsername().trim());
         user.setRole(role);
 
-        // IMPORTANT: on stocke le hash
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
-
-        // FK personnel_id
-        user.setPersonnelId(request.getPersonnelId()); // doit exister si FK en base
-
-        // Champs optionnels si tu les as dans l’entity
-        // user.setIsActive(true);
-        // user.setCreatedAt(Instant.now());
-        // user.setDerniereConnexion(null);
+        user.setPersonnelId(request.getPersonnelId());
 
         User saved = userRepository.save(user);
 
         return new RegisterResponse(saved.getId(), saved.getEmail(), saved.getUsername(), saved.getRole());
+    }
+
+    public void changePassword(Long userId, String oldPassword, String newPassword) {
+        User user = userRepository.findById(userId)  // <-- utiliser 'users' (avec s) ici
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+        if (!passwordEncoder.matches(oldPassword, user.getPasswordHash())) {
+            throw new IllegalArgumentException("Ancien mot de passe incorrect");
+        }
+
+        if (newPassword.length() < 6) {
+            throw new IllegalArgumentException("Le nouveau mot de passe est trop court");
+        }
+
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 }
