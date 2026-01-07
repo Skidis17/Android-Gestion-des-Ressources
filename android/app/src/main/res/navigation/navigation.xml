@@ -25,6 +25,38 @@
         android:name="ma.ensate.myapplication.RecrutementFragment"
         android:label="@string/nav_recrutement" />
 
+    <fragment
+        android:id="@+id/recrutementFormFragment"
+        android:name="ma.ensate.myapplication.ui.RecrutementFormFragment"
+        android:label="Nouveau recrutement" />
+
+    <fragment
+        android:id="@+id/candidatureListFragment"
+        android:name="ma.ensate.myapplication.ui.CandidatureListFragment"
+        android:label="Candidatures">
+        <argument
+            android:name="recrutementId"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/candidatureFormFragment"
+        android:name="ma.ensate.myapplication.ui.CandidatureFormFragment"
+        android:label="Nouvelle candidature">
+        <argument
+            android:name="recrutementId"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/candidatureDetailFragment"
+        android:name="ma.ensate.myapplication.ui.CandidatureDetailFragment"
+        android:label="Détails candidature">
+        <argument
+            android:name="candidatureId"
+            app:argType="long" />
+    </fragment>
+
         <fragment
             android:id="@+id/notificationsFragment"
             android:name="ma.ensate.myapplication.NotificationsFragment"

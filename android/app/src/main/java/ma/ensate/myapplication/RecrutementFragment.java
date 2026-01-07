@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.navigation.Navigation;
 
 import ma.ensate.myapplication.adapter.RecrutementAdapter;
 import ma.ensate.myapplication.viewmodel.RecrutementViewModel;
@@ -36,17 +37,35 @@ public class RecrutementFragment extends Fragment {
 
         RecyclerView rv = view.findViewById(R.id.rv_recrutements);
         TextView tvEmpty = view.findViewById(R.id.tv_empty_state);
+        View btnAdd = view.findViewById(R.id.btn_add_recrutement);
+        TextView tvCountRecrutements = view.findViewById(R.id.tv_count_recrutements);
+        TextView tvCountCandidatures = view.findViewById(R.id.tv_count_candidatures);
 
         adapter = new RecrutementAdapter();
         rv.setLayoutManager(new LinearLayoutManager(requireContext()));
         rv.setAdapter(adapter);
+        adapter.setOnItemClick(r -> {
+            if (r.getId() != null) {
+                Bundle args = new Bundle();
+                args.putLong("recrutementId", r.getId());
+                Navigation.findNavController(view).navigate(R.id.candidatureListFragment, args);
+            }
+        });
 
         viewModel = new ViewModelProvider(this).get(RecrutementViewModel.class);
         viewModel.getRecrutements().observe(getViewLifecycleOwner(), list -> {
             adapter.setItems(list);
             tvEmpty.setVisibility(list == null || list.isEmpty() ? View.VISIBLE : View.GONE);
+            int count = list != null ? list.size() : 0;
+            tvCountRecrutements.setText(String.valueOf(count));
+            // Placeholder: using same count for candidatures until a full aggregation is added
+            tvCountCandidatures.setText(String.valueOf(count));
         });
 
         viewModel.loadRecrutements();
+
+        if (btnAdd != null) {
+            btnAdd.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.recrutementFormFragment));
+        }
     }
 }

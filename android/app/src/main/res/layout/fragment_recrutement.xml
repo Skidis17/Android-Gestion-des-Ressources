@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,9 +26,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Recrutement"
+                    android:text="Offres"
                     android:textColor="#1A1A1A"
-                    android:textSize="32sp"
+                    android:textSize="28sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -41,8 +41,9 @@
             </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:id="@+id/btn_add_recrutement"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 app:cardBackgroundColor="#1A1A1A"
@@ -55,7 +56,7 @@
                     android:layout_gravity="center"
                     android:text="+"
                     android:textColor="#FFFFFF"
-                    android:textSize="24sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </com.google.android.material.card.MaterialCardView>
         </RelativeLayout>
@@ -70,7 +71,7 @@
             <!-- Card Postes ouverts (Bleu) -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
-                android:layout_height="140dp"
+                android:layout_height="120dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 app:cardBackgroundColor="#2563EB"
@@ -93,21 +94,24 @@
                             android:text="Postes ouverts"
                             android:textColor="#FFFFFF"
                             android:alpha="0.9"
-                            android:textSize="14sp" />
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="3"
+                            android:id="@+id/tv_count_recrutements"
+                            android:text="0"
                             android:textColor="#FFFFFF"
-                            android:textSize="40sp"
+                            android:textSize="30sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentTop="true"
                         app:cardBackgroundColor="#3B82F6"
@@ -115,8 +119,8 @@
                         app:cardElevation="0dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_briefcase"
                             android:tint="#FFFFFF" />
@@ -127,7 +131,7 @@
             <!-- Card Candidatures (Bleu clair) -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
-                android:layout_height="140dp"
+                android:layout_height="120dp"
                 android:layout_weight="1"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
@@ -150,21 +154,24 @@
                             android:layout_height="wrap_content"
                             android:text="Candidatures"
                             android:textColor="#1E3A8A"
-                            android:textSize="14sp" />
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="43"
+                            android:id="@+id/tv_count_candidatures"
+                            android:text="0"
                             android:textColor="#1A1A1A"
-                            android:textSize="40sp"
+                            android:textSize="30sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentTop="true"
                         app:cardBackgroundColor="#BFDBFE"
@@ -172,8 +179,8 @@
                         app:cardElevation="0dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_people"
                             android:tint="#3B82F6" />
@@ -184,7 +191,7 @@
             <!-- Card Entretiens (Beige) -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
-                android:layout_height="140dp"
+                android:layout_height="120dp"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 app:cardBackgroundColor="#FEF3C7"
@@ -206,7 +213,9 @@
                             android:layout_height="wrap_content"
                             android:text="Entretiens"
                             android:textColor="#78350F"
-                            android:textSize="14sp" />
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -214,13 +223,13 @@
                             android:layout_marginTop="8dp"
                             android:text="4"
                             android:textColor="#1A1A1A"
-                            android:textSize="40sp"
+                            android:textSize="30sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentTop="true"
                         app:cardBackgroundColor="#FDE68A"
@@ -228,8 +237,8 @@
                         app:cardElevation="0dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_clock"
                             android:tint="#F59E0B" />
@@ -243,7 +252,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Postes ouverts"
+            android:text="Offres ouvertes"
             android:textColor="#1A1A1A"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -266,4 +275,4 @@
             android:visibility="gone"/>
 
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

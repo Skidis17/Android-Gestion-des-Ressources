@@ -17,6 +17,12 @@ import ma.ensate.myapplication.model.Recrutement;
 public class RecrutementAdapter extends RecyclerView.Adapter<RecrutementAdapter.ViewHolder> {
 
     private List<Recrutement> items = new ArrayList<>();
+    public interface OnItemClick { void onClick(Recrutement r); }
+    private OnItemClick onItemClick;
+
+    public void setOnItemClick(OnItemClick listener) {
+        this.onItemClick = listener;
+    }
 
     public void setItems(List<Recrutement> list) {
         this.items = list != null ? list : new ArrayList<>();
@@ -36,10 +42,17 @@ public class RecrutementAdapter extends RecyclerView.Adapter<RecrutementAdapter.
         holder.tvPoste.setText(r.getPoste());
         holder.tvDepartement.setText(r.getDepartement() != null ? r.getDepartement() : "N/A");
         holder.tvStatut.setText(r.getStatut() != null ? r.getStatut() : "N/A");
+        String typeContrat = r.getTypeContrat() != null ? r.getTypeContrat() : "N/A";
+        String nbPostes = r.getNombrePostes() != null ? String.valueOf(r.getNombrePostes()) + " postes" : "N/A";
+        holder.tvMeta.setText(typeContrat + " • " + nbPostes);
         String dates = (r.getDateOuverture() != null ? r.getDateOuverture() : "?") +
                 " → " + (r.getDateCloture() != null ? r.getDateCloture() : "?");
         holder.tvDates.setText(dates);
         holder.tvDescription.setText(r.getDescription() != null ? r.getDescription() : "Aucune description");
+
+        holder.itemView.setOnClickListener(v -> {
+            if (onItemClick != null) onItemClick.onClick(r);
+        });
     }
 
     @Override
@@ -48,13 +61,14 @@ public class RecrutementAdapter extends RecyclerView.Adapter<RecrutementAdapter.
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvPoste, tvStatut, tvDepartement, tvDates, tvDescription;
+        TextView tvPoste, tvStatut, tvDepartement, tvMeta, tvDates, tvDescription;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvPoste = itemView.findViewById(R.id.tv_poste);
             tvStatut = itemView.findViewById(R.id.tv_statut);
             tvDepartement = itemView.findViewById(R.id.tv_departement);
+            tvMeta = itemView.findViewById(R.id.tv_meta);
             tvDates = itemView.findViewById(R.id.tv_dates);
             tvDescription = itemView.findViewById(R.id.tv_description);
         }

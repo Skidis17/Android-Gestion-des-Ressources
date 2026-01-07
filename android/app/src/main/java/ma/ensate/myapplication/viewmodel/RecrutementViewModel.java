@@ -36,4 +36,21 @@ public class RecrutementViewModel extends ViewModel {
             }
         });
     }
+
+    public interface ActionCallback { void onSuccess(Recrutement created); void onError(Throwable t); }
+
+    public void createRecrutement(Recrutement r, ActionCallback cb) {
+        repository.createRecrutement(r).enqueue(new Callback<Recrutement>() {
+            @Override
+            public void onResponse(Call<Recrutement> call, Response<Recrutement> response) {
+                loadRecrutements();
+                if (response.isSuccessful() && response.body() != null) cb.onSuccess(response.body()); else cb.onError(new Exception("Create failed"));
+            }
+
+            @Override
+            public void onFailure(Call<Recrutement> call, Throwable t) {
+                cb.onError(t);
+            }
+        });
+    }
 }

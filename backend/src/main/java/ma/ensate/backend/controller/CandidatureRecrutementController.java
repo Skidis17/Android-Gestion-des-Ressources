@@ -50,6 +50,14 @@ public class CandidatureRecrutementController {
         return ResponseEntity.ok(CandidatureRecrutementMapper.toDto(updated));
     }
 
+    @PostMapping("/{id}/status")
+    public ResponseEntity<CandidatureRecrutementDto> changeStatus(@PathVariable Long id,
+                                                                  @RequestParam String statut,
+                                                                  @RequestParam(defaultValue = "false") boolean sendEmail) {
+        CandidatureRecrutement updated = candidatureRecrutementService.updateStatus(id, statut, sendEmail);
+        return ResponseEntity.ok(CandidatureRecrutementMapper.toDto(updated));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         candidatureRecrutementService.delete(id);

@@ -69,4 +69,12 @@ public class RecrutementController {
                 .map(CandidatureRecrutementMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+    @PostMapping("/{id}/select")
+    public List<CandidatureRecrutementDto> selectAccepted(@PathVariable Long id,
+                                                          @RequestParam(defaultValue = "false") boolean sendEmail) {
+        return candidatureRecrutementService.selectAcceptedCandidates(id, sendEmail).stream()
+                .map(CandidatureRecrutementMapper::toDto)
+                .collect(Collectors.toList());
+    }
 }

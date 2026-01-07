@@ -9,6 +9,8 @@ public interface CandidatureRecrutementService {
     CandidatureRecrutement findById(Long id);
     CandidatureRecrutement create(CandidatureRecrutement candidature);
     CandidatureRecrutement update(Long id, CandidatureRecrutement candidature);
+    CandidatureRecrutement updateStatus(Long id, String statut, boolean sendEmail);
     void delete(Long id);
     List<CandidatureRecrutement> findByRecrutementId(Long recrutementId);
+    List<CandidatureRecrutement> selectAcceptedCandidates(Long recrutementId, boolean sendEmail);
 }
