@@ -2,6 +2,7 @@ package ma.ensate.myapplication.ui;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.app.DatePickerDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import androidx.navigation.Navigation;
 import ma.ensate.myapplication.R;
 import ma.ensate.myapplication.model.Recrutement;
 import ma.ensate.myapplication.viewmodel.RecrutementViewModel;
+
+import java.util.Calendar;
 
 public class RecrutementFormFragment extends Fragment {
 
@@ -51,6 +54,9 @@ public class RecrutementFormFragment extends Fragment {
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> Navigation.findNavController(view).popBackStack());
         }
+
+        etDateOuverture.setOnClickListener(v -> showDatePicker(etDateOuverture));
+        etDateCloture.setOnClickListener(v -> showDatePicker(etDateCloture));
 
         btnSave.setOnClickListener(v -> {
             String poste = etPoste.getText().toString().trim();
@@ -90,5 +96,19 @@ public class RecrutementFormFragment extends Fragment {
                 }
             });
         });
+    }
+
+    private void showDatePicker(EditText target) {
+        Calendar cal = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(requireContext(),
+                (view, year, month, dayOfMonth) -> {
+                    String m = String.format("%02d", month + 1);
+                    String d = String.format("%02d", dayOfMonth);
+                    target.setText(year + "-" + m + "-" + d);
+                },
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH));
+        dialog.show();
     }
 }
