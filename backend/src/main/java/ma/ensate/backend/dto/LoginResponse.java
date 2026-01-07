@@ -12,5 +12,6 @@ public class LoginResponse {
     public LoginResponse(String token, Role role) {
         this.token = token;
         this.role = role;
+
     }
 }
