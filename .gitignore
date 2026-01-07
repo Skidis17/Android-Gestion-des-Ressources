@@ -13,3 +13,23 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# IDE
+/.idea
+/.vscode
+
+# Android
+/android/.gradle
+/android/build
+/android/app/build
+/android/gradle-dist
+/android/.gradle_bak
+
+# Backend
+/backend/target
+/backend/uploads
+/backend/backend.db
+
+# Logs/env
+*.log
+.env
