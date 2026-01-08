@@ -89,7 +89,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="Supprimer"
                     android:padding="8dp"
-                    android:tint="#F44336" />
+                    app:tint="#F44336" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

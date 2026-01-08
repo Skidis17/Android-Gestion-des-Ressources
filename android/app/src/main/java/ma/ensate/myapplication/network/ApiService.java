@@ -5,10 +5,18 @@ import ma.ensate.myapplication.model.Commande;
 import ma.ensate.myapplication.model.Depense;
 import retrofit2.Call;
 import retrofit2.http.*;
+import ma.ensate.myapplication.model.LoginRequest;
+import ma.ensate.myapplication.model.LoginResponse;
+
 
 import java.util.List;
 
 public interface ApiService {
+
+    //auth
+    @POST("api/v1/auth/login")
+    Call<LoginResponse> login(@Body LoginRequest request);
+
 
     // Besoins
     @GET("api/v1/besoins")

@@ -119,7 +119,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_briefcase"
-                            android:tint="#FFFFFF" />
+                            app:tint="#FFFFFF" />
                     </com.google.android.material.card.MaterialCardView>
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -176,7 +176,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_people"
-                            android:tint="#3B82F6" />
+                            app:tint="#3B82F6" />
                     </com.google.android.material.card.MaterialCardView>
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -232,7 +232,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_clock"
-                            android:tint="#F59E0B" />
+                            app:tint="#F59E0B" />
                     </com.google.android.material.card.MaterialCardView>
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -291,7 +291,7 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_briefcase"
-                        android:tint="#3B82F6" />
+                        app:tint="#3B82F6" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Content -->
@@ -385,7 +385,7 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_briefcase"
-                        android:tint="#3B82F6" />
+                        app:tint="#3B82F6" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Content -->
@@ -462,7 +462,7 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_briefcase"
-                        android:tint="#3B82F6" />
+                        app:tint="#3B82F6" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Content -->
@@ -539,7 +539,7 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_briefcase"
-                        android:tint="#3B82F6" />
+                        app:tint="#3B82F6" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Content -->
@@ -713,7 +713,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    android:tint="#9CA3AF" />
+                    app:tint="#9CA3AF" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
