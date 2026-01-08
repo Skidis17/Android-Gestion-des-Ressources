@@ -3,10 +3,12 @@ package ma.ensate.myapplication.network;
 import ma.ensate.myapplication.model.Besoin;
 import ma.ensate.myapplication.model.Commande;
 import ma.ensate.myapplication.model.Depense;
+import ma.ensate.myapplication.model.BudgetSummary;
 import retrofit2.Call;
 import retrofit2.http.*;
 
 import java.util.List;
+import ma.ensate.myapplication.model.Recette;
 
 public interface ApiService {
 
@@ -60,4 +62,15 @@ public interface ApiService {
 
     @GET("api/v1/commandes/by-besoin/{besoinId}")
     Call<List<Commande>> getCommandesByBesoin(@Path("besoinId") Long besoinId);
+
+    // Recettes
+    @GET("api/v1/recettes")
+    Call<List<Recette>> getRecettes();
+
+    @POST("api/v1/recettes")
+    Call<Recette> createRecette(@Body Recette recette);
+
+    // Budget summary
+    @GET("api/v1/budget/summary")
+    Call<BudgetSummary> getBudgetSummary();
 }

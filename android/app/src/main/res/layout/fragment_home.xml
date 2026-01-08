@@ -454,8 +454,11 @@
                 android:padding="8dp">
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_budget"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
+                    android:clickable="true"
+                    android:focusable="true"
                     app:cardBackgroundColor="#DBEAFE"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp">

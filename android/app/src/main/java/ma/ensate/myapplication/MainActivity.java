@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
                     R.id.demandesFragment,
                     R.id.recrutementFragment,
                     R.id.notificationsFragment,
+                    R.id.recettesFragment,
+                    R.id.budgetFragment,
                     R.id.loginFragment
             )
                     .setOpenableLayout(drawerLayout)

@@ -39,5 +39,14 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+
+        // Navigate to Budget screen when budget card is clicked
+        View cardBudget = view.findViewById(R.id.card_budget);
+        if (cardBudget != null) {
+            cardBudget.setOnClickListener(v -> {
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.budgetFragment);
+            });
+        }
     }
 }

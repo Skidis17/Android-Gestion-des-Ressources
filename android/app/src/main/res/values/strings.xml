@@ -11,4 +11,16 @@
     <string name="nav_besoins">Besoins</string>
     <string name="nav_depenses">Dépenses</string>
     <string name="nav_commandes">Commandes</string>
+    <string name="nav_budget">Budget</string>
+    <string name="nav_recettes">Recettes</string>
+    <string name="nav_add_recette">Ajouter Recette</string>
+
+    <!-- Recette form labels -->
+    <string name="label_source">Source</string>
+    <string name="label_categorie">Catégorie</string>
+    <string name="label_montant">Montant (DH)</string>
+    <string name="label_date">Date</string>
+    <string name="label_description">Description</string>
+    <string name="label_reference">Référence Document</string>
+    <string name="action_save">Enregistrer</string>
 </resources>
