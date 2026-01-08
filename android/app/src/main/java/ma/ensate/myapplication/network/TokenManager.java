@@ -15,13 +15,11 @@ public class TokenManager {
     }
 
     public void saveAuth(String token, String role) {
-        sp.edit()
-                .putString(KEY_TOKEN, token)
+        sp.edit().putString(KEY_TOKEN, token)
                 .putString(KEY_ROLE, role)
                 .apply();
     }
 
     public String getToken() { return sp.getString(KEY_TOKEN, null); }
     public String getRole() { return sp.getString(KEY_ROLE, null); }
-    public void clear() { sp.edit().clear().apply(); }
 }

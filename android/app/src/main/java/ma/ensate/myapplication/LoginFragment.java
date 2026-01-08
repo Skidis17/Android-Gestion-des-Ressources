@@ -3,7 +3,6 @@ package ma.ensate.myapplication;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -27,33 +26,51 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        EditText etEmail = view.findViewById(R.id.etEmail);       // ✅ assure-toi qu’il existe
+        EditText etEmail = view.findViewById(R.id.etEmail);
         EditText etPassword = view.findViewById(R.id.etPassword);
+
         ImageView btnTogglePassword = view.findViewById(R.id.btnTogglePassword);
-        Button btnLogin = view.findViewById(R.id.btnLogin);      // ✅ assure-toi qu’il existe
+        View btnLogin = view.findViewById(R.id.btnLogin); // ✅ peut être MaterialTextView ou Button
 
         LoginViewModel vm = new ViewModelProvider(this).get(LoginViewModel.class);
 
-        btnTogglePassword.setOnClickListener(v -> {
-            isPasswordVisible = !isPasswordVisible;
-            if (isPasswordVisible) {
-                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                btnTogglePassword.setImageResource(R.drawable.ic_eye_off);
-            } else {
-                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                btnTogglePassword.setImageResource(R.drawable.ic_eye);
-            }
-            etPassword.setSelection(etPassword.getText().length());
-        });
-
-        btnLogin.setOnClickListener(v -> {
-            String email = etEmail.getText().toString().trim();
-            String password = etPassword.getText().toString().trim();
-            vm.login(email, password);
-        });
-
+        // ✅ Toast message après login
         vm.getMessage().observe(getViewLifecycleOwner(), msg -> {
-            if (msg != null) Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show();
+            if (msg != null && !msg.isEmpty()) {
+                Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show();
+            }
         });
+
+        // ✅ Click Login
+        if (btnLogin != null) {
+            btnLogin.setOnClickListener(v -> {
+                String email = etEmail != null ? etEmail.getText().toString().trim() : "";
+                String password = etPassword != null ? etPassword.getText().toString().trim() : "";
+
+                if (email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(requireContext(), "Email et mot de passe requis", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                vm.login(email, password);
+            });
+        }
+
+        // ✅ Toggle Password (protégé contre null)
+        if (btnTogglePassword != null && etPassword != null) {
+            btnTogglePassword.setOnClickListener(v -> {
+                isPasswordVisible = !isPasswordVisible;
+
+                if (isPasswordVisible) {
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    btnTogglePassword.setImageResource(R.drawable.ic_eye_off);
+                } else {
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    btnTogglePassword.setImageResource(R.drawable.ic_eye);
+                }
+
+                etPassword.setSelection(etPassword.getText().length());
+            });
+        }
     }
 }
