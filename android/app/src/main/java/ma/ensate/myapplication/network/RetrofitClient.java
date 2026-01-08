@@ -1,7 +1,5 @@
 package ma.ensate.myapplication.network;
 
-import android.content.Context;
-
 import ma.ensate.myapplication.BuildConfig;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -14,16 +12,6 @@ public class RetrofitClient {
     private static final String DEFAULT_BASE_URL = BuildConfig.BASE_URL; // set in build.gradle via buildConfigField
     private static Retrofit retrofit;
 
-    private static TokenManager tokenManager;
-
-    // ✅ à appeler 1 seule fois (MainActivity)
-    public static void init(Context context) {
-        tokenManager = new TokenManager(context.getApplicationContext());
-    }
-
-    public static TokenManager token() {
-        return tokenManager;
-    }
     public static Retrofit getClient() {
         return getClient(DEFAULT_BASE_URL);
     }
