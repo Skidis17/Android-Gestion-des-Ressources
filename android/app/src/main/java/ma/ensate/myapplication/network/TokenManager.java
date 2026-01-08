@@ -20,6 +20,10 @@ public class TokenManager {
                 .apply();
     }
 
+    public void clear() {
+        sp.edit().remove(KEY_TOKEN).remove(KEY_ROLE).apply();
+    }
+
     public String getToken() { return sp.getString(KEY_TOKEN, null); }
     public String getRole() { return sp.getString(KEY_ROLE, null); }
 }
