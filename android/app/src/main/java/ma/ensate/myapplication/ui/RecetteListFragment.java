@@ -1,6 +1,8 @@
 package ma.ensate.myapplication.ui;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -51,6 +53,20 @@ public class RecetteListFragment extends Fragment {
         });
 
         fab.setOnClickListener(v -> androidx.navigation.Navigation.findNavController(view).navigate(R.id.addRecetteFragment));
+
+        // search filtering
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         // initial load
         vm.loadRecettes();
