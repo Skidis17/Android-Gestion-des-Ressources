@@ -52,7 +52,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_check"
-                    android:tint="#1A1A1A" />
+                    app:tint="#1A1A1A" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -95,7 +95,7 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_calendar"
-                        android:tint="#3B82F6" />
+                        app:tint="#3B82F6" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Content -->
@@ -173,7 +173,7 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_person_add"
-                        android:tint="#10B981" />
+                        app:tint="#10B981" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Content -->
@@ -251,7 +251,7 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_alert"
-                        android:tint="#F59E0B" />
+                        app:tint="#F59E0B" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Content -->
@@ -319,7 +319,7 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_document_add"
-                        android:tint="#3B82F6" />
+                        app:tint="#3B82F6" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Content -->
@@ -387,7 +387,7 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_bell"
-                        android:tint="#6B7280" />
+                        app:tint="#6B7280" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Content -->

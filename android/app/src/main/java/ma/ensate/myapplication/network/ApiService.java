@@ -2,6 +2,8 @@ package ma.ensate.myapplication.network;
 
 import ma.ensate.myapplication.model.Besoin;
 import ma.ensate.myapplication.model.Commande;
+import ma.ensate.myapplication.model.LoginRequest;
+import ma.ensate.myapplication.model.LoginResponse;
 import ma.ensate.myapplication.model.Recrutement;
 import ma.ensate.myapplication.model.Depense;
 import ma.ensate.myapplication.model.CandidatureRecrutement;
@@ -13,6 +15,10 @@ import okhttp3.MultipartBody;
 import java.util.List;
 
 public interface ApiService {
+
+    //Auth
+    @POST("auth/login")
+    Call<LoginResponse> login(@Body LoginRequest request);
 
     // Besoins
     @GET("api/v1/besoins")
