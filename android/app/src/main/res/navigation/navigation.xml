@@ -21,6 +21,20 @@
         android:label="@string/nav_demandes" />
 
     <fragment
+        android:id="@+id/demandeFormFragment"
+        android:name="ma.ensate.myapplication.ui.DemandeFormFragment"
+        android:label="Nouvelle demande" />
+
+    <fragment
+        android:id="@+id/demandeDetailFragment"
+        android:name="ma.ensate.myapplication.ui.DemandeDetailFragment"
+        android:label="Détails demande">
+        <argument
+            android:name="demandeId"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
         android:id="@+id/recrutementFragment"
         android:name="ma.ensate.myapplication.RecrutementFragment"
         android:label="@string/nav_recrutement" />
