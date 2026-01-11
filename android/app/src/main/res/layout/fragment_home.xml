@@ -131,7 +131,7 @@
                                 android:layout_height="24dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_people"
-                                android:tint="#FFFFFF" />
+                                app:tint="#FFFFFF" />
                         </com.google.android.material.card.MaterialCardView>
                     </RelativeLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -188,7 +188,7 @@
                                 android:layout_height="24dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_clipboard"
-                                android:tint="#F59E0B" />
+                                app:tint="#F59E0B" />
                         </com.google.android.material.card.MaterialCardView>
                     </RelativeLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -253,7 +253,7 @@
                                 android:layout_height="24dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_briefcase"
-                                android:tint="#3B82F6" />
+                                app:tint="#3B82F6" />
                         </com.google.android.material.card.MaterialCardView>
                     </RelativeLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -289,7 +289,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginTop="11dp"
                                 android:text="94%"
                                 android:textColor="#1A1A1A"
                                 android:textSize="36sp"
@@ -318,7 +318,7 @@
                                 android:layout_height="24dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_trending_up"
-                                android:tint="#10B981" />
+                                app:tint="#10B981" />
                         </com.google.android.material.card.MaterialCardView>
                     </RelativeLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -363,7 +363,7 @@
                         android:layout_height="28dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_person_add"
-                        android:tint="#6366F1" />
+                        app:tint="#6366F1" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -397,7 +397,7 @@
                         android:layout_height="28dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_document_add"
-                        android:tint="#10B981" />
+                        app:tint="#10B981" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -431,7 +431,7 @@
                         android:layout_height="28dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_calendar"
-                        android:tint="#F59E0B" />
+                        app:tint="#F59E0B" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -468,7 +468,7 @@
                         android:layout_height="28dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_dollar"
-                        android:tint="#3B82F6" />
+                        app:tint="#3B82F6" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -593,7 +593,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    android:tint="#9CA3AF" />
+                    app:tint="#9CA3AF" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
