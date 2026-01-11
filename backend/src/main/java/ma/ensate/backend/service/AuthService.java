@@ -34,6 +34,8 @@ public class AuthService {
     }
 
 
+
+
     public LoginResponse login(LoginRequest request) {
 
         Authentication authentication = authenticationManager.authenticate(
@@ -45,18 +47,26 @@ public class AuthService {
 
         String token = jwtUtil.generateToken(request.getEmail());
 
-        // Authorities → ROLE_ADMIN / ROLE_USER
-
         Role role = Role.valueOf(
                 authentication.getAuthorities().stream()
                         .findFirst()
-                        .get()
+                        .orElseThrow(() -> new RuntimeException("No role found"))
                         .getAuthority()
                         .replace("ROLE_", "")
         );
 
-        return new LoginResponse(token, role);
+        // récupérer l'utilisateur depuis la DB
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return new LoginResponse(
+                token,
+                role,
+                user.getUsername(), // ou getNom() selon ton modèle
+                user.getEmail()
+        );
     }
+
 
     @Transactional
     public RegisterResponse register(RegisterRequest request) {

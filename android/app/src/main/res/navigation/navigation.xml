@@ -106,6 +106,21 @@
         android:name="ma.ensate.myapplication.LoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_login"/>
+    <!-- Global actions (accessible from anywhere) -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="ma.ensate.myapplication.ProfileFragment"
+        android:label="@string/nav_profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <!-- Global actions (accessible from anywhere) -->
+    <action
+        android:id="@+id/action_global_profileFragment"
+        app:destination="@id/profileFragment" />
+
+    <action
+        android:id="@+id/action_global_loginFragment"
+        app:destination="@id/loginFragment" />
 
 
 

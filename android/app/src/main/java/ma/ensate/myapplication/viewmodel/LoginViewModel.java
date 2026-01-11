@@ -18,51 +18,49 @@ import retrofit2.Response;
 public class LoginViewModel extends AndroidViewModel {
 
     private static final String TAG = "LOGIN";
-
     private final AuthRepository repo = new AuthRepository();
 
     private final MutableLiveData<String> message = new MutableLiveData<>();
     private final MutableLiveData<String> roleLiveData = new MutableLiveData<>();
 
-    public LiveData<String> getMessage() {
-        return message;
-    }
-
-    public LiveData<String> getRole() {
-        return roleLiveData;
-    }
+    public LiveData<String> getMessage() { return message; }
+    public LiveData<String> getRole() { return roleLiveData; }
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
     }
 
     public void login(String email, String password) {
-        Log.d(TAG, "login() called email=" + email);
-
         repo.login(email, password).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-
-                Log.d(TAG, "HTTP CODE=" + response.code() + " MSG=" + response.message());
-
                 if (response.isSuccessful() && response.body() != null) {
-                    String token = response.body().getToken();
-                    String role  = response.body().getRole();
 
-                    Log.d(TAG, "SUCCESS token=" + token + " role=" + role);
+                    LoginResponse body = response.body();
+                    String token = body.getToken();
+                    String role = body.getRole();
+                    String username = body.getUsername();
+                    String userEmail = body.getEmail();
+                    Log.d(TAG, "BACKEND RESPONSE ↓↓↓");
+                    Log.d(TAG, "token=" + token);
+                    Log.d(TAG, "role=" + role);
+                    Log.d(TAG, "username=" + username);
+                    Log.d(TAG, "email=" + userEmail);
 
-                    new TokenManager(getApplication()).saveAuth(token, role);
+                    if (userEmail == null || userEmail.isEmpty()) userEmail = email;
+                    if (username == null) username = "";
 
+                    new TokenManager(getApplication()).saveAuth(token, role, username, userEmail);
+
+                    Log.d(TAG, "SAVED IN TOKEN MANAGER ↓↓↓");
+                    Log.d(TAG, "token=" + token);
+                    Log.d(TAG, "role=" + role);
+                    Log.d(TAG, "username=" + username);
+                    Log.d(TAG, "email=" + userEmail);
                     roleLiveData.postValue(role);
-
                     message.postValue("Vous êtes connecté (" + role + ")");
-                } else {
-                    String err = "";
-                    try {
-                        if (response.errorBody() != null) err = response.errorBody().string();
-                    } catch (Exception ignored) {}
 
-                    Log.e(TAG, "LOGIN FAILED body=" + err);
+                } else {
                     message.postValue("Login échoué (" + response.code() + ")");
                 }
             }

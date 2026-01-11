@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
         android:id="@+id/homeFragment"
         android:icon="@drawable/ic_home"
         android:title="@string/nav_home" />
-    
+
     <item
         android:id="@+id/personnelFragment"
         android:icon="@drawable/ic_personnel"
         android:title="@string/nav_personnel" />
+
     <item
         android:id="@+id/demandesFragment"
         android:icon="@drawable/ic_demandes"
         android:title="@string/nav_demandes" />
+
     <item
         android:id="@+id/recrutementFragment"
         android:icon="@drawable/ic_recrutement"
         android:title="@string/nav_recrutement" />
-    <item
-        android:id="@+id/loginFragment"
-        android:icon="@drawable/ic_lock"
-        android:title="@string/nav_login" />
-
-
 
     <item
-        android:id="@+id/notificationsFragment"
-        android:icon="@drawable/ic_notifications"
-        android:title="@string/nav_notifications" />
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/nav_profile" />
+
 </menu>
