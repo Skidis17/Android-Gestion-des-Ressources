@@ -26,7 +26,9 @@ import java.util.List;
 
 public class RecetteListFragment extends Fragment {
 
-    public RecetteListFragment() { super(R.layout.fragment_recettes); }
+    public RecetteListFragment() {
+        super(R.layout.fragment_recettes);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -55,15 +57,20 @@ public class RecetteListFragment extends Fragment {
         });
 
         vm.getLoading().observe(getViewLifecycleOwner(), isLoading -> {
-            if (isLoading != null && isLoading) loading.setVisibility(View.VISIBLE); else loading.setVisibility(View.GONE);
+            if (isLoading != null && isLoading)
+                loading.setVisibility(View.VISIBLE);
+            else
+                loading.setVisibility(View.GONE);
         });
 
-        fab.setOnClickListener(v -> androidx.navigation.Navigation.findNavController(view).navigate(R.id.addRecetteFragment));
+        fab.setOnClickListener(
+                v -> androidx.navigation.Navigation.findNavController(view).navigate(R.id.addRecetteFragment));
 
         // search filtering
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -71,7 +78,8 @@ public class RecetteListFragment extends Fragment {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         // initial load

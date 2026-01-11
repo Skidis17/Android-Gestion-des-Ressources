@@ -18,8 +18,13 @@ public class RecetteViewModel extends ViewModel {
     private final MutableLiveData<List<Recette>> recettes = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>(false);
 
-    public LiveData<List<Recette>> getRecettes() { return recettes; }
-    public LiveData<Boolean> getLoading() { return loading; }
+    public LiveData<List<Recette>> getRecettes() {
+        return recettes;
+    }
+
+    public LiveData<Boolean> getLoading() {
+        return loading;
+    }
 
     public void loadRecettes() {
         loading.postValue(true);
@@ -27,7 +32,10 @@ public class RecetteViewModel extends ViewModel {
             @Override
             public void onResponse(Call<List<Recette>> call, Response<List<Recette>> response) {
                 loading.postValue(false);
-                if (response.isSuccessful() && response.body() != null) recettes.postValue(response.body()); else recettes.postValue(new ArrayList<>());
+                if (response.isSuccessful() && response.body() != null)
+                    recettes.postValue(response.body());
+                else
+                    recettes.postValue(new ArrayList<>());
             }
 
             @Override
@@ -38,7 +46,11 @@ public class RecetteViewModel extends ViewModel {
         });
     }
 
-    public interface ActionCallback { void onSuccess(Recette created); void onError(Throwable t); }
+    public interface ActionCallback {
+        void onSuccess(Recette created);
+
+        void onError(Throwable t);
+    }
 
     public void createRecette(Recette r, ActionCallback cb) {
         loading.postValue(true);
@@ -49,7 +61,8 @@ public class RecetteViewModel extends ViewModel {
                 if (response.isSuccessful() && response.body() != null) {
                     loadRecettes();
                     cb.onSuccess(response.body());
-                } else cb.onError(new Exception("Create failed"));
+                } else
+                    cb.onError(new Exception("Create failed"));
             }
 
             @Override
@@ -69,7 +82,8 @@ public class RecetteViewModel extends ViewModel {
                 if (response.isSuccessful() && response.body() != null) {
                     loadRecettes();
                     cb.onSuccess(response.body());
-                } else cb.onError(new Exception("Update failed"));
+                } else
+                    cb.onError(new Exception("Update failed"));
             }
 
             @Override

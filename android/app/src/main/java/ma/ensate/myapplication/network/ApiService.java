@@ -26,7 +26,8 @@ public interface ApiService {
     Call<Besoin> updateBesoin(@Path("id") Long id, @Body Besoin besoin);
 
     @POST("api/v1/besoins/{id}/status")
-    Call<Besoin> changeBesoinStatus(@Path("id") Long id, @Query("statut") String statut, @Query("traitePar") Long traitePar, @Query("commentaire") String commentaire);
+    Call<Besoin> changeBesoinStatus(@Path("id") Long id, @Query("statut") String statut,
+            @Query("traitePar") Long traitePar, @Query("commentaire") String commentaire);
 
     @DELETE("api/v1/besoins/{id}")
     Call<Void> deleteBesoin(@Path("id") Long id);

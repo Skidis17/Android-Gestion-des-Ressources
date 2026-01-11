@@ -26,7 +26,9 @@ public class EditRecetteFragment extends Fragment {
 
     private Recette recette;
 
-    public EditRecetteFragment() { super(R.layout.fragment_edit_recette); }
+    public EditRecetteFragment() {
+        super(R.layout.fragment_edit_recette);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -51,8 +53,9 @@ public class EditRecetteFragment extends Fragment {
         EditText etReference = view.findViewById(R.id.etReference);
         Button btnUpdate = view.findViewById(R.id.btnUpdateRecette);
 
-        String[] cats = new String[]{"Subvention","Formation Continue","Partenariat","Autre"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, cats);
+        String[] cats = new String[] { "Subvention", "Formation Continue", "Partenariat", "Autre" };
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_dropdown_item, cats);
         spinnerCat.setAdapter(adapter);
 
         // Pre-fill form with recette data
@@ -86,7 +89,8 @@ public class EditRecetteFragment extends Fragment {
 
         btnUpdate.setOnClickListener(v -> {
             // Simple validation
-            if (etSource.getText().toString().trim().isEmpty() || etMontant.getText().toString().trim().isEmpty() || etDate.getText().toString().trim().isEmpty()) {
+            if (etSource.getText().toString().trim().isEmpty() || etMontant.getText().toString().trim().isEmpty()
+                    || etDate.getText().toString().trim().isEmpty()) {
                 Toast.makeText(requireContext(), "Veuillez remplir les champs obligatoires", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -94,10 +98,10 @@ public class EditRecetteFragment extends Fragment {
             // Update recette object
             recette.setSource(etSource.getText().toString().trim());
             recette.setCategorie(spinnerCat.getSelectedItem().toString());
-            try { 
-                recette.setMontant(Double.parseDouble(etMontant.getText().toString().trim())); 
-            } catch (Exception ex) { 
-                recette.setMontant(0.0); 
+            try {
+                recette.setMontant(Double.parseDouble(etMontant.getText().toString().trim()));
+            } catch (Exception ex) {
+                recette.setMontant(0.0);
             }
             recette.setDateRecette(etDate.getText().toString().trim());
             recette.setDescription(etDescription.getText().toString().trim());

@@ -37,7 +37,8 @@ public class RecetteAdapter extends RecyclerView.Adapter<RecetteAdapter.VH> {
             this.items.addAll(list);
             this.itemsFiltered.addAll(list);
         }
-        if (df != null) this.df = df;
+        if (df != null)
+            this.df = df;
         notifyDataSetChanged();
     }
 
@@ -49,9 +50,9 @@ public class RecetteAdapter extends RecyclerView.Adapter<RecetteAdapter.VH> {
             String q = query.toLowerCase().trim();
             for (Recette r : items) {
                 if ((r.source != null && r.source.toLowerCase().contains(q)) ||
-                    (r.reference != null && r.reference.toLowerCase().contains(q)) ||
-                    (r.description != null && r.description.toLowerCase().contains(q)) ||
-                    (r.categorie != null && r.categorie.toLowerCase().contains(q))) {
+                        (r.reference != null && r.reference.toLowerCase().contains(q)) ||
+                        (r.description != null && r.description.toLowerCase().contains(q)) ||
+                        (r.categorie != null && r.categorie.toLowerCase().contains(q))) {
                     itemsFiltered.add(r);
                 }
             }
@@ -81,10 +82,13 @@ public class RecetteAdapter extends RecyclerView.Adapter<RecetteAdapter.VH> {
     }
 
     @Override
-    public int getItemCount() { return itemsFiltered.size(); }
+    public int getItemCount() {
+        return itemsFiltered.size();
+    }
 
     static class VH extends RecyclerView.ViewHolder {
         TextView tvSource, tvMontant, tvMeta;
+
         public VH(@NonNull View itemView) {
             super(itemView);
             tvSource = itemView.findViewById(R.id.tvRecetteSource);
