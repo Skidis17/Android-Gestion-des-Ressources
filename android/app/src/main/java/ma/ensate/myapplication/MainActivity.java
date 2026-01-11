@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         navigationView = findViewById(R.id.nav_view);
 
-        NavHostFragment navHostFragment =
-                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.nav_host_fragment);
 
         if (navHostFragment == null) {
             Log.e(TAG, "NavHostFragment is null");
@@ -56,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.notificationsFragment,
                 R.id.recettesFragment,
                 R.id.budgetFragment,
-                R.id.loginFragment
-        )
+                R.id.loginFragment)
                 .setOpenableLayout(drawerLayout)
                 .build();
 
@@ -98,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refreshBottomLoginTitle() {
-        if (bottomNavigationView == null) return;
+        if (bottomNavigationView == null)
+            return;
 
         MenuItem item = bottomNavigationView.getMenu().findItem(R.id.loginFragment);
 

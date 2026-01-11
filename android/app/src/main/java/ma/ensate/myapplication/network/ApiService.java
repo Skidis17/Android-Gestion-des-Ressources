@@ -18,7 +18,7 @@ import ma.ensate.myapplication.model.Recette;
 
 public interface ApiService {
 
-    //Auth
+    // Auth
     @POST("auth/login")
     Call<LoginResponse> login(@Body LoginRequest request);
 
@@ -36,7 +36,8 @@ public interface ApiService {
     Call<Besoin> updateBesoin(@Path("id") Long id, @Body Besoin besoin);
 
     @POST("api/v1/besoins/{id}/status")
-    Call<Besoin> changeBesoinStatus(@Path("id") Long id, @Query("statut") String statut, @Query("traitePar") Long traitePar, @Query("commentaire") String commentaire);
+    Call<Besoin> changeBesoinStatus(@Path("id") Long id, @Query("statut") String statut,
+            @Query("traitePar") Long traitePar, @Query("commentaire") String commentaire);
 
     @DELETE("api/v1/besoins/{id}")
     Call<Void> deleteBesoin(@Path("id") Long id);
@@ -115,12 +116,12 @@ public interface ApiService {
 
     @POST("api/v1/candidatures-recrutement/{id}/status")
     Call<CandidatureRecrutement> updateCandidatureStatus(@Path("id") Long id,
-                                                         @Query("statut") String statut,
-                                                         @Query("sendEmail") boolean sendEmail);
+            @Query("statut") String statut,
+            @Query("sendEmail") boolean sendEmail);
 
     @POST("api/v1/recrutements/{id}/select")
     Call<List<CandidatureRecrutement>> selectAcceptedCandidates(@Path("id") Long recrutementId,
-                                                                 @Query("sendEmail") boolean sendEmail);
+            @Query("sendEmail") boolean sendEmail);
 
     @Multipart
     @POST("api/v1/uploads")
