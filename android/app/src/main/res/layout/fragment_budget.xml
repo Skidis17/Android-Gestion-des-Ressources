@@ -67,76 +67,84 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
-                android:layout_height="180dp"
-                android:layout_marginEnd="12dp"
+                android:layout_height="160dp"
+                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="6dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#2563EB">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="24dp"
-                    android:gravity="center">
+                    android:padding="20dp">
 
-                    <TextView
-                        android:id="@+id/tvTotalBudgetLabel"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Budget total"
-                        android:textColor="#6B7280"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvTotalBudgetValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0 DH"
-                        android:textSize="32sp"
-                        android:textStyle="bold"
-                        android:layout_marginTop="16dp"
-                        android:textColor="#1A1A1A" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvTotalBudgetLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Budget total"
+                            android:textColor="#FFFFFF"
+                            android:alpha="0.9"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvTotalBudgetValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0 DH"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp"
+                            android:textColor="#FFFFFF" />
+                    </LinearLayout>
+                </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
-                android:layout_height="180dp"
-                android:layout_marginStart="12dp"
+                android:layout_height="160dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="6dp"
-                app:cardBackgroundColor="#ECFDF5">
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#10B981">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="24dp"
-                    android:gravity="center">
+                    android:padding="20dp">
 
-                    <TextView
-                        android:id="@+id/tvRecettesLabel"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Recettes"
-                        android:textColor="#059669"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvRecettesValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0 DH"
-                        android:textSize="32sp"
-                        android:textStyle="bold"
-                        android:layout_marginTop="16dp"
-                        android:textColor="#10B981" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvRecettesLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Recettes"
+                            android:textColor="#FFFFFF"
+                            android:alpha="0.9"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvRecettesValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0 DH"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp"
+                            android:textColor="#FFFFFF" />
+                    </LinearLayout>
+                </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
@@ -150,76 +158,84 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
-                android:layout_height="180dp"
-                android:layout_marginEnd="12dp"
+                android:layout_height="160dp"
+                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="6dp"
-                app:cardBackgroundColor="#FEF2F2">
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#EF4444">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="24dp"
-                    android:gravity="center">
+                    android:padding="20dp">
 
-                    <TextView
-                        android:id="@+id/tvDepensesLabel"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dépenses"
-                        android:textColor="#DC2626"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvDepensesValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0 DH"
-                        android:textSize="32sp"
-                        android:textStyle="bold"
-                        android:layout_marginTop="16dp"
-                        android:textColor="#EF4444" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvDepensesLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Dépenses"
+                            android:textColor="#FFFFFF"
+                            android:alpha="0.9"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvDepensesValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0 DH"
+                            android:textSize="36sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp"
+                            android:textColor="#FFFFFF" />
+                    </LinearLayout>
+                </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
-                android:layout_height="180dp"
-                android:layout_marginStart="12dp"
+                android:layout_height="160dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="6dp"
-                app:cardBackgroundColor="#EFF6FF">
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#F59E0B">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="24dp"
-                    android:gravity="center">
+                    android:padding="20dp">
 
-                    <TextView
-                        android:id="@+id/tvSoldeLabel"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Solde disponible"
-                        android:textColor="#1D4ED8"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvSoldeValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0 DH"
-                        android:textSize="32sp"
-                        android:textStyle="bold"
-                        android:layout_marginTop="16dp"
-                        android:textColor="#3B82F6" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvSoldeLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Solde disponible"
+                            android:textColor="#FFFFFF"
+                            android:alpha="0.9"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvSoldeValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0 DH"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp"
+                            android:textColor="#FFFFFF" />
+                    </LinearLayout>
+                </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
@@ -229,7 +245,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             app:cardCornerRadius="20dp"
-            app:cardElevation="6dp"
+            app:cardElevation="0dp"
             app:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
@@ -267,9 +283,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_marginTop="20dp"
-                    android:background="#E5E7EB"
-                    android:layout_gravity="center">
+                    android:layout_marginTop="20dp">
 
                     <ProgressBar
                         android:id="@+id/progressBudget"
@@ -277,8 +291,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:progress="0"
-                        android:progressTint="#3B82F6"
-                        android:progressBackgroundTint="@android:color/transparent"
+                        android:progressDrawable="@drawable/progress_bar_drawable"
                         android:indeterminate="false" />
                 </FrameLayout>
 
