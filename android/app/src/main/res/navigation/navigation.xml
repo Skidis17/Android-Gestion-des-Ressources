@@ -121,6 +121,10 @@
     <action
         android:id="@+id/action_global_loginFragment"
         app:destination="@id/loginFragment" />
+    <fragment
+        android:id="@+id/adminUsersFragment"
+        android:name="ma.ensate.myapplication.AdminUsersFragment"
+        android:label="AdminUsersFragment" />
 
 
 

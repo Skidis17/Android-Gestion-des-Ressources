@@ -1,15 +1,10 @@
 package ma.ensate.backend.service;
 
-import jakarta.transaction.Transactional;
 import ma.ensate.backend.Enum.Role;
 import ma.ensate.backend.config.JwtUtil;
 import ma.ensate.backend.domain.User;
 import ma.ensate.backend.dto.LoginRequest;
 import ma.ensate.backend.dto.LoginResponse;
-import ma.ensate.backend.dto.RegisterRequest;
-import ma.ensate.backend.dto.RegisterResponse;
-import ma.ensate.backend.exception.UserNotFoundException;
-import ma.ensate.backend.exception.WrongPasswordException;
 import ma.ensate.backend.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -71,46 +66,7 @@ public class AuthService {
     }
 
 
-    @Transactional
-    public RegisterResponse register(RegisterRequest request) {
 
-        // 1) validations simples
-        if (request.getEmail() == null || request.getEmail().isBlank())
-            throw new IllegalArgumentException("Email requis");
-
-        if (request.getPassword() == null || request.getPassword().isBlank())
-            throw new IllegalArgumentException("Mot de passe requis");
-
-        if (request.getUsername() == null || request.getUsername().isBlank())
-            throw new IllegalArgumentException("Username requis");
-
-        // 2) email unique
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalStateException("Email déjà utilisé");
-        }
-
-        // 3) role par défaut si null
-        Role role = request.getRole() != null ? request.getRole() : Role.RH;
-
-        // 4) créer user
-        User user = new User();
-        user.setEmail(request.getEmail().trim());
-        user.setUsername(request.getUsername().trim());
-        user.setRole(role);
-
-        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
-        user.setPersonnelId(request.getPersonnelId());
-
-        User saved = userRepository.save(user);
-        emailService.sendUserInvitationEmail(
-                saved.getEmail(),
-                saved.getUsername(),
-                saved.getEmail(),
-                request.getPassword()
-        );
-
-        return new RegisterResponse(saved.getId(), saved.getEmail(), saved.getUsername(), saved.getRole());
-    }
 
     public void changePassword(Long userId, String oldPassword, String newPassword) {
         User user = userRepository.findById(userId)

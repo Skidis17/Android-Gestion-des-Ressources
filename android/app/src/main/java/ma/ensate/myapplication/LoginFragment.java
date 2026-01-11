@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import ma.ensate.myapplication.viewmodel.LoginViewModel;
 
@@ -42,6 +43,7 @@ public class LoginFragment extends Fragment {
 
         vm.getRole().observe(getViewLifecycleOwner(), role -> {
             if (role == null || role.trim().isEmpty()) return;
+
 
             Log.d(TAG, "ROLE=" + role);
 

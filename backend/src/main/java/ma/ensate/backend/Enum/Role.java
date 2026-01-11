@@ -6,4 +6,5 @@ public enum Role {
     secretaire_general,
     recruteur,
     Directeur_adjoint,
+    admin,
 }

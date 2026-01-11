@@ -18,7 +18,8 @@ import retrofit2.Response;
 public class ProfileViewModel extends AndroidViewModel {
 
     private static final String TAG = "PROFILE_VM";
-    private final AuthRepository repo = new AuthRepository();
+
+    private final AuthRepository repo; // ✅
     private final MutableLiveData<String> message = new MutableLiveData<>();
 
     public LiveData<String> getMessage() {
@@ -27,6 +28,7 @@ public class ProfileViewModel extends AndroidViewModel {
 
     public ProfileViewModel(@NonNull Application application) {
         super(application);
+        repo = new AuthRepository(); // ✅ plus de context
     }
 
     public void changePassword(Long userId, String oldPass, String newPass) {
