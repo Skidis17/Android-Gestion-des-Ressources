@@ -25,12 +25,14 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
-    public AuthService(AuthenticationManager authenticationManager, JwtUtil jwtUtil,UserRepository userRepository,PasswordEncoder passwordEncoder) {
+    public AuthService(AuthenticationManager authenticationManager, JwtUtil jwtUtil,UserRepository userRepository,PasswordEncoder passwordEncoder,EmailService emailService) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
         this.passwordEncoder=passwordEncoder;
+        this.emailService=emailService;
     }
 
 
@@ -100,12 +102,18 @@ public class AuthService {
         user.setPersonnelId(request.getPersonnelId());
 
         User saved = userRepository.save(user);
+        emailService.sendUserInvitationEmail(
+                saved.getEmail(),
+                saved.getUsername(),
+                saved.getEmail(),
+                request.getPassword()
+        );
 
         return new RegisterResponse(saved.getId(), saved.getEmail(), saved.getUsername(), saved.getRole());
     }
 
     public void changePassword(Long userId, String oldPassword, String newPassword) {
-        User user = userRepository.findById(userId)  // <-- utiliser 'users' (avec s) ici
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
         if (!passwordEncoder.matches(oldPassword, user.getPasswordHash())) {
