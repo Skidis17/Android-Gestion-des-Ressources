@@ -68,6 +68,8 @@ dependencies {
     // RecyclerView for lists
     implementation("androidx.recyclerview:recyclerview:1.3.1")
 
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+
     //Gson
     implementation("com.google.code.gson:gson:2.10.1")
 

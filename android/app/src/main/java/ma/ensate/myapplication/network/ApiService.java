@@ -4,6 +4,7 @@ import ma.ensate.myapplication.model.Besoin;
 import ma.ensate.myapplication.model.Commande;
 import ma.ensate.myapplication.model.LoginRequest;
 import ma.ensate.myapplication.model.LoginResponse;
+import ma.ensate.myapplication.model.PasswordChangeRequest;
 import ma.ensate.myapplication.model.Recrutement;
 import ma.ensate.myapplication.model.Depense;
 import ma.ensate.myapplication.model.CandidatureRecrutement;
@@ -24,7 +25,7 @@ public interface ApiService {
     @PUT("auth/{id}/change-password")
     Call<String> changePassword(
             @Path("id") Long id,
-            @Body ma.ensate.myapplication.model.PasswordChangeRequest request
+            @Body PasswordChangeRequest request
     );
 
     // Besoins
