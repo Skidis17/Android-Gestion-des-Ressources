@@ -10,9 +10,19 @@ import java.util.List;
 public class RecetteRepository {
     private final ApiService api;
 
-    public RecetteRepository() { this.api = RetrofitClient.api(); }
+    public RecetteRepository() {
+        this.api = RetrofitClient.api();
+    }
 
-    public Call<List<Recette>> getRecettes() { return api.getRecettes(); }
+    public Call<List<Recette>> getRecettes() {
+        return api.getRecettes();
+    }
 
-    public Call<Recette> createRecette(Recette r) { return api.createRecette(r); }
+    public Call<Recette> createRecette(Recette r) {
+        return api.createRecette(r);
+    }
+
+    public Call<Recette> updateRecette(Long id, Recette r) {
+        return api.updateRecette(id, r);
+    }
 }

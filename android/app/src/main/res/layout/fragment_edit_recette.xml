@@ -11,10 +11,10 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/tvAddTitle"
+            android:id="@+id/tvEditTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ajouter Recette"
+            android:text="Modifier Recette"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#1A1A1A" />
@@ -96,10 +96,10 @@
             android:hint="REF-2025-001" />
 
         <Button
-            android:id="@+id/btnSaveRecette"
+            android:id="@+id/btnUpdateRecette"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enregistrer"
+            android:text="Mettre à jour"
             android:layout_marginTop="16dp"
             android:backgroundTint="#3B82F6"
             android:textColor="@android:color/white" />

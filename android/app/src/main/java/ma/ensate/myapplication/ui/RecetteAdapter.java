@@ -18,12 +18,45 @@ import java.util.List;
 public class RecetteAdapter extends RecyclerView.Adapter<RecetteAdapter.VH> {
 
     private final List<Recette> items = new ArrayList<>();
+    private final List<Recette> itemsFiltered = new ArrayList<>();
     private DecimalFormat df = new DecimalFormat("#,###.00");
+    private OnRecetteClickListener clickListener;
+
+    public interface OnRecetteClickListener {
+        void onRecetteClick(Recette recette);
+    }
+
+    public void setOnRecetteClickListener(OnRecetteClickListener listener) {
+        this.clickListener = listener;
+    }
 
     public void setItems(List<Recette> list, DecimalFormat df) {
         this.items.clear();
-        if (list != null) this.items.addAll(list);
-        if (df != null) this.df = df;
+        this.itemsFiltered.clear();
+        if (list != null) {
+            this.items.addAll(list);
+            this.itemsFiltered.addAll(list);
+        }
+        if (df != null)
+            this.df = df;
+        notifyDataSetChanged();
+    }
+
+    public void filter(String query) {
+        itemsFiltered.clear();
+        if (query == null || query.trim().isEmpty()) {
+            itemsFiltered.addAll(items);
+        } else {
+            String q = query.toLowerCase().trim();
+            for (Recette r : items) {
+                if ((r.source != null && r.source.toLowerCase().contains(q)) ||
+                        (r.reference != null && r.reference.toLowerCase().contains(q)) ||
+                        (r.description != null && r.description.toLowerCase().contains(q)) ||
+                        (r.categorie != null && r.categorie.toLowerCase().contains(q))) {
+                    itemsFiltered.add(r);
+                }
+            }
+        }
         notifyDataSetChanged();
     }
 
@@ -36,21 +69,26 @@ public class RecetteAdapter extends RecyclerView.Adapter<RecetteAdapter.VH> {
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        Recette r = items.get(position);
+        Recette r = itemsFiltered.get(position);
         holder.tvSource.setText(r.source != null ? r.source : "—");
         holder.tvMontant.setText(r.montant != null ? df.format(r.montant) + " DH" : "—");
         String meta = (r.date != null ? r.date : "—") + "    " + (r.reference != null ? r.reference : "");
         holder.tvMeta.setText(meta);
         holder.itemView.setOnClickListener(v -> {
-            // placeholder: open details later
+            if (clickListener != null) {
+                clickListener.onRecetteClick(r);
+            }
         });
     }
 
     @Override
-    public int getItemCount() { return items.size(); }
+    public int getItemCount() {
+        return itemsFiltered.size();
+    }
 
     static class VH extends RecyclerView.ViewHolder {
         TextView tvSource, tvMontant, tvMeta;
+
         public VH(@NonNull View itemView) {
             super(itemView);
             tvSource = itemView.findViewById(R.id.tvRecetteSource);

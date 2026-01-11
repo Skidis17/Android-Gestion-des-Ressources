@@ -6,7 +6,7 @@
         android:title="@string/nav_besoins" />
     <item
         android:id="@+id/recettesFragment"
-        android:icon="@drawable/ic_trending_up"
+        android:icon="@drawable/ic_document_add"
         android:title="@string/nav_recettes" />
     <item
         android:id="@+id/budgetFragment"
