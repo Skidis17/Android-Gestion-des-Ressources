@@ -15,4 +15,6 @@ public class RecetteRepository {
     public Call<List<Recette>> getRecettes() { return api.getRecettes(); }
 
     public Call<Recette> createRecette(Recette r) { return api.createRecette(r); }
+
+    public Call<Recette> updateRecette(Long id, Recette r) { return api.updateRecette(id, r); }
 }

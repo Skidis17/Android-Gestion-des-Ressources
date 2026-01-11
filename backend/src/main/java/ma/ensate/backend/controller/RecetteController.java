@@ -34,4 +34,10 @@ public class RecetteController {
         return ResponseEntity.created(URI.create("/api/v1/recettes/" + created.getId()))
                 .body(RecetteMapper.toDto(created));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<RecetteDto> update(@PathVariable Long id, @Valid @RequestBody RecetteRequest request) {
+        Recette updated = recetteService.update(id, RecetteMapper.toEntity(request));
+        return ResponseEntity.ok(RecetteMapper.toDto(updated));
+    }
 }

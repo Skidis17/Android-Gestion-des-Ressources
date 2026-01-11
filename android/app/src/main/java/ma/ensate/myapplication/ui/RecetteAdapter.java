@@ -20,6 +20,15 @@ public class RecetteAdapter extends RecyclerView.Adapter<RecetteAdapter.VH> {
     private final List<Recette> items = new ArrayList<>();
     private final List<Recette> itemsFiltered = new ArrayList<>();
     private DecimalFormat df = new DecimalFormat("#,###.00");
+    private OnRecetteClickListener clickListener;
+
+    public interface OnRecetteClickListener {
+        void onRecetteClick(Recette recette);
+    }
+
+    public void setOnRecetteClickListener(OnRecetteClickListener listener) {
+        this.clickListener = listener;
+    }
 
     public void setItems(List<Recette> list, DecimalFormat df) {
         this.items.clear();
@@ -65,7 +74,9 @@ public class RecetteAdapter extends RecyclerView.Adapter<RecetteAdapter.VH> {
         String meta = (r.date != null ? r.date : "—") + "    " + (r.reference != null ? r.reference : "");
         holder.tvMeta.setText(meta);
         holder.itemView.setOnClickListener(v -> {
-            // placeholder: open details later
+            if (clickListener != null) {
+                clickListener.onRecetteClick(r);
+            }
         });
     }
 

@@ -70,6 +70,9 @@ public interface ApiService {
     @POST("api/v1/recettes")
     Call<Recette> createRecette(@Body Recette recette);
 
+    @PUT("api/v1/recettes/{id}")
+    Call<Recette> updateRecette(@Path("id") Long id, @Body Recette recette);
+
     // Budget summary
     @GET("api/v1/budget/summary")
     Call<BudgetSummary> getBudgetSummary();

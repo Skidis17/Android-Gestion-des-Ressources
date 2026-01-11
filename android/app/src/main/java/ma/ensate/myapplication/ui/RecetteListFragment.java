@@ -44,6 +44,12 @@ public class RecetteListFragment extends Fragment {
         RecetteAdapter adapter = new RecetteAdapter();
         rv.setAdapter(adapter);
 
+        adapter.setOnRecetteClickListener(recette -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("recette", recette);
+            androidx.navigation.Navigation.findNavController(view).navigate(R.id.recetteDetailFragment, bundle);
+        });
+
         vm.getRecettes().observe(getViewLifecycleOwner(), (List<Recette> list) -> {
             adapter.setItems(list, df);
         });

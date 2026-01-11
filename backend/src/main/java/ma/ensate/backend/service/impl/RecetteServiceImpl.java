@@ -29,4 +29,19 @@ public class RecetteServiceImpl implements RecetteService {
         recette.setCreatedAt(LocalDateTime.now());
         return recetteRepository.save(recette);
     }
+
+    @Override
+    public Recette update(Long id, Recette recette) {
+        Recette existing = recetteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Recette not found with id: " + id));
+        
+        existing.setSource(recette.getSource());
+        existing.setCategorie(recette.getCategorie());
+        existing.setMontant(recette.getMontant());
+        existing.setDateRecette(recette.getDateRecette());
+        existing.setDescription(recette.getDescription());
+        existing.setReferenceDocument(recette.getReferenceDocument());
+        
+        return recetteRepository.save(existing);
+    }
 }

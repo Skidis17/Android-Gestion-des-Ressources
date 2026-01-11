@@ -59,4 +59,24 @@ public class RecetteViewModel extends ViewModel {
             }
         });
     }
+
+    public void updateRecette(Recette r, ActionCallback cb) {
+        loading.postValue(true);
+        repository.updateRecette(r.getId(), r).enqueue(new Callback<Recette>() {
+            @Override
+            public void onResponse(Call<Recette> call, Response<Recette> response) {
+                loading.postValue(false);
+                if (response.isSuccessful() && response.body() != null) {
+                    loadRecettes();
+                    cb.onSuccess(response.body());
+                } else cb.onError(new Exception("Update failed"));
+            }
+
+            @Override
+            public void onFailure(Call<Recette> call, Throwable t) {
+                loading.postValue(false);
+                cb.onError(t);
+            }
+        });
+    }
 }

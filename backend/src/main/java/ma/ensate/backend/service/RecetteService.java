@@ -10,4 +10,6 @@ public interface RecetteService {
     Recette findById(Long id);
 
     Recette create(Recette recette);
+
+    Recette update(Long id, Recette recette);
 }
