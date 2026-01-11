@@ -2,15 +2,25 @@ package ma.ensate.myapplication.network;
 
 import ma.ensate.myapplication.model.Besoin;
 import ma.ensate.myapplication.model.Commande;
+import ma.ensate.myapplication.model.LoginRequest;
+import ma.ensate.myapplication.model.LoginResponse;
+import ma.ensate.myapplication.model.Recrutement;
 import ma.ensate.myapplication.model.Depense;
 import ma.ensate.myapplication.model.BudgetSummary;
+import ma.ensate.myapplication.model.CandidatureRecrutement;
+import ma.ensate.myapplication.model.UploadResponse;
 import retrofit2.Call;
 import retrofit2.http.*;
+import okhttp3.MultipartBody;
 
 import java.util.List;
 import ma.ensate.myapplication.model.Recette;
 
 public interface ApiService {
+
+    //Auth
+    @POST("auth/login")
+    Call<LoginResponse> login(@Body LoginRequest request);
 
     // Besoins
     @GET("api/v1/besoins")
@@ -70,7 +80,49 @@ public interface ApiService {
     @POST("api/v1/recettes")
     Call<Recette> createRecette(@Body Recette recette);
 
+    @PUT("api/v1/recettes/{id}")
+    Call<Recette> updateRecette(@Path("id") Long id, @Body Recette recette);
+
     // Budget summary
     @GET("api/v1/budget/summary")
     Call<BudgetSummary> getBudgetSummary();
+
+    // Recrutements
+    @GET("api/v1/recrutements")
+    Call<List<Recrutement>> getRecrutements();
+
+    @GET("api/v1/recrutements/{id}")
+    Call<Recrutement> getRecrutement(@Path("id") Long id);
+
+    @POST("api/v1/recrutements")
+    Call<Recrutement> createRecrutement(@Body Recrutement recrutement);
+
+    @PUT("api/v1/recrutements/{id}")
+    Call<Recrutement> updateRecrutement(@Path("id") Long id, @Body Recrutement recrutement);
+
+    @POST("api/v1/recrutements/{id}/status")
+    Call<Recrutement> changeRecrutementStatus(@Path("id") Long id, @Query("statut") String statut);
+
+    // Candidatures recrutement
+    @GET("api/v1/candidatures-recrutement/by-recrutement/{recrutementId}")
+    Call<List<CandidatureRecrutement>> getCandidaturesByRecrutement(@Path("recrutementId") Long recrutementId);
+
+    @GET("api/v1/candidatures-recrutement/{id}")
+    Call<CandidatureRecrutement> getCandidature(@Path("id") Long id);
+
+    @POST("api/v1/candidatures-recrutement")
+    Call<CandidatureRecrutement> createCandidature(@Body CandidatureRecrutement candidature);
+
+    @POST("api/v1/candidatures-recrutement/{id}/status")
+    Call<CandidatureRecrutement> updateCandidatureStatus(@Path("id") Long id,
+                                                         @Query("statut") String statut,
+                                                         @Query("sendEmail") boolean sendEmail);
+
+    @POST("api/v1/recrutements/{id}/select")
+    Call<List<CandidatureRecrutement>> selectAcceptedCandidates(@Path("id") Long recrutementId,
+                                                                 @Query("sendEmail") boolean sendEmail);
+
+    @Multipart
+    @POST("api/v1/uploads")
+    Call<UploadResponse> uploadFile(@Part MultipartBody.Part file);
 }

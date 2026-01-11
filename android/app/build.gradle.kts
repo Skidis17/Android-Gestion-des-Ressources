@@ -12,6 +12,8 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
+        // Base URL for the backend; update here if backend IP changes.
+        buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8080/\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
@@ -19,6 +21,10 @@ android {
                 arguments["room.schemaLocation"] = "$projectDir/schemas"
             }
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {

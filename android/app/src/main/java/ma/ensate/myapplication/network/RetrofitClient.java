@@ -1,5 +1,6 @@
 package ma.ensate.myapplication.network;
 
+import ma.ensate.myapplication.BuildConfig;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
