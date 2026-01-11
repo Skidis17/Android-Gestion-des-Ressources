@@ -27,13 +27,16 @@ public class ProfileFragment extends Fragment {
 
         TokenManager tm = new TokenManager(requireContext());
 
+
         String username = tm.getUsername();
         String email = tm.getEmail();
         String role = tm.getRole();
 
+        Log.d("TEST", "USER ID = " + tm.getUserId());
         Log.d("PROFILE", "username=" + username);
         Log.d("PROFILE", "email=" + email);
         Log.d("PROFILE", "role=" + role);
+
 
         tvUsername.setText(username != null ? username : "—");
         tvEmail.setText(email != null ? email : "—");
@@ -56,4 +59,6 @@ public class ProfileFragment extends Fragment {
         });
 
     }
+
+
 }

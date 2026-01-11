@@ -60,6 +60,7 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         return new LoginResponse(
+                user.getId(),
                 token,
                 role,
                 user.getUsername(), // ou getNom() selon ton modèle

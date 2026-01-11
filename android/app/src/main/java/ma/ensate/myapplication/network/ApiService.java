@@ -20,6 +20,13 @@ public interface ApiService {
     @POST("auth/login")
     Call<LoginResponse> login(@Body LoginRequest request);
 
+    //change password
+    @PUT("auth/{id}/change-password")
+    Call<String> changePassword(
+            @Path("id") Long id,
+            @Body ma.ensate.myapplication.model.PasswordChangeRequest request
+    );
+
     // Besoins
     @GET("api/v1/besoins")
     Call<List<Besoin>> getBesoins();

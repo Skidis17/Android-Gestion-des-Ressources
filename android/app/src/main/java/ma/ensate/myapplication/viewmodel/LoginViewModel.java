@@ -37,11 +37,13 @@ public class LoginViewModel extends AndroidViewModel {
                 if (response.isSuccessful() && response.body() != null) {
 
                     LoginResponse body = response.body();
+                    Long id = body.getId(); // ✅ récupération ID
                     String token = body.getToken();
                     String role = body.getRole();
                     String username = body.getUsername();
                     String userEmail = body.getEmail();
                     Log.d(TAG, "BACKEND RESPONSE ↓↓↓");
+                    Log.d(TAG, "id=" + id);
                     Log.d(TAG, "token=" + token);
                     Log.d(TAG, "role=" + role);
                     Log.d(TAG, "username=" + username);
@@ -50,9 +52,10 @@ public class LoginViewModel extends AndroidViewModel {
                     if (userEmail == null || userEmail.isEmpty()) userEmail = email;
                     if (username == null) username = "";
 
-                    new TokenManager(getApplication()).saveAuth(token, role, username, userEmail);
+                    new TokenManager(getApplication()).saveAuth(id,token, role, username, userEmail);
 
                     Log.d(TAG, "SAVED IN TOKEN MANAGER ↓↓↓");
+                    Log.d(TAG, "id=" + id);
                     Log.d(TAG, "token=" + token);
                     Log.d(TAG, "role=" + role);
                     Log.d(TAG, "username=" + username);

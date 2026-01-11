@@ -8,6 +8,8 @@ public class TokenManager {
 
     private static final String PREF = "auth_pref";
 
+    // ✅ KEYS (TOUJOURS String)
+    private static final String KEY_ID = "user_id";
     private static final String KEY_TOKEN = "token";
     private static final String KEY_ROLE = "role";
     private static final String KEY_USERNAME = "username";
@@ -19,20 +21,22 @@ public class TokenManager {
         sp = context.getSharedPreferences(PREF, Context.MODE_PRIVATE);
     }
 
-    public void saveAuth(String token, String role, String username, String email) {
+    // ✅ SAVE USER DATA
+    public void saveAuth(Long id, String token, String role, String username, String email) {
         sp.edit()
+                .putLong(KEY_ID, id != null ? id : -1L)
                 .putString(KEY_TOKEN, token)
                 .putString(KEY_ROLE, role)
                 .putString(KEY_USERNAME, username)
                 .putString(KEY_EMAIL, email)
                 .apply();
+
+        logUserData();
     }
 
-    public void logUserData() {
-        Log.d("TOKEN", "token=" + getToken());
-        Log.d("TOKEN", "role=" + getRole());
-        Log.d("TOKEN", "username=" + getUsername());
-        Log.d("TOKEN", "email=" + getEmail());
+    // ✅ GETTERS
+    public Long getUserId() {
+        return sp.getLong(KEY_ID, -1L);
     }
 
     public String getToken() {
@@ -51,10 +55,18 @@ public class TokenManager {
         return sp.getString(KEY_EMAIL, "");
     }
 
-    public void clearAuth() {
-        SharedPreferences.Editor editor = sp.edit();
-        editor.clear();
-        editor.apply();
+    // ✅ DEBUG
+    public void logUserData() {
+        Log.d("TOKEN", "id=" + getUserId());
+        Log.d("TOKEN", "token=" + getToken());
+        Log.d("TOKEN", "role=" + getRole());
+        Log.d("TOKEN", "username=" + getUsername());
+        Log.d("TOKEN", "email=" + getEmail());
     }
 
+    // ✅ CLEAR
+    public void clearAuth() {
+        sp.edit().clear().apply();
+        Log.d("TOKEN", "Auth cleared");
+    }
 }

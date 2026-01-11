@@ -2,7 +2,9 @@ package ma.ensate.myapplication.repository;
 
 import ma.ensate.myapplication.model.LoginRequest;
 import ma.ensate.myapplication.model.LoginResponse;
+import ma.ensate.myapplication.model.PasswordChangeRequest;
 import ma.ensate.myapplication.network.ApiService;
+import ma.ensate.myapplication.network.RetrofitClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -23,4 +25,9 @@ public class AuthRepository {
     public Call<LoginResponse> login(String email, String password) {
         return api.login(new LoginRequest(email, password));
     }
+
+    public Call<String> changePassword(Long id, PasswordChangeRequest req) {
+        return api.changePassword(id, req);
+    }
+
 }

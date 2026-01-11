@@ -1,6 +1,8 @@
 package ma.ensate.myapplication.model;
 
 public class LoginResponse {
+
+    private Long id;
     private String token;
     private String role;
     private String username;
@@ -8,6 +10,14 @@ public class LoginResponse {
 
     public String getToken() { return token; }
     public String getRole() { return role; }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
