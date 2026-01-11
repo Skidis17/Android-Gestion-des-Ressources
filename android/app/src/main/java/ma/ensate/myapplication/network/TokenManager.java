@@ -52,6 +52,9 @@ public class TokenManager {
     }
 
     public void clearAuth() {
-        sp.edit().clear().apply();
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.apply();
     }
+
 }

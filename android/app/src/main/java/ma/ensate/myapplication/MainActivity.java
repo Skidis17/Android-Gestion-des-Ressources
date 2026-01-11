@@ -1,6 +1,7 @@
 package ma.ensate.myapplication;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -166,13 +167,16 @@ public class MainActivity extends AppCompatActivity {
 
     // ✅ Logout called from profile fragment
     public void logout() {
-        new TokenManager(this).clearAuth();
+        Log.d("MAIN", "logout() called");
 
-        NavOptions opts = new NavOptions.Builder()
-                .setPopUpTo(R.id.navigation, true) // vide la stack
-                .build();
+        TokenManager tm = new TokenManager(this);
+        Log.d("MAIN", "token BEFORE clear=" + tm.getToken());
 
-        navController.navigate(R.id.action_global_loginFragment, null, opts);
+        tm.clearAuth();
+
+        Log.d("MAIN", "token AFTER clear=" + tm.getToken());
+
+        navController.navigate(R.id.action_global_loginFragment);
         updateUiForAuthState(R.id.loginFragment);
     }
 

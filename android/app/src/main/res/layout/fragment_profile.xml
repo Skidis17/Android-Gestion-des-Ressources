@@ -242,10 +242,15 @@
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Logout button -->
+        <!-- Logout button -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             app:cardCornerRadius="24dp"
             app:cardElevation="0dp"
             app:strokeWidth="1dp"
@@ -277,6 +282,8 @@
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
+
+
 
 
     </LinearLayout>

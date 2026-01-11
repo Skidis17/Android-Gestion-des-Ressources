@@ -14,7 +14,7 @@ import ma.ensate.myapplication.network.TokenManager;
 public class ProfileFragment extends Fragment {
 
     public ProfileFragment() {
-        super(R.layout.fragment_profile); // ton xml profile
+        super(R.layout.fragment_profile);
     }
 
     @Override
@@ -38,6 +38,22 @@ public class ProfileFragment extends Fragment {
         tvUsername.setText(username != null ? username : "—");
         tvEmail.setText(email != null ? email : "—");
         tvRole.setText(role != null ? role : "—");
-    }
 
+        // ✅ LOGOUT CLICK
+        View cardLogout = view.findViewById(R.id.cardLogout);
+        TextView btnLogout = view.findViewById(R.id.btnLogout);
+
+        Log.d("PROFILE", "cardLogout=" + cardLogout + " btnLogout=" + btnLogout);
+
+        cardLogout.setOnClickListener(v -> {
+            Log.d("PROFILE", "LOGOUT CARD CLICKED");
+
+            if (getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity()).logout();
+            } else {
+                Log.e("PROFILE", "Activity is not MainActivity");
+            }
+        });
+
+    }
 }
