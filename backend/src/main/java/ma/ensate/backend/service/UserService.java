@@ -25,4 +25,29 @@ public class UserService {
         String email = auth.getName(); // Spring met souvent l'email ici
         return userRepository.findByEmail(email).orElse(null);
     }
+
+    public void updateProfile(Long userId, String newUsername) {
+
+        if (newUsername == null || newUsername.trim().isEmpty()) {
+            throw new IllegalArgumentException("Le username est obligatoire");
+        }
+
+        String username = newUsername.trim();
+
+        if (username.length() < 3) {
+            throw new IllegalArgumentException("Le username doit contenir au moins 3 caractères");
+        }
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+        // (Optionnel) si tu veux empêcher les doublons
+        // if (userRepository.existsByUsername(username)) {
+        //     throw new IllegalArgumentException("Username déjà utilisé");
+        // }
+
+        user.setUsername(username);
+        userRepository.save(user);
+    }
+
 }

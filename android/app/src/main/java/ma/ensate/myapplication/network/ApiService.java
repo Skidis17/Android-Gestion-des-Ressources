@@ -27,7 +27,10 @@ public interface ApiService {
             @Path("id") Long id,
             @Body PasswordChangeRequest request
     );
+//update profile
 
+    @PUT("users/{id}/profile")
+    Call<String> updateProfile(@Path("id") Long id, @Body ma.ensate.myapplication.model.UpdateProfileRequest request);
     // Besoins
     @GET("api/v1/besoins")
     Call<List<Besoin>> getBesoins();

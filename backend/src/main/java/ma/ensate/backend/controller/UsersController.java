@@ -1,6 +1,7 @@
 package ma.ensate.backend.controller;
 
 import ma.ensate.backend.domain.User;
+import ma.ensate.backend.dto.UpdateProfileRequest;
 import ma.ensate.backend.dto.UserDto;
 import ma.ensate.backend.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -36,4 +37,18 @@ public class UsersController {
 
         return ResponseEntity.ok(dto);
     }
+
+    @PutMapping("/{id}/profile")
+    public ResponseEntity<?> updateProfile(@PathVariable Long id,
+                                           @RequestBody UpdateProfileRequest request) {
+        try {
+            userService.updateProfile(id, request.username);
+            return ResponseEntity.ok("Profil mis à jour avec succès");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
 }

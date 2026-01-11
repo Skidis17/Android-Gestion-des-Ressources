@@ -47,6 +47,11 @@ public class TokenManager {
         return sp.getString(KEY_USERNAME, "");
     }
 
+    public void setUsername(String username) {
+        sp.edit().putString(KEY_USERNAME, username).apply();
+    }
+
+
     public String getEmail() {
         return sp.getString(KEY_EMAIL, "");
     }
@@ -54,6 +59,7 @@ public class TokenManager {
     public void clearAuth() {
         sp.edit().clear().apply();
     }
+
 
     public void logUserData() {
         Log.d("TOKEN", "id=" + getUserId());

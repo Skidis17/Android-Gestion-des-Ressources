@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
@@ -19,6 +18,7 @@
             android:layout_height="wrap_content"
             android:text="Connexion"
             android:textColor="#1A1A1A"
+            android:layout_marginTop="12dp"
             android:textSize="32sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
@@ -137,18 +137,29 @@
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Forgot Password -->
+        <TextView
+            android:id="@+id/tvForgot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text=""
+            android:textColor="#3B82F6"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/cardPassword"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Login Button -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardLogin"
             android:layout_width="0dp"
             android:layout_height="56dp"
+            android:layout_marginTop="28dp"
             app:cardBackgroundColor="#1A1A1A"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvForgot"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="312dp">
+            app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
                 android:id="@+id/btnLogin"
@@ -167,7 +178,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
-            android:text="Vous n'avez pas de compte ? S'inscrire"
+            android:text=""
             android:textColor="#6B7280"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/cardLogin"

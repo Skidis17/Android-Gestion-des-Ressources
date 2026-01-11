@@ -16,4 +16,9 @@ public class AuthRepository {
     public Call<String> changePassword(Long id, PasswordChangeRequest request) {
         return RetrofitClient.api().changePassword(id, request);
     }
+
+    public Call<String> updateProfile(Long id, ma.ensate.myapplication.model.UpdateProfileRequest req) {
+        return RetrofitClient.api().updateProfile(id, req);
+    }
+
 }
