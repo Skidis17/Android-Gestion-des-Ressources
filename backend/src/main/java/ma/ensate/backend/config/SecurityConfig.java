@@ -48,7 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/personnels/**").permitAll()
                         .requestMatchers("/api/users/**").hasAuthority("admin")
                         .requestMatchers(HttpMethod.POST, "/users/{id}/profile").permitAll()
-
+                        .requestMatchers(HttpMethod.GET, "/users/{id}/info").permitAll()
 
                         // Tous les autres endpoints API nécessitent une authentification
                         .requestMatchers("/api/**").authenticated()

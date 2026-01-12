@@ -21,8 +21,14 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.VH> {
         void onUserClick(UserItem user);
     }
 
-    private final List<UserItem> data = new ArrayList<>();
+
+
     private OnUserClickListener listener;
+
+    public void setOnUserClickListener(OnUserClickListener l) {
+        this.listener = l;
+    }
+    private final List<UserItem> data = new ArrayList<>();
 
     public UsersAdapter() {}
 
@@ -76,6 +82,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.VH> {
             tvRole = itemView.findViewById(R.id.tvRole);
         }
     }
+
+
 
     private static String safe(String s) {
         return s == null ? "" : s.trim();

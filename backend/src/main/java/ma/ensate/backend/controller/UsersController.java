@@ -79,4 +79,9 @@ public class UsersController {
         return userRepository.findAllUsers();
     }
 
+     @GetMapping("/{id}/info")
+    public ResponseEntity<UserInfoDto> getInfoUserById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(userService.getInfoUserById(id));
+    }
+
 }

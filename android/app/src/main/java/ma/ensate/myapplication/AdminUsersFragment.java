@@ -29,7 +29,7 @@ import retrofit2.Response;
 
 public class AdminUsersFragment extends Fragment {
 
-    private TextView tvTotalUsers, tvAdminCount, tvRhCount, tvRecruteurCount, tvDirecteurCount;
+    private TextView tvTotalUsers, tvAdminCount, tvRhCount, tvRecruteurCount;
 
     private RecyclerView rvUsers;
     private UsersAdapter adapter;
@@ -54,7 +54,7 @@ public class AdminUsersFragment extends Fragment {
         tvAdminCount = view.findViewById(R.id.tvAdminCount);
         tvRhCount = view.findViewById(R.id.tvRhCount);
         tvRecruteurCount = view.findViewById(R.id.tvRecruteurCount);
-        tvDirecteurCount = view.findViewById(R.id.tvDirecteurCount);
+//        tvDirecteurCount = view.findViewById(R.id.tvDirecteurCount);
 
         rvUsers = view.findViewById(R.id.rvUsers);
         etSearchUser = view.findViewById(R.id.etSearchUser);
@@ -63,6 +63,11 @@ public class AdminUsersFragment extends Fragment {
         adapter = new UsersAdapter();
         rvUsers.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvUsers.setAdapter(adapter);
+        adapter.setOnUserClickListener(user -> {
+            if (user == null || user.id == null) return;
+            fetchAndShowUserInfo(user.id);
+        });
+
 
         loadUsers();
 
@@ -89,6 +94,36 @@ public class AdminUsersFragment extends Fragment {
         AddUserBottomSheet bs = new AddUserBottomSheet();
         bs.setListener(this::loadUsers);
         bs.show(getParentFragmentManager(), "AddUserBottomSheet");
+    }
+
+    private void fetchAndShowUserInfo(Long userId) {
+        String auth = authHeader();
+        if (auth == null) {
+            Toast.makeText(requireContext(), "Connecte-toi d'abord", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        api.getUserInfo(auth, userId).enqueue(new Callback<ma.ensate.myapplication.model.UserInfoDto>() {
+            @Override
+            public void onResponse(Call<ma.ensate.myapplication.model.UserInfoDto> call,
+                                   Response<ma.ensate.myapplication.model.UserInfoDto> response) {
+
+                if (!response.isSuccessful() || response.body() == null) {
+                    Toast.makeText(requireContext(),
+                            "Erreur info user (" + response.code() + ")",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                UserDetailsBottomSheet.newInstance(response.body())
+                        .show(getParentFragmentManager(), "UserDetailsBottomSheet");
+            }
+
+            @Override
+            public void onFailure(Call<ma.ensate.myapplication.model.UserInfoDto> call, Throwable t) {
+                Toast.makeText(requireContext(), "Erreur réseau info user", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loadUsers() {
@@ -125,7 +160,7 @@ public class AdminUsersFragment extends Fragment {
                 tvAdminCount.setText(String.valueOf(admin));
                 tvRhCount.setText(String.valueOf(rh));
                 tvRecruteurCount.setText(String.valueOf(recruteur));
-                tvDirecteurCount.setText(String.valueOf(directeur));
+//                tvDirecteurCount.setText(String.valueOf(directeur));
 
                 adapter.setData(allUsers);
             }

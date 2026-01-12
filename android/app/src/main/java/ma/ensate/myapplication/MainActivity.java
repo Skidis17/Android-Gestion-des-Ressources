@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
                 // si tu as vraiment ces fragments dans ton graph, tu peux les garder:
                 R.id.recettesFragment,
                 R.id.budgetFragment,
-                R.id.loginFragment
+                R.id.loginFragment,
+                R.id.notificationsFragment
         ).setOpenableLayout(drawerLayout).build();
 
         // Drawer ↔ NavController

@@ -42,4 +42,7 @@ public class Personnel {
     @Column(name = "departement")
     private String departement;
 
+    @Column (name = "statut")
+    private Boolean statut;
+
 }
