@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.card.MaterialCardView;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -114,8 +114,8 @@ public class BesoinListFragment extends Fragment {
             filterBesoins();
         });
 
-        FloatingActionButton fab = view.findViewById(R.id.fab_add_besoin);
-        fab.setOnClickListener(v -> {
+        MaterialCardView fabCard = view.findViewById(R.id.fab_add_besoin);
+        fabCard.setOnClickListener(v -> {
             // Navigate to create form (no besoinId argument - will be null)
             Navigation.findNavController(view).navigate(R.id.besoinFormFragment);
         });

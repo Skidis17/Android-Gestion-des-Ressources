@@ -3,20 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="#F5F5F5"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Détails du Besoin"
+            android:textColor="#1A1A1A"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
 
         <!-- Status Badge -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp">
+            app:cardBackgroundColor="#EFF6FF"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#BFDBFE"
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -27,17 +42,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Statut"
-                    android:textSize="12sp"
-                    android:textColor="#666"
-                    android:layout_marginBottom="4dp" />
+                    android:text="Statut actuel"
+                    android:textSize="14sp"
+                    android:textColor="#6B7280"
+                    android:layout_marginBottom="8dp" />
 
                 <TextView
                     android:id="@+id/tv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
+                    android:textColor="#3B82F6"
                     android:text="EN_ATTENTE" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -47,63 +63,183 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp">
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#E5E7EB"
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Informations générales"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
+                    android:textColor="#1A1A1A"
+                    android:layout_marginBottom="16dp" />
 
-                <TextView
-                    android:id="@+id/tv_type"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="8dp" />
+                    android:orientation="vertical"
+                    android:layout_marginBottom="12dp">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Type"
+                        android:textSize="12sp"
+                        android:textColor="#6B7280"
+                        android:layout_marginBottom="4dp" />
+                    
+                    <TextView
+                        android:id="@+id/tv_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#1A1A1A"
+                        android:text="Type de besoin" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_description"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="8dp" />
+                    android:orientation="vertical"
+                    android:layout_marginBottom="12dp">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Description"
+                        android:textSize="12sp"
+                        android:textColor="#6B7280"
+                        android:layout_marginBottom="4dp" />
+                    
+                    <TextView
+                        android:id="@+id/tv_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#1A1A1A"
+                        android:text="Description du besoin" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_quantite"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="8dp" />
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:layout_marginBottom="12dp">
 
-                <TextView
-                    android:id="@+id/tv_montant"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginEnd="8dp">
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Quantité"
+                            android:textSize="12sp"
+                            android:textColor="#6B7280"
+                            android:layout_marginBottom="4dp" />
+                        
+                        <TextView
+                            android:id="@+id/tv_quantite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textColor="#1A1A1A"
+                            android:text="0" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="8dp">
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Montant estimé"
+                            android:textSize="12sp"
+                            android:textColor="#6B7280"
+                            android:layout_marginBottom="4dp" />
+                        
+                        <TextView
+                            android:id="@+id/tv_montant"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textColor="#1A1A1A"
+                            android:text="0.00 MAD" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="8dp" />
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
-                <TextView
-                    android:id="@+id/tv_priorite"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="8dp" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginEnd="8dp">
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Priorité"
+                            android:textSize="12sp"
+                            android:textColor="#6B7280"
+                            android:layout_marginBottom="4dp" />
+                        
+                        <TextView
+                            android:id="@+id/tv_priorite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textColor="#1A1A1A"
+                            android:text="MOYENNE" />
+                    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_date_livraison"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="8dp">
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Date de livraison"
+                            android:textSize="12sp"
+                            android:textColor="#6B7280"
+                            android:layout_marginBottom="4dp" />
+                        
+                        <TextView
+                            android:id="@+id/tv_date_livraison"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textColor="#1A1A1A"
+                            android:text="2024-12-31" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -112,30 +248,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp">
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#E5E7EB"
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Commentaires administratifs"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
+                    android:textColor="#1A1A1A"
                     android:layout_marginBottom="12dp" />
 
                 <TextView
                     android:id="@+id/tv_commentaire"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:text="Aucun commentaire"
-                    android:textColor="#666" />
+                    android:textColor="#6B7280" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -143,36 +283,72 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp">
+            android:layout_marginBottom="24dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#E5E7EB"
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Dates"
-                    android:textSize="16sp"
+                    android:text="Dates importantes"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
+                    android:textColor="#1A1A1A"
+                    android:layout_marginBottom="16dp" />
 
-                <TextView
-                    android:id="@+id/tv_date_demande"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="8dp" />
+                    android:orientation="vertical"
+                    android:layout_marginBottom="12dp">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date de demande"
+                        android:textSize="12sp"
+                        android:textColor="#6B7280"
+                        android:layout_marginBottom="4dp" />
+                    
+                    <TextView
+                        android:id="@+id/tv_date_demande"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#1A1A1A"
+                        android:text="2024-01-15" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_date_traitement"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp" />
+                    android:orientation="vertical">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date de traitement"
+                        android:textSize="12sp"
+                        android:textColor="#6B7280"
+                        android:layout_marginBottom="4dp" />
+                    
+                    <TextView
+                        android:id="@+id/tv_date_traitement"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#1A1A1A"
+                        android:text="-" />
+                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -180,47 +356,107 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp">
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_validate"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Valider"
-                android:layout_marginBottom="8dp"
-                android:visibility="gone" />
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="#10B981"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
 
-            <Button
-                android:id="@+id/btn_reject"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Refuser"
-                android:layout_marginBottom="8dp"
-                android:visibility="gone" />
+                <Button
+                    android:id="@+id/btn_validate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Valider"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:background="?attr/selectableItemBackground"
+                    android:visibility="gone" />
+            </com.google.android.material.card.MaterialCardView>
 
-            <Button
-                android:id="@+id/btn_approve"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Approuver"
-                android:layout_marginBottom="8dp"
-                android:visibility="gone" />
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="#EF4444"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
 
-            <Button
-                android:id="@+id/btn_transmit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Transmettre à Économique"
-                android:layout_marginBottom="8dp"
-                android:visibility="gone" />
+                <Button
+                    android:id="@+id/btn_reject"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Refuser"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:background="?attr/selectableItemBackground"
+                    android:visibility="gone" />
+            </com.google.android.material.card.MaterialCardView>
 
-            <Button
-                android:id="@+id/btn_add_comment"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ajouter un commentaire"
-                android:layout_marginBottom="8dp" />
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="#3B82F6"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
+
+                <Button
+                    android:id="@+id/btn_approve"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Approuver"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:background="?attr/selectableItemBackground"
+                    android:visibility="gone" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="#8B5CF6"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
+
+                <Button
+                    android:id="@+id/btn_transmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Transmettre à Économique"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:background="?attr/selectableItemBackground"
+                    android:visibility="gone" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+
+                <Button
+                    android:id="@+id/btn_add_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Ajouter un commentaire"
+                    android:textColor="#1A1A1A"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:background="?attr/selectableItemBackground" />
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
     </LinearLayout>

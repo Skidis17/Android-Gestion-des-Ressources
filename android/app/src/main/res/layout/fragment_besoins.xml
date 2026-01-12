@@ -2,60 +2,22 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="20dp">
 
-        <!-- Title -->
-        <TextView
+        <!-- Header avec bouton ajouter -->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Besoins"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:padding="16dp"
-            android:textColor="#000" />
-
-        <!-- Search bar -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal"
-            android:background="@android:drawable/editbox_background"
-            android:padding="8dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_search"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="8dp" />
-
-            <EditText
-                android:id="@+id/et_search"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Rechercher..."
-                android:inputType="text"
-                android:maxLines="1"
-                android:background="@android:color/transparent" />
-        </LinearLayout>
-
-        <!-- Filters -->
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="4dp">
+            android:paddingBottom="24dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -65,92 +27,209 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Statut"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="4dp" />
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chip_group_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:singleSelection="false"
-                    app:selectionRequired="false">
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_en_attente"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="En Attente"
-                        android:checkable="true" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_valide"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Validé"
-                        android:checkable="true" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_approuve"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Approuvé"
-                        android:checkable="true" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_refuse"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Refusé"
-                        android:checkable="true" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_transmis"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Transmis"
-                        android:checkable="true" />
-                </com.google.android.material.chip.ChipGroup>
+                    android:text="Besoins"
+                    android:textColor="#1A1A1A"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Priorité"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="4dp" />
+                    android:layout_marginTop="4dp"
+                    android:text="Gestion des demandes de ressources"
+                    android:textColor="#6B7280"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chip_group_priority"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/fab_add_besoin"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                app:cardBackgroundColor="#1A1A1A"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:singleSelection="false"
-                    app:selectionRequired="false">
+                    android:layout_gravity="center"
+                    android:text="+"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </com.google.android.material.card.MaterialCardView>
+        </RelativeLayout>
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_high"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Haute"
-                        android:checkable="true" />
+        <!-- Search bar -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="20dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#E5E7EB"
+            app:strokeWidth="1dp">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_moyenne"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Moyenne"
-                        android:checkable="true" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_low"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Basse"
-                        android:checkable="true" />
-                </com.google.android.material.chip.ChipGroup>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_search"
+                    android:tint="#9CA3AF" />
+
+                <EditText
+                    android:id="@+id/et_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:hint="Rechercher un besoin..."
+                    android:textColorHint="#9CA3AF"
+                    android:textColor="#1A1A1A"
+                    android:textSize="16sp"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:background="@null" />
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Filters Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filtrer par statut"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#1A1A1A"
+            android:layout_marginBottom="12dp" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleSelection="false"
+                app:selectionRequired="false">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_en_attente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="En Attente"
+                    android:checkable="true"
+                    app:chipBackgroundColor="#FFFFFF"
+                    app:chipStrokeColor="#E5E7EB"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_valide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Validé"
+                    android:checkable="true"
+                    app:chipBackgroundColor="#FFFFFF"
+                    app:chipStrokeColor="#E5E7EB"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_approuve"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Approuvé"
+                    android:checkable="true"
+                    app:chipBackgroundColor="#FFFFFF"
+                    app:chipStrokeColor="#E5E7EB"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_refuse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Refusé"
+                    android:checkable="true"
+                    app:chipBackgroundColor="#FFFFFF"
+                    app:chipStrokeColor="#E5E7EB"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_transmis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Transmis"
+                    android:checkable="true"
+                    app:chipBackgroundColor="#FFFFFF"
+                    app:chipStrokeColor="#E5E7EB"
+                    app:chipStrokeWidth="1dp" />
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filtrer par priorité"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#1A1A1A"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="12dp" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:layout_marginBottom="24dp">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_priority"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleSelection="false"
+                app:selectionRequired="false">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_high"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Haute"
+                    android:checkable="true"
+                    app:chipBackgroundColor="#FFFFFF"
+                    app:chipStrokeColor="#E5E7EB"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_moyenne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Moyenne"
+                    android:checkable="true"
+                    app:chipBackgroundColor="#FFFFFF"
+                    app:chipStrokeColor="#E5E7EB"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_low"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Basse"
+                    android:checkable="true"
+                    app:chipBackgroundColor="#FFFFFF"
+                    app:chipStrokeColor="#E5E7EB"
+                    app:chipStrokeWidth="1dp" />
+            </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
 
         <!-- RecyclerView -->
@@ -159,17 +238,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:padding="8dp" />
+            android:clipToPadding="false"
+            android:paddingBottom="20dp" />
     </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_besoin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_gravity="bottom|end"
-        app:srcCompat="@drawable/ic_add"
-        app:backgroundTint="#000000" 
-        app:tint="#FFFFFF"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
