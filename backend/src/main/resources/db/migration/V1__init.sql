@@ -193,7 +193,6 @@ CREATE TABLE IF NOT EXISTS historique (
 -- ============================================================
 -- DONNÉES INITIALES (exemples)
 -- ============================================================
-
 INSERT INTO personnel (cin, nom, prenom, email, telephone, type_personnel, grade, departement, statut)
 VALUES
 ('AB123456', 'Admin', 'RH', 'admin.rh@ensa.ma', '0612345678', 'ADMINISTRATIF', 'Responsable', 'RH', 'ACTIF'),
@@ -202,9 +201,12 @@ VALUES
 
 INSERT INTO utilisateurs (personnel_id, username, password_hash, role, is_active)
 VALUES
-(1, 'admin.rh', '$2a$10$dummyhash1', 'ADMIN_RH', 1),
-(2, 'admin.eco', '$2a$10$dummyhash2', 'ADMIN_ECO', 1),
-(3, 'ahmed.alaoui', '$2a$10$dummyhash3', 'PERSONNEL', 1);
+(1, 'admin.rh', '$2a$10$dummyhash1', 'directeur',1),
+(2, 'admin.eco', '$2a$10$dummyhash2', 'RH',1),
+(3, 'ahmed.alaoui', '$2a$10$dummyhash3', 'recruteur',1);
 
 INSERT INTO budget (annee, montant_total, montant_disponible, statut, created_by)
-VALUES (2026, 500000.00, 500000.00, 'EN_COURS', 2);
+SELECT 2026, 500000.00, 500000.00, 'EN_COURS', u.id
+FROM utilisateurs u
+WHERE u.username = 'admin.eco';
+

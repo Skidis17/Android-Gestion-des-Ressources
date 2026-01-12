@@ -2,13 +2,13 @@ package ma.ensate.backend.dto;
 
 import ma.ensate.backend.Enum.Role;
 
-public class RegisterResponse {
+public class AddUserResponse {
     private Long id;
     private String email;
     private String username;
     private Role role;
 
-    public RegisterResponse(Long id, String email, String username, Role role) {
+    public AddUserResponse(Long id, String email, String username, Role role) {
         this.id = id;
         this.email = email;
         this.username = username;

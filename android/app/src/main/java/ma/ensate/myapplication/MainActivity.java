@@ -2,12 +2,13 @@ package ma.ensate.myapplication;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -19,14 +20,14 @@ import ma.ensate.myapplication.network.TokenManager;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "AUTH";
-
     private DrawerLayout drawerLayout;
-    private AppBarConfiguration appBarConfiguration;
-    private NavController navController;
-
-    private BottomNavigationView bottomNavigationView;
     private NavigationView navigationView;
+    private BottomNavigationView bottomNavigationView;
+
+    private NavController navController;
+    private AppBarConfiguration appBarConfiguration;
+
+    private String currentRole = null; // admin / RH / recruteur
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +35,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
         navigationView = findViewById(R.id.nav_view);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.nav_host_fragment);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
 
         if (navHostFragment == null) {
-            Log.e(TAG, "NavHostFragment is null");
+            Log.e("MAIN", "NavHostFragment introuvable");
             return;
         }
 
         navController = navHostFragment.getNavController();
 
+        // AppBar / Drawer (destinations principales)
         // Configure AppBarConfiguration with drawer layout
         appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.homeFragment,
@@ -54,75 +59,164 @@ public class MainActivity extends AppCompatActivity {
                 R.id.demandesFragment,
                 R.id.recrutementFragment,
                 R.id.notificationsFragment,
+                R.id.profileFragment,
+                R.id.adminUsersFragment
+        ).setOpenableLayout(drawerLayout).build();
                 R.id.recettesFragment,
                 R.id.budgetFragment,
                 R.id.loginFragment)
                 .setOpenableLayout(drawerLayout)
                 .build();
 
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        // Drawer ↔ NavController
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            Log.d(TAG, "Destination=" + destination.getId());
+        // Bottom nav ↔ NavController (menu par défaut)
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-            if (destination.getId() == R.id.loginFragment) {
-                bottomNavigationView.setVisibility(View.GONE);
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-            } else {
-                bottomNavigationView.setVisibility(View.VISIBLE);
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-            }
-
-            refreshBottomLoginTitle();
-        });
-
-        bottomNavigationView.setOnItemSelectedListener(item -> {
+        // Drawer custom (profile / login)
+        navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-            Log.d(TAG, "Bottom click id=" + id + " isLoggedIn=" + isLoggedIn());
 
-            if (id == R.id.loginFragment) {
-                navController.navigate(R.id.loginFragment);
+            if (id == R.id.profileFragment) {
+                openProfile();
+                drawerLayout.closeDrawers();
                 return true;
             }
 
+            if (id == R.id.loginFragment) {
+                goToLoginAndClearBackStack();
+                drawerLayout.closeDrawers();
+                return true;
+            }
+
+            boolean handled = NavigationUI.onNavDestinationSelected(item, navController);
+            if (handled) drawerLayout.closeDrawers();
+            return handled;
+        });
+
+        // Bottom nav (protéger profile)
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.profileFragment) {
+                openProfile();
+                return true;
+            }
             return NavigationUI.onNavDestinationSelected(item, navController);
         });
 
-        refreshBottomLoginTitle();
+        // UI selon destination
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            updateUiForDestination(destination.getId());
+        });
+
+        // Etat initial
+        int start = (navController.getCurrentDestination() != null)
+                ? navController.getCurrentDestination().getId()
+                : R.id.loginFragment;
+
+        updateUiForDestination(start);
     }
+
+    /* ===================== AUTH / ROLE ===================== */
 
     private boolean isLoggedIn() {
         return new TokenManager(this).getToken() != null;
     }
 
+    private void applyBottomMenuForRole(String role) {
+        bottomNavigationView.getMenu().clear();
     public void refreshBottomLoginTitle() {
         if (bottomNavigationView == null)
             return;
 
-        MenuItem item = bottomNavigationView.getMenu().findItem(R.id.loginFragment);
+        if ("admin".equalsIgnoreCase(role)) {
+            bottomNavigationView.inflateMenu(R.menu.bottom_admin_navigation);
+        } else {
+            bottomNavigationView.inflateMenu(R.menu.bottom_navigation_menu);
+        }
 
-        Log.d(TAG, "refreshBottomLoginTitle findItem=" + item);
+        // IMPORTANT : re-lier après changement de menu
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+    }
 
-        if (item == null) {
-            Log.e(TAG, "Bottom MenuItem loginFragment NOT FOUND (check bottom_navigation_menu.xml id)");
+    /* ===================== UI ===================== */
+
+    private void updateUiForDestination(@IdRes int destinationId) {
+        if (!isLoggedIn() || destinationId == R.id.loginFragment) {
+            bottomNavigationView.setVisibility(View.GONE);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             return;
         }
 
-        String token = new TokenManager(this).getToken();
-        Log.d(TAG, "token=" + token);
+        bottomNavigationView.setVisibility(View.VISIBLE);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
 
-        if (token != null) {
-            item.setTitle("Logout");
-            item.setIcon(R.drawable.ic_lock); // ou ic_logout
+    /* ===================== NAVIGATION ===================== */
+
+    // Appelée après login
+    public void navigateAfterLogin(String role) {
+        currentRole = role;
+        applyBottomMenuForRole(role);
+
+        int destId;
+        if ("admin".equalsIgnoreCase(role)) {
+            destId = R.id.adminUsersFragment;
+        } else if ("recruteur".equalsIgnoreCase(role)) {
+            destId = R.id.recrutementFragment;
         } else {
-            item.setTitle(getString(R.string.nav_login));
-            item.setIcon(R.drawable.ic_lock);
+            destId = R.id.homeFragment; // RH / autre
         }
+
+        NavOptions options = new NavOptions.Builder()
+                .setPopUpTo(R.id.loginFragment, true)
+                .setLaunchSingleTop(true)
+                .build();
+
+        navController.navigate(destId, null, options);
+        updateUiForDestination(destId);
+    }
+
+    public void openProfile() {
+        if (!isLoggedIn()) {
+            goToLoginAndClearBackStack();
+            return;
+        }
+
+        if (navController.getCurrentDestination() != null &&
+                navController.getCurrentDestination().getId() == R.id.profileFragment) {
+            return;
+        }
+
+        navController.navigate(R.id.profileFragment);
+        updateUiForDestination(R.id.profileFragment);
+    }
+
+    private void goToLoginAndClearBackStack() {
+        currentRole = null;
+
+        bottomNavigationView.getMenu().clear();
+        bottomNavigationView.inflateMenu(R.menu.bottom_navigation_menu);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+        NavOptions options = new NavOptions.Builder()
+                .setPopUpTo(navController.getGraph().getStartDestinationId(), true)
+                .setLaunchSingleTop(true)
+                .build();
+
+        navController.navigate(R.id.loginFragment, null, options);
+        updateUiForDestination(R.id.loginFragment);
+    }
+
+    public void logout() {
+        Log.d("MAIN", "logout()");
+        new TokenManager(this).clearAuth();
+        goToLoginAndClearBackStack();
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
+        return NavigationUI.navigateUp(navController, appBarConfiguration)
+                || super.onSupportNavigateUp();
     }
 }

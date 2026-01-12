@@ -44,7 +44,10 @@ public class SecurityConfig {
                         // Endpoints publics (pas besoin d'authentification)
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users/addUser").permitAll()
+                        .requestMatchers("/api/personnels/**").permitAll()
+                        .requestMatchers("/api/users/**").hasAuthority("admin")
+                        .requestMatchers(HttpMethod.POST, "/users/{id}/profile").permitAll()
 
 
                         // Tous les autres endpoints API nécessitent une authentification

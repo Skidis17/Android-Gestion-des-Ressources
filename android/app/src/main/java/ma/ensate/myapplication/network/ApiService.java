@@ -1,19 +1,26 @@
 package ma.ensate.myapplication.network;
 
+import ma.ensate.myapplication.AddUserBottomSheet;
+import ma.ensate.myapplication.model.AddUserRequest;
+import ma.ensate.myapplication.model.AddUserResponse;
 import ma.ensate.myapplication.model.Besoin;
 import ma.ensate.myapplication.model.Commande;
 import ma.ensate.myapplication.model.LoginRequest;
 import ma.ensate.myapplication.model.LoginResponse;
+import ma.ensate.myapplication.model.PasswordChangeRequest;
+import ma.ensate.myapplication.model.PersonnelOption;
 import ma.ensate.myapplication.model.Recrutement;
 import ma.ensate.myapplication.model.Depense;
 import ma.ensate.myapplication.model.BudgetSummary;
 import ma.ensate.myapplication.model.CandidatureRecrutement;
 import ma.ensate.myapplication.model.UploadResponse;
+import ma.ensate.myapplication.model.UserItem;
 import retrofit2.Call;
 import retrofit2.http.*;
 import okhttp3.MultipartBody;
 
 import java.util.List;
+import java.util.Map;
 import ma.ensate.myapplication.model.Recette;
 
 public interface ApiService {
@@ -22,10 +29,32 @@ public interface ApiService {
     @POST("auth/login")
     Call<LoginResponse> login(@Body LoginRequest request);
 
+    //change password
+    @PUT("auth/{id}/change-password")
+    Call<String> changePassword(
+            @Path("id") Long id,
+            @Body PasswordChangeRequest request
+    );
+//update profile
+    @PUT("users/{id}/profile")
+    Call<String> updateProfile(@Path("id") Long id, @Body ma.ensate.myapplication.model.UpdateProfileRequest request);
+
+    // ✅ Personnels
+
+    @GET("users/all")
+    Call<List<UserItem>> getUsers(@Header("Authorization") String auth);
+
+    @GET("api/personnels")
+    Call<List<PersonnelOption>> getAllPersonnels(@Header("Authorization") String auth);
+
+    @POST("users/addUser")
+    Call<AddUserResponse> addUser(@Header("Authorization") String auth, @Body AddUserRequest req);
+
+
+
     // Besoins
     @GET("api/v1/besoins")
     Call<List<Besoin>> getBesoins();
-
     @GET("api/v1/besoins/{id}")
     Call<Besoin> getBesoin(@Path("id") Long id);
 
