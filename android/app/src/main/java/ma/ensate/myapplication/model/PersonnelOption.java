@@ -1,15 +1,22 @@
 package ma.ensate.myapplication.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class PersonnelOption {
+
     private Long id;
-    private String label;
+
+    @SerializedName("fullName")
+    private String fullName;
+
     private String email;
 
     public Long getId() { return id; }
-    public String getLabel() { return label; }
+    public String getFullName() { return fullName; }
     public String getEmail() { return email; }
 
-    public void setId(Long id) { this.id = id; }
-    public void setLabel(String label) { this.label = label; }
-    public void setEmail(String email) { this.email = email; }
+    // ✅ Pour réutiliser ton code existant (p.getLabel())
+    public String getLabel() {
+        return fullName;
+    }
 }

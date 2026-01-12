@@ -110,22 +110,39 @@ public class AddUserBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void loadPersonnelDropdown() {
-        api.getAllPersonnels(authHeader()).enqueue(new Callback<List<PersonnelOption>>() {
+        String auth = authHeader();
+        if (auth == null) {
+            Toast.makeText(requireContext(), "Connecte-toi d'abord", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        api.getAllPersonnels(auth).enqueue(new Callback<List<PersonnelOption>>() {
             @Override
             public void onResponse(Call<List<PersonnelOption>> call, Response<List<PersonnelOption>> response) {
-                if (!response.isSuccessful() || response.body() == null) {
-                    Toast.makeText(requireContext(),
-                            "Erreur chargement personnel (" + response.code() + ")",
-                            Toast.LENGTH_SHORT).show();
+
+                if (!response.isSuccessful()) {
+                    String err = "Erreur chargement personnel (" + response.code() + ")";
+                    try {
+                        if (response.errorBody() != null) err += " : " + response.errorBody().string();
+                    } catch (Exception ignored) {}
+                    Toast.makeText(requireContext(), err, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                List<PersonnelOption> body = response.body();
+                if (body == null) {
+                    Toast.makeText(requireContext(), "Aucun personnel (body null)", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 personnels.clear();
-                personnels.addAll(response.body());
+                personnels.addAll(body);
 
                 List<String> labels = new ArrayList<>();
                 for (PersonnelOption p : personnels) {
-                    if (p.getLabel() != null) labels.add(p.getLabel());
+                    if (p.getLabel() != null && !p.getLabel().trim().isEmpty()) {
+                        labels.add(p.getLabel().trim());
+                    }
                 }
 
                 personnelAdapter = new ArrayAdapter<>(
@@ -136,6 +153,10 @@ public class AddUserBottomSheet extends BottomSheetDialogFragment {
 
                 spPersonnelId.setAdapter(personnelAdapter);
 
+                // ✅ Afficher la liste dès le clic (même sans taper)
+                spPersonnelId.setThreshold(0);
+                spPersonnelId.setOnClickListener(v -> spPersonnelId.showDropDown());
+
                 spPersonnelId.setOnItemClickListener((parent, v, position, id) -> {
                     String selected = (String) parent.getItemAtPosition(position);
                     PersonnelOption p = findByLabel(selected);
@@ -143,11 +164,15 @@ public class AddUserBottomSheet extends BottomSheetDialogFragment {
                         etEmail.setText(p.getEmail() != null ? p.getEmail() : "");
                     }
                 });
+
+                if (labels.isEmpty()) {
+                    Toast.makeText(requireContext(), "Liste personnel vide", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<List<PersonnelOption>> call, Throwable t) {
-                Toast.makeText(requireContext(), "Erreur réseau personnel", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Erreur réseau personnel: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
