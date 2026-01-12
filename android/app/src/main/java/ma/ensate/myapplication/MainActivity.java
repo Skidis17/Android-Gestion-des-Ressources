@@ -38,9 +38,6 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        NavHostFragment navHostFragment =
-                (NavHostFragment) getSupportFragmentManager()
-                        .findFragmentById(R.id.nav_host_fragment);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
 
@@ -52,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         navController = navHostFragment.getNavController();
 
         // AppBar / Drawer (destinations principales)
-        // Configure AppBarConfiguration with drawer layout
         appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.homeFragment,
                 R.id.personnelFragment,
@@ -60,13 +56,12 @@ public class MainActivity extends AppCompatActivity {
                 R.id.recrutementFragment,
                 R.id.notificationsFragment,
                 R.id.profileFragment,
-                R.id.adminUsersFragment
-        ).setOpenableLayout(drawerLayout).build();
+                R.id.adminUsersFragment,
+                // si tu as vraiment ces fragments dans ton graph, tu peux les garder:
                 R.id.recettesFragment,
                 R.id.budgetFragment,
-                R.id.loginFragment)
-                .setOpenableLayout(drawerLayout)
-                .build();
+                R.id.loginFragment
+        ).setOpenableLayout(drawerLayout).build();
 
         // Drawer ↔ NavController
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -124,10 +119,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void applyBottomMenuForRole(String role) {
+        if (bottomNavigationView == null) return;
+
         bottomNavigationView.getMenu().clear();
-    public void refreshBottomLoginTitle() {
-        if (bottomNavigationView == null)
-            return;
 
         if ("admin".equalsIgnoreCase(role)) {
             bottomNavigationView.inflateMenu(R.menu.bottom_admin_navigation);
@@ -137,6 +131,11 @@ public class MainActivity extends AppCompatActivity {
 
         // IMPORTANT : re-lier après changement de menu
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+    }
+
+    // Tu avais un nom "refreshBottomLoginTitle" : je le garde, mais corrigé
+    public void refreshBottomLoginTitle() {
+        applyBottomMenuForRole(currentRole);
     }
 
     /* ===================== UI ===================== */
@@ -195,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
     private void goToLoginAndClearBackStack() {
         currentRole = null;
 
+        // menu par défaut
         bottomNavigationView.getMenu().clear();
         bottomNavigationView.inflateMenu(R.menu.bottom_navigation_menu);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
