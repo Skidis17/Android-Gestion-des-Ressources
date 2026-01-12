@@ -23,7 +23,7 @@ public interface CandidatureRecrutementService {
     List<CandidatureScore> listScores(Long candidatureId);
     CandidatureScore addScore(Long candidatureId, CandidatureScore score);
     List<Entretien> listEntretiens(Long candidatureId);
-    Entretien createEntretien(Long candidatureId, Entretien entretien);
+    Entretien createEntretien(Long candidatureId, Entretien entretien, boolean sendEmail);
     List<EntretienScore> listEntretienScores(Long entretienId);
     EntretienScore addEntretienScore(Long entretienId, EntretienScore score);
 }

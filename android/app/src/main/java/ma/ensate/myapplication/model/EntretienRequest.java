@@ -8,8 +8,9 @@ public class EntretienRequest {
     private String status;
     private String notes;
     private String createdBy;
+    private Boolean sendEmail;
 
-    public EntretienRequest(String type, String scheduledAt, String mode, String location, String status, String notes, String createdBy) {
+    public EntretienRequest(String type, String scheduledAt, String mode, String location, String status, String notes, String createdBy, Boolean sendEmail) {
         this.type = type;
         this.scheduledAt = scheduledAt;
         this.mode = mode;
@@ -17,6 +18,7 @@ public class EntretienRequest {
         this.status = status;
         this.notes = notes;
         this.createdBy = createdBy;
+        this.sendEmail = sendEmail;
     }
 
     public String getType() { return type; }
@@ -33,4 +35,6 @@ public class EntretienRequest {
     public void setNotes(String notes) { this.notes = notes; }
     public String getCreatedBy() { return createdBy; }
     public void setCreatedBy(String createdBy) { this.createdBy = createdBy; }
+    public Boolean getSendEmail() { return sendEmail; }
+    public void setSendEmail(Boolean sendEmail) { this.sendEmail = sendEmail; }
 }

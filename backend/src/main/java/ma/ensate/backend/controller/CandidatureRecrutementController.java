@@ -131,7 +131,8 @@ public class CandidatureRecrutementController {
     @PostMapping("/{id}/entretiens")
     public ResponseEntity<EntretienDto> createEntretien(@PathVariable Long id,
                                                         @Valid @RequestBody EntretienRequest request) {
-        Entretien created = candidatureRecrutementService.createEntretien(id, EntretienMapper.toEntity(id, request));
+        boolean sendEmail = request.getSendEmail() != null && request.getSendEmail();
+        Entretien created = candidatureRecrutementService.createEntretien(id, EntretienMapper.toEntity(id, request), sendEmail);
         return ResponseEntity.created(URI.create("/api/v1/candidatures-recrutement/" + id + "/entretiens/" + created.getId()))
                 .body(EntretienMapper.toDto(created));
     }

@@ -179,16 +179,25 @@ public class CandidatureRecrutementServiceImpl implements CandidatureRecrutement
 
     @Override
     @Transactional
-    public Entretien createEntretien(Long candidatureId, Entretien entretien) {
-        findById(candidatureId);
+    public Entretien createEntretien(Long candidatureId, Entretien entretien, boolean sendEmail) {
+        CandidatureRecrutement candidature = findById(candidatureId);
         entretien.setCandidatureId(candidatureId);
         if (entretien.getStatus() == null) {
             entretien.setStatus("PLANIFIE");
         }
+        if (entretien.getScheduledAt() == null) {
+            entretien.setScheduledAt(LocalDateTime.now());
+        }
         if (entretien.getCreatedAt() == null) {
             entretien.setCreatedAt(LocalDateTime.now());
         }
-        return entretienRepository.save(entretien);
+        Entretien saved = entretienRepository.save(entretien);
+        if (sendEmail) {
+            Recrutement recrutement = recrutementRepository.findById(candidature.getRecrutementId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Recrutement not found: " + candidature.getRecrutementId()));
+            emailService.sendInterviewScheduledEmail(candidature, recrutement, saved);
+        }
+        return saved;
     }
 
     @Override

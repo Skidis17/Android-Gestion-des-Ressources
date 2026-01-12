@@ -19,4 +19,5 @@ public class EntretienRequest {
     private String status;
     private String notes;
     private String createdBy;
+    private Boolean sendEmail;
 }

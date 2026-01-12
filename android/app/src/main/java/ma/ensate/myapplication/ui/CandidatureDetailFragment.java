@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +37,8 @@ import ma.ensate.myapplication.network.TokenManager;
 import ma.ensate.myapplication.viewmodel.CandidatureRecrutementViewModel;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
+import android.widget.ArrayAdapter;
 
 public class CandidatureDetailFragment extends Fragment {
     public CandidatureDetailFragment() {
@@ -222,20 +227,53 @@ public class CandidatureDetailFragment extends Fragment {
 
     private void showAddEntretienDialog() {
         LinearLayout layout = buildDialogLayout();
-        EditText etType = buildField(layout, "Type (RH/TECH/... )");
-        EditText etDate = buildField(layout, "Date (YYYY-MM-DDTHH:mm)");
-        EditText etMode = buildField(layout, "Mode (Présentiel/Visio)");
+        Spinner spType = buildSpinner(layout, new String[]{"RH", "TECH", "MANAGER", "AUTRE"});
+        TextView tvDateTime = buildInfoField(layout, "Date/Heure non définie");
+        Button btnPickDate = buildButton(layout, "Choisir date/heure");
+        Spinner spMode = buildSpinner(layout, new String[]{"Présentiel", "Visio"});
         EditText etLocation = buildField(layout, "Lieu/Lien");
-        EditText etStatus = buildField(layout, "Statut (PLANIFIE/TERMINE)");
+        Spinner spStatus = buildSpinner(layout, new String[]{"PLANIFIE", "TERMINE"});
         EditText etNotes = buildField(layout, "Notes (optionnel)");
+        SwitchMaterial swSendEmail = new SwitchMaterial(requireContext());
+        swSendEmail.setText("Envoyer email au candidat");
+        swSendEmail.setChecked(true);
+        layout.addView(swSendEmail);
+
+        Calendar cal = Calendar.getInstance();
+        final int[] pickedYear = {cal.get(Calendar.YEAR)};
+        final int[] pickedMonth = {cal.get(Calendar.MONTH)};
+        final int[] pickedDay = {cal.get(Calendar.DAY_OF_MONTH)};
+        final int[] pickedHour = {cal.get(Calendar.HOUR_OF_DAY)};
+        final int[] pickedMinute = {cal.get(Calendar.MINUTE)};
+
+        btnPickDate.setOnClickListener(v -> {
+            DatePickerDialog dp = new DatePickerDialog(requireContext(),
+                    (view, year, month, dayOfMonth) -> {
+                        pickedYear[0] = year;
+                        pickedMonth[0] = month;
+                        pickedDay[0] = dayOfMonth;
+                        TimePickerDialog tp = new TimePickerDialog(requireContext(),
+                                (tView, hourOfDay, minute) -> {
+                                    pickedHour[0] = hourOfDay;
+                                    pickedMinute[0] = minute;
+                                    String iso = String.format("%04d-%02d-%02dT%02d:%02d",
+                                            pickedYear[0], pickedMonth[0] + 1, pickedDay[0], pickedHour[0], pickedMinute[0]);
+                                    tvDateTime.setText(iso);
+                                },
+                                pickedHour[0], pickedMinute[0], true);
+                        tp.show();
+                    },
+                    pickedYear[0], pickedMonth[0], pickedDay[0]);
+            dp.show();
+        });
 
         new AlertDialog.Builder(requireContext())
                 .setTitle("Planifier un entretien")
                 .setView(layout)
                 .setPositiveButton("Créer", (d, w) -> {
-                    String type = etType.getText().toString();
-                    String date = etDate.getText().toString();
-                    if (TextUtils.isEmpty(type) || TextUtils.isEmpty(date)) {
+                    String type = spType.getSelectedItem().toString();
+                    String date = tvDateTime.getText().toString();
+                    if (TextUtils.isEmpty(type) || date.contains("non définie")) {
                         Toast.makeText(requireContext(), "Type et date requis", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -243,11 +281,12 @@ public class CandidatureDetailFragment extends Fragment {
                     EntretienRequest req = new EntretienRequest(
                             type,
                             date,
-                            etMode.getText().toString(),
+                            spMode.getSelectedItem().toString(),
                             etLocation.getText().toString(),
-                            valueOrDefault(etStatus.getText().toString(), "PLANIFIE"),
+                            spStatus.getSelectedItem().toString(),
                             etNotes.getText().toString(),
-                            createdBy
+                            createdBy,
+                            swSendEmail.isChecked()
                     );
                     viewModel.createEntretien(candidatureId, req, new CandidatureRecrutementViewModel.EntretienCallback() {
                         @Override
@@ -321,6 +360,30 @@ public class CandidatureDetailFragment extends Fragment {
         field.setHint(hint);
         parent.addView(field);
         return field;
+    }
+
+    private Spinner buildSpinner(LinearLayout parent, String[] items) {
+        Spinner spinner = new Spinner(requireContext());
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, items);
+        spinner.setAdapter(adapter);
+        parent.addView(spinner);
+        return spinner;
+    }
+
+    private Button buildButton(LinearLayout parent, String text) {
+        Button button = new Button(requireContext());
+        button.setText(text);
+        parent.addView(button);
+        return button;
+    }
+
+    private TextView buildInfoField(LinearLayout parent, String text) {
+        TextView tv = new TextView(requireContext());
+        tv.setText(text);
+        tv.setTextColor(0xFF374151);
+        tv.setPadding(0, 8, 0, 8);
+        parent.addView(tv);
+        return tv;
     }
 
     private void addInfoRow(LinearLayout parent, String text) {
