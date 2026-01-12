@@ -70,6 +70,81 @@
             android:textColor="#111827" />
 
         <TextView
+            android:id="@+id/tv_scores_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Scores"
+            android:textStyle="bold"
+            android:textColor="#111827" />
+
+        <LinearLayout
+            android:id="@+id/container_scores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="vertical" />
+
+        <Button
+            android:id="@+id/btn_add_score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Ajouter un score"
+            android:backgroundTint="#2563EB"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/tv_interviews_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Entretiens"
+            android:textStyle="bold"
+            android:textColor="#111827" />
+
+        <LinearLayout
+            android:id="@+id/container_entretiens"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="vertical" />
+
+        <Button
+            android:id="@+id/btn_add_entretien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Planifier un entretien"
+            android:backgroundTint="#0EA5E9"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btn_add_entretien_score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Ajouter score d’entretien"
+            android:backgroundTint="#0284C7"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/tv_history_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Historique"
+            android:textStyle="bold"
+            android:textColor="#111827" />
+
+        <LinearLayout
+            android:id="@+id/container_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="vertical" />
+
+        <TextView
             android:id="@+id/tv_cv_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -118,13 +193,6 @@
                 android:textColor="#FFFFFF" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_pending"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Remettre en attente"
-            android:backgroundTint="#6B7280"
-            android:textColor="#FFFFFF" />
+        <!-- Removed "Remettre en attente" button per request -->
     </LinearLayout>
 </ScrollView>

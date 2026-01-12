@@ -3,9 +3,24 @@ package ma.ensate.backend.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ma.ensate.backend.domain.CandidatureRecrutement;
+import ma.ensate.backend.domain.CandidatureScore;
+import ma.ensate.backend.domain.Entretien;
+import ma.ensate.backend.domain.EntretienScore;
 import ma.ensate.backend.dto.CandidatureRecrutementDto;
 import ma.ensate.backend.dto.CandidatureRecrutementRequest;
+import ma.ensate.backend.dto.CandidatureScoreDto;
+import ma.ensate.backend.dto.CandidatureScoreRequest;
+import ma.ensate.backend.dto.CandidatureStatusHistoryDto;
+import ma.ensate.backend.dto.EntretienDto;
+import ma.ensate.backend.dto.EntretienRequest;
+import ma.ensate.backend.dto.EntretienScoreDto;
+import ma.ensate.backend.dto.EntretienScoreRequest;
+import ma.ensate.backend.dto.StatusChangeRequest;
 import ma.ensate.backend.mapper.CandidatureRecrutementMapper;
+import ma.ensate.backend.mapper.CandidatureScoreMapper;
+import ma.ensate.backend.mapper.CandidatureStatusHistoryMapper;
+import ma.ensate.backend.mapper.EntretienMapper;
+import ma.ensate.backend.mapper.EntretienScoreMapper;
 import ma.ensate.backend.service.CandidatureRecrutementService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -58,6 +73,20 @@ public class CandidatureRecrutementController {
         return ResponseEntity.ok(CandidatureRecrutementMapper.toDto(updated));
     }
 
+    @PostMapping("/{id}/status-detail")
+    public ResponseEntity<CandidatureRecrutementDto> changeStatusDetailed(@PathVariable Long id,
+                                                                          @Valid @RequestBody StatusChangeRequest request) {
+        boolean sendEmail = request.getSendEmail() != null && request.getSendEmail();
+        CandidatureRecrutement updated = candidatureRecrutementService.updateStatus(
+                id,
+                request.getStatut(),
+                sendEmail,
+                request.getReason(),
+                request.getChangedBy()
+        );
+        return ResponseEntity.ok(CandidatureRecrutementMapper.toDto(updated));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         candidatureRecrutementService.delete(id);
@@ -69,5 +98,55 @@ public class CandidatureRecrutementController {
         return candidatureRecrutementService.findByRecrutementId(recrutementId).stream()
                 .map(CandidatureRecrutementMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}/history")
+    public List<CandidatureStatusHistoryDto> history(@PathVariable Long id) {
+        return candidatureRecrutementService.history(id).stream()
+                .map(CandidatureStatusHistoryMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}/scores")
+    public List<CandidatureScoreDto> listScores(@PathVariable Long id) {
+        return candidatureRecrutementService.listScores(id).stream()
+                .map(CandidatureScoreMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping("/{id}/scores")
+    public ResponseEntity<CandidatureScoreDto> addScore(@PathVariable Long id,
+                                                        @Valid @RequestBody CandidatureScoreRequest request) {
+        CandidatureScore saved = candidatureRecrutementService.addScore(id, CandidatureScoreMapper.toEntity(id, request));
+        return ResponseEntity.ok(CandidatureScoreMapper.toDto(saved));
+    }
+
+    @GetMapping("/{id}/entretiens")
+    public List<EntretienDto> listEntretiens(@PathVariable Long id) {
+        return candidatureRecrutementService.listEntretiens(id).stream()
+                .map(EntretienMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping("/{id}/entretiens")
+    public ResponseEntity<EntretienDto> createEntretien(@PathVariable Long id,
+                                                        @Valid @RequestBody EntretienRequest request) {
+        Entretien created = candidatureRecrutementService.createEntretien(id, EntretienMapper.toEntity(id, request));
+        return ResponseEntity.created(URI.create("/api/v1/candidatures-recrutement/" + id + "/entretiens/" + created.getId()))
+                .body(EntretienMapper.toDto(created));
+    }
+
+    @GetMapping("/entretiens/{entretienId}/scores")
+    public List<EntretienScoreDto> listEntretienScores(@PathVariable Long entretienId) {
+        return candidatureRecrutementService.listEntretienScores(entretienId).stream()
+                .map(EntretienScoreMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping("/entretiens/{entretienId}/scores")
+    public ResponseEntity<EntretienScoreDto> addEntretienScore(@PathVariable Long entretienId,
+                                                               @Valid @RequestBody EntretienScoreRequest request) {
+        EntretienScore saved = candidatureRecrutementService.addEntretienScore(entretienId, EntretienScoreMapper.toEntity(entretienId, request));
+        return ResponseEntity.ok(EntretienScoreMapper.toDto(saved));
     }
 }
