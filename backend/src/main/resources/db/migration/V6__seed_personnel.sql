@@ -21,4 +21,6 @@ INSERT OR IGNORE INTO personnel (
 ) VALUES
     ('AA123456', 'Touicha',   'Aya',  'ayaa15029@gmail.com',        '0600000000', 'ADMINISTRATIF', 'Ingénieur',  'E1', 'Informatique'),
     ('BB654321', 'El Amrani', 'Sara', 'sara.elamrani@ensate.ma',    '0611111111', 'ADMINISTRATIF', 'Assistante','E2', 'Scolarité'),
-    ('CC987654', 'Aya', 'Aya',  'touicha.aya@etu.uae.ac.ma',  '0770946035', 'ADMINISTRATIF', 'Assistante','E2', 'Scolarité');
+    ('CC987654', 'Aya', 'Aya',  'touicha.aya@etu.uae.ac.ma',  '0770946035', 'ADMINISTRATIF', 'Assistante','E2', 'Scolarité'),
+    ('DD456789', 'El Malki',  'Imane','aya86jd@gmail.com',         '0622222222', 'ENSEIGNANT',    'Professeur','E3', 'Mathématiques'),
+    ('EE789123', 'Achraf',    'Ben',  'achraf87567@gmail.com',      '0633333333', 'ENSEIGNANT',    'Maître de Conférences','E4', 'Informatique');
