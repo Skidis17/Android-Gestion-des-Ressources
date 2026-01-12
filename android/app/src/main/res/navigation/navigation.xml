@@ -102,7 +102,34 @@
             android:label="@string/nav_commandes" />
 
     <fragment
-        android:id="@+id/loginFragment"
+        android:id="@+id/budgetFragment"
+        android:name="ma.ensate.myapplication.ui.BudgetFragment"
+        android:label="@string/nav_budget" />
+
+    <fragment        android:id="@+id/recettesFragment"
+        android:name="ma.ensate.myapplication.ui.RecetteListFragment"
+        android:label="@string/nav_recettes" />
+
+    <fragment
+        android:id="@+id/addRecetteFragment"
+        android:name="ma.ensate.myapplication.ui.AddRecetteFragment"
+        android:label="@string/nav_add_recette" />
+
+    <fragment
+        android:id="@+id/recetteDetailFragment"
+        android:name="ma.ensate.myapplication.ui.RecetteDetailFragment"
+        android:label="Détails de la Recette">
+        <action
+            android:id="@+id/action_recetteDetailFragment_to_editRecetteFragment"
+            app:destination="@id/editRecetteFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editRecetteFragment"
+        android:name="ma.ensate.myapplication.ui.EditRecetteFragment"
+        android:label="Modifier Recette" />
+
+    <fragment        android:id="@+id/loginFragment"
         android:name="ma.ensate.myapplication.LoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_login"/>

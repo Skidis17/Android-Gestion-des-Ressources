@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager()
                         .findFragmentById(R.id.nav_host_fragment);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.nav_host_fragment);
 
         if (navHostFragment == null) {
             Log.e("MAIN", "NavHostFragment introuvable");
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         navController = navHostFragment.getNavController();
 
         // AppBar / Drawer (destinations principales)
+        // Configure AppBarConfiguration with drawer layout
         appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.homeFragment,
                 R.id.personnelFragment,
@@ -59,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
                 R.id.profileFragment,
                 R.id.adminUsersFragment
         ).setOpenableLayout(drawerLayout).build();
+                R.id.recettesFragment,
+                R.id.budgetFragment,
+                R.id.loginFragment)
+                .setOpenableLayout(drawerLayout)
+                .build();
 
         // Drawer ↔ NavController
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -117,6 +125,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void applyBottomMenuForRole(String role) {
         bottomNavigationView.getMenu().clear();
+    public void refreshBottomLoginTitle() {
+        if (bottomNavigationView == null)
+            return;
 
         if ("admin".equalsIgnoreCase(role)) {
             bottomNavigationView.inflateMenu(R.menu.bottom_admin_navigation);

@@ -5,6 +5,14 @@
         android:icon="@drawable/ic_demandes"
         android:title="@string/nav_besoins" />
     <item
+        android:id="@+id/recettesFragment"
+        android:icon="@drawable/ic_document_add"
+        android:title="@string/nav_recettes" />
+    <item
+        android:id="@+id/budgetFragment"
+        android:icon="@drawable/ic_trending_up"
+        android:title="@string/nav_budget" />
+    <item
         android:id="@+id/depensesFragment"
         android:icon="@drawable/ic_dollar"
         android:title="@string/nav_depenses" />
