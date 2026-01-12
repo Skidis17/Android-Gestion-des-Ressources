@@ -23,6 +23,7 @@ import ma.ensate.myapplication.model.Depense;
 import ma.ensate.myapplication.model.BudgetSummary;
 import ma.ensate.myapplication.model.CandidatureRecrutement;
 import ma.ensate.myapplication.model.StatusChangeRequest;
+import ma.ensate.myapplication.model.Demande;
 import ma.ensate.myapplication.model.UploadResponse;
 import ma.ensate.myapplication.model.UserItem;
 import retrofit2.Call;
@@ -201,4 +202,17 @@ public interface ApiService {
     @Multipart
     @POST("api/v1/uploads")
     Call<UploadResponse> uploadFile(@Part MultipartBody.Part file);
+
+    // Demandes
+    @GET("api/v1/demandes")
+    Call<List<Demande>> getDemandes(@Query("statut") String statut);
+
+    @GET("api/v1/demandes/{id}")
+    Call<Demande> getDemande(@Path("id") Long id);
+
+    @POST("api/v1/demandes")
+    Call<Demande> createDemande(@Body Demande demande);
+
+    @POST("api/v1/demandes/{id}/status")
+    Call<Demande> updateDemandeStatus(@Path("id") Long id, @Query("statut") String statut);
 }
