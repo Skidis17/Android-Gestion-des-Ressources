@@ -40,6 +40,7 @@ public class RecrutementFragment extends Fragment {
         View btnAdd = view.findViewById(R.id.btn_add_recrutement);
         TextView tvCountRecrutements = view.findViewById(R.id.tv_count_recrutements);
         TextView tvCountCandidatures = view.findViewById(R.id.tv_count_candidatures);
+        TextView tvCountEntretiens = view.findViewById(R.id.tv_count_entretiens);
 
         adapter = new RecrutementAdapter();
         rv.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -57,12 +58,22 @@ public class RecrutementFragment extends Fragment {
             adapter.setItems(list);
             tvEmpty.setVisibility(list == null || list.isEmpty() ? View.VISIBLE : View.GONE);
             int count = list != null ? list.size() : 0;
-            tvCountRecrutements.setText(String.valueOf(count));
-            // Placeholder: using same count for candidatures until a full aggregation is added
-            tvCountCandidatures.setText(String.valueOf(count));
+            if (tvCountRecrutements.getText().toString().isEmpty()) {
+                tvCountRecrutements.setText(String.valueOf(count));
+            }
+        });
+
+        viewModel.getStats().observe(getViewLifecycleOwner(), stats -> {
+            if (stats == null) return;
+            tvCountRecrutements.setText(String.valueOf(stats.getPostesOuverts()));
+            tvCountCandidatures.setText(String.valueOf(stats.getTotalCandidatures()));
+            if (tvCountEntretiens != null) {
+                tvCountEntretiens.setText(String.valueOf(stats.getEntretiensPlanifies()));
+            }
         });
 
         viewModel.loadRecrutements();
+        viewModel.loadStats();
 
         if (btnAdd != null) {
             btnAdd.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.recrutementFormFragment));

@@ -14,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 public class RetrofitClient {
 
-    private static Retrofit retrofit;
     private static Context appContext;
+    private static Retrofit retrofit;
 
     public static void init(Context context) {
         appContext = context.getApplicationContext();
@@ -27,30 +27,25 @@ public class RetrofitClient {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(chain -> {
+                        Request original = chain.request();
+                        if (appContext == null || original.header("Authorization") != null) {
+                            return chain.proceed(original);
+                        }
+                        String token = new TokenManager(appContext).getToken();
+                        if (token == null || token.trim().isEmpty()) {
+                            return chain.proceed(original);
+                        }
+                        Request authed = original.newBuilder()
+                                .header("Authorization", "Bearer " + token)
+                                .build();
+                        return chain.proceed(authed);
+                    })
                     .addInterceptor(logging)
                     .connectTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS);
-
-            // Add JWT auth interceptor
-            if (appContext != null) {
-                clientBuilder.addInterceptor(chain -> {
-                    Request original = chain.request();
-                    TokenManager tokenManager = new TokenManager(appContext);
-                    String token = tokenManager.getToken();
-
-                    if (token != null && !token.isEmpty()) {
-                        Request request = original.newBuilder()
-                                .header("Authorization", "Bearer " + token)
-                                .method(original.method(), original.body())
-                                .build();
-                        return chain.proceed(request);
-                    }
-                    return chain.proceed(original);
-                });
-            }
-
-            OkHttpClient client = clientBuilder.build();
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .build();
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(BuildConfig.BASE_URL)

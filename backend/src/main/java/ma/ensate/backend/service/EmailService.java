@@ -60,4 +60,22 @@ public class EmailService {
         mailSender.send(msg);
     }
 
+    public void sendInterviewScheduledEmail(CandidatureRecrutement c, Recrutement r, ma.ensate.backend.domain.Entretien e) {
+        ensureFromConfigured();
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom(from);
+        msg.setTo(c.getEmail());
+        msg.setSubject("Entretien planifié - " + r.getPoste());
+        String when = e.getScheduledAt() != null ? e.getScheduledAt().toString() : "à confirmer";
+        String mode = e.getMode() != null ? e.getMode() : "Présentiel";
+        String location = e.getLocation() != null ? e.getLocation() : "à confirmer";
+        msg.setText("Bonjour " + c.getPrenom() + " " + c.getNom() + ",\n\n" +
+                "Votre entretien pour le poste \"" + r.getPoste() + "\" est planifié.\n" +
+                "Date/Heure: " + when + "\n" +
+                "Mode: " + mode + "\n" +
+                "Lieu/Lien: " + location + "\n\n" +
+                "Cordialement.");
+        mailSender.send(msg);
+    }
+
 }
