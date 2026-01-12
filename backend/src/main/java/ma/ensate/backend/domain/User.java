@@ -21,9 +21,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-   @ManyToOne(fetch = FetchType.LAZY)
-@JoinColumn(name = "personnel_id", insertable = false, updatable = false)
-private Personnel personnel;
+ @Column(name = "personnel_id")
+    private Long personnelId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "personnel_id", insertable = false, updatable = false)
+    private Personnel personnel;
 
 
     private String username;

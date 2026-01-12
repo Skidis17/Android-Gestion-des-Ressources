@@ -72,6 +72,8 @@ public class UserService {
         user.setRole(role);
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         user.setPersonnel(personnel);
+        user.setPersonnelId(request.getPersonnelId());
+       
 
         User saved = userRepository.save(user);
 
