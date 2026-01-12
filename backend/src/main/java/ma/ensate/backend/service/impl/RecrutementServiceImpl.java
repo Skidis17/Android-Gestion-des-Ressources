@@ -6,6 +6,7 @@ import ma.ensate.backend.domain.CandidatureRecrutement;
 import ma.ensate.backend.domain.Entretien;
 import ma.ensate.backend.dto.CandidatureRankingDto;
 import ma.ensate.backend.dto.RecrutementPipelineDto;
+import ma.ensate.backend.dto.RecrutementStatsDto;
 import ma.ensate.backend.exception.ResourceNotFoundException;
 import ma.ensate.backend.repository.CandidatureRecrutementRepository;
 import ma.ensate.backend.repository.EntretienRepository;
@@ -32,13 +33,17 @@ public class RecrutementServiceImpl implements RecrutementService {
 
     @Override
     public List<Recrutement> findAll() {
-        return recrutementRepository.findAll();
+        List<Recrutement> recrutements = recrutementRepository.findAll();
+        applyAutoStatus(recrutements);
+        return recrutements;
     }
 
     @Override
     public Recrutement findById(Long id) {
-        return recrutementRepository.findById(id)
+        Recrutement recrutement = recrutementRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Recrutement not found: " + id));
+        applyAutoStatus(List.of(recrutement));
+        return recrutement;
     }
 
     @Override
@@ -132,6 +137,28 @@ public class RecrutementServiceImpl implements RecrutementService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public RecrutementStatsDto stats() {
+        List<Recrutement> recrutements = recrutementRepository.findAll();
+        applyAutoStatus(recrutements);
+        int openCount = 0;
+        LocalDate today = LocalDate.now();
+        for (Recrutement r : recrutements) {
+            String statut = r.getStatut() != null ? r.getStatut().trim() : "OUVERT";
+            boolean notExpired = r.getDateCloture() == null || !r.getDateCloture().isBefore(today);
+            if ("OUVERT".equalsIgnoreCase(statut) && notExpired) {
+                openCount++;
+            }
+        }
+        long totalCandidatures = candidatureRecrutementRepository.count();
+        long entretiensPlanifies = entretienRepository.countByStatusIgnoreCase("PLANIFIE");
+        return RecrutementStatsDto.builder()
+                .postesOuverts(openCount)
+                .totalCandidatures(totalCandidatures)
+                .entretiensPlanifies(entretiensPlanifies)
+                .build();
+    }
+
     private String normalizeStatus(String statut) {
         if (statut == null) return "EN_ATTENTE";
         String s = statut.trim().toUpperCase();
@@ -139,6 +166,25 @@ public class RecrutementServiceImpl implements RecrutementService {
             case "EN_ATTENTE", "PRESELECTION", "TEST", "ENTRETIEN", "RETENU", "REFUSE" -> s;
             default -> s;
         };
+    }
+
+    private void applyAutoStatus(List<Recrutement> recrutements) {
+        LocalDate today = LocalDate.now();
+        boolean changed = false;
+        for (Recrutement r : recrutements) {
+            boolean expired = r.getDateCloture() != null && r.getDateCloture().isBefore(today);
+            String statut = r.getStatut();
+            if (expired && (statut == null || !"FERME".equalsIgnoreCase(statut))) {
+                r.setStatut("FERME");
+                changed = true;
+            } else if (statut == null) {
+                r.setStatut("OUVERT");
+                changed = true;
+            }
+        }
+        if (changed) {
+            recrutementRepository.saveAll(recrutements);
+        }
     }
 
     private BigDecimal averageInterviewScore(Long candidatureId) {

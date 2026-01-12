@@ -3,7 +3,10 @@ package ma.ensate.myapplication.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +27,9 @@ import androidx.navigation.Navigation;
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.slider.Slider;
 
 import ma.ensate.myapplication.R;
 import ma.ensate.myapplication.model.CandidatureRecrutement;
@@ -47,6 +53,7 @@ public class CandidatureDetailFragment extends Fragment {
 
     private Long candidatureId;
     private CandidatureRecrutementViewModel viewModel;
+    private java.util.List<Entretien> currentEntretiens = new java.util.ArrayList<>();
 
     @Nullable
     @Override
@@ -119,12 +126,13 @@ public class CandidatureDetailFragment extends Fragment {
         });
 
         viewModel.getEntretiens().observe(getViewLifecycleOwner(), list -> {
+            currentEntretiens = list != null ? list : new java.util.ArrayList<>();
             containerEntretiens.removeAllViews();
-            if (list == null || list.isEmpty()) {
+            if (currentEntretiens.isEmpty()) {
                 addInfoRow(containerEntretiens, "Aucun entretien planifié");
                 return;
             }
-            for (Entretien e : list) {
+            for (Entretien e : currentEntretiens) {
                 String label = e.getType() + " | " + e.getScheduledAt() + " | " + e.getStatus()
                         + (e.getScoreTotal() != null ? " | Score: " + e.getScoreTotal() : "");
                 addInfoRow(containerEntretiens, label);
@@ -187,20 +195,28 @@ public class CandidatureDetailFragment extends Fragment {
 
     private void showAddScoreDialog() {
         LinearLayout layout = buildDialogLayout();
-        EditText etStage = buildField(layout, "Stage (ECRIT/ORAL/GENERAL)");
-        EditText etCriterion = buildField(layout, "Critère");
-        EditText etScore = buildField(layout, "Score");
+        Spinner spStage = buildSpinner(layout, new String[]{"ECRIT", "ORAL", "GENERAL"});
+        ChipGroup chipCriteria = buildChipGroup(layout, new String[]{"Technique", "Communication", "Culture", "Expérience", "Autre"});
+        EditText etCriterionCustom = buildField(layout, "Critère (si Autre)");
+        TextView tvScoreValue = buildInfoField(layout, "Score: 10.0");
+        Slider sliderScore = buildScoreSlider(layout, 0f, 20f, 10f, tvScoreValue);
         EditText etWeight = buildField(layout, "Poids (optionnel)");
         EditText etReviewer = buildField(layout, "Évaluateur (optionnel)");
-        EditText etNotes = buildField(layout, "Notes (optionnel)");
+        EditText etNotes = buildNotesField(layout, "Notes (optionnel)");
+        TextView tvComputed = buildInfoField(layout, "Total pondéré: 10.00");
+        etWeight.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        wireWeightedTotal(sliderScore, etWeight, tvComputed);
 
         new AlertDialog.Builder(requireContext())
                 .setTitle("Ajouter un score")
                 .setView(layout)
                 .setPositiveButton("Ajouter", (d, w) -> {
-                    String stage = valueOrDefault(etStage.getText().toString(), "GENERAL");
-                    String criterion = etCriterion.getText().toString();
-                    BigDecimal score = toDecimal(etScore.getText().toString());
+                    String stage = spStage.getSelectedItem().toString();
+                    String criterion = getSelectedChipText(chipCriteria);
+                    if ("Autre".equalsIgnoreCase(criterion)) {
+                        criterion = etCriterionCustom.getText().toString();
+                    }
+                    BigDecimal score = BigDecimal.valueOf(sliderScore.getValue());
                     BigDecimal weight = toDecimal(etWeight.getText().toString());
                     String reviewer = etReviewer.getText().toString();
                     String notes = etNotes.getText().toString();
@@ -305,26 +321,44 @@ public class CandidatureDetailFragment extends Fragment {
     }
 
     private void showAddEntretienScoreDialog() {
+        if (currentEntretiens == null || currentEntretiens.isEmpty()) {
+            Toast.makeText(requireContext(), "Aucun entretien disponible", Toast.LENGTH_SHORT).show();
+            return;
+        }
         LinearLayout layout = buildDialogLayout();
-        EditText etEntretienId = buildField(layout, "ID Entretien");
-        EditText etCriterion = buildField(layout, "Critère");
-        EditText etScore = buildField(layout, "Score");
+        Spinner spEntretien = buildSpinner(layout, buildEntretienLabels(currentEntretiens));
+        ChipGroup chipCriteria = buildChipGroup(layout, new String[]{"Technique", "Communication", "Culture", "Leadership", "Autre"});
+        EditText etCriterionCustom = buildField(layout, "Critère (si Autre)");
+        TextView tvScoreValue = buildInfoField(layout, "Score: 10.0");
+        Slider sliderScore = buildScoreSlider(layout, 0f, 20f, 10f, tvScoreValue);
         EditText etWeight = buildField(layout, "Poids (optionnel)");
         EditText etReviewer = buildField(layout, "Évaluateur (optionnel)");
-        EditText etNotes = buildField(layout, "Notes (optionnel)");
+        EditText etNotes = buildNotesField(layout, "Notes (optionnel)");
+        TextView tvComputed = buildInfoField(layout, "Total pondéré: 10.00");
+        etWeight.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        wireWeightedTotal(sliderScore, etWeight, tvComputed);
 
         new AlertDialog.Builder(requireContext())
                 .setTitle("Ajouter score d’entretien")
                 .setView(layout)
                 .setPositiveButton("Ajouter", (d, w) -> {
-                    Long entretienId = parseLong(etEntretienId.getText().toString());
-                    BigDecimal score = toDecimal(etScore.getText().toString());
-                    if (entretienId == null || TextUtils.isEmpty(etCriterion.getText().toString()) || score == null) {
+                    int index = spEntretien.getSelectedItemPosition();
+                    if (index < 0 || index >= currentEntretiens.size()) {
+                        Toast.makeText(requireContext(), "Entretien invalide", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Long entretienId = currentEntretiens.get(index).getId();
+                    String criterion = getSelectedChipText(chipCriteria);
+                    if ("Autre".equalsIgnoreCase(criterion)) {
+                        criterion = etCriterionCustom.getText().toString();
+                    }
+                    BigDecimal score = BigDecimal.valueOf(sliderScore.getValue());
+                    if (entretienId == null || TextUtils.isEmpty(criterion) || score == null) {
                         Toast.makeText(requireContext(), "ID, critère et score requis", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     EntretienScoreRequest req = new EntretienScoreRequest(
-                            etCriterion.getText().toString(),
+                            criterion,
                             score,
                             toDecimal(etWeight.getText().toString()),
                             etReviewer.getText().toString(),
@@ -370,6 +404,51 @@ public class CandidatureDetailFragment extends Fragment {
         return spinner;
     }
 
+    private ChipGroup buildChipGroup(LinearLayout parent, String[] labels) {
+        ChipGroup group = new ChipGroup(requireContext());
+        group.setSingleSelection(true);
+        for (int i = 0; i < labels.length; i++) {
+            String label = labels[i];
+            Chip chip = new Chip(requireContext());
+            chip.setText(label);
+            chip.setCheckable(true);
+            if (i == 0) chip.setChecked(true);
+            group.addView(chip);
+        }
+        parent.addView(group);
+        return group;
+    }
+
+    private String getSelectedChipText(ChipGroup group) {
+        int id = group.getCheckedChipId();
+        if (id == View.NO_ID) return "";
+        Chip chip = group.findViewById(id);
+        return chip != null ? chip.getText().toString() : "";
+    }
+
+    private Slider buildScoreSlider(LinearLayout parent, float min, float max, float value, TextView label) {
+        Slider slider = new Slider(requireContext());
+        slider.setValueFrom(min);
+        slider.setValueTo(max);
+        slider.setStepSize(0.5f);
+        slider.setValue(value);
+        label.setText("Score: " + String.format("%.1f", value));
+        slider.addOnChangeListener((s, v, fromUser) -> label.setText("Score: " + String.format("%.1f", v)));
+        parent.addView(slider);
+        return slider;
+    }
+
+    private String[] buildEntretienLabels(java.util.List<Entretien> list) {
+        String[] labels = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            Entretien e = list.get(i);
+            String when = e.getScheduledAt() != null ? e.getScheduledAt() : "N/A";
+            String type = e.getType() != null ? e.getType() : "Entretien";
+            labels[i] = type + " | " + when + " | id=" + e.getId();
+        }
+        return labels;
+    }
+
     private Button buildButton(LinearLayout parent, String text) {
         Button button = new Button(requireContext());
         button.setText(text);
@@ -386,12 +465,38 @@ public class CandidatureDetailFragment extends Fragment {
         return tv;
     }
 
+    private EditText buildNotesField(LinearLayout parent, String hint) {
+        EditText field = new EditText(requireContext());
+        field.setHint(hint);
+        field.setMinLines(3);
+        field.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        parent.addView(field);
+        return field;
+    }
+
     private void addInfoRow(LinearLayout parent, String text) {
         TextView tv = new TextView(requireContext());
         tv.setText(text);
         tv.setTextColor(0xFF374151);
         tv.setPadding(0, 4, 0, 4);
         parent.addView(tv);
+    }
+
+    private void wireWeightedTotal(Slider scoreSlider, EditText weightField, TextView output) {
+        Runnable update = () -> {
+            BigDecimal score = BigDecimal.valueOf(scoreSlider.getValue());
+            BigDecimal weight = toDecimal(weightField.getText().toString());
+            if (weight == null) weight = BigDecimal.ONE;
+            BigDecimal total = score.multiply(weight);
+            output.setText("Total pondéré: " + total.setScale(2, java.math.RoundingMode.HALF_UP));
+        };
+        scoreSlider.addOnChangeListener((s, v, fromUser) -> update.run());
+        weightField.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override public void afterTextChanged(Editable s) { update.run(); }
+        });
+        update.run();
     }
 
     private BigDecimal toDecimal(String value) {

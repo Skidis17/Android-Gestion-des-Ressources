@@ -7,6 +7,7 @@ import ma.ensate.backend.dto.CandidatureRankingDto;
 import ma.ensate.backend.dto.CandidatureRecrutementDto;
 import ma.ensate.backend.dto.RecrutementDto;
 import ma.ensate.backend.dto.RecrutementPipelineDto;
+import ma.ensate.backend.dto.RecrutementStatsDto;
 import ma.ensate.backend.dto.RecrutementRequest;
 import ma.ensate.backend.mapper.CandidatureRecrutementMapper;
 import ma.ensate.backend.mapper.RecrutementMapper;
@@ -88,5 +89,10 @@ public class RecrutementController {
     @GetMapping("/{id}/rankings")
     public List<CandidatureRankingDto> rankings(@PathVariable Long id) {
         return recrutementService.rankings(id);
+    }
+
+    @GetMapping("/stats")
+    public RecrutementStatsDto stats() {
+        return recrutementService.stats();
     }
 }

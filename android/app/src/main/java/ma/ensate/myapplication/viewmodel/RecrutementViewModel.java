@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ma.ensate.myapplication.model.Recrutement;
+import ma.ensate.myapplication.model.RecrutementStats;
 import ma.ensate.myapplication.repository.RecrutementRepository;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -16,8 +17,10 @@ import retrofit2.Response;
 public class RecrutementViewModel extends ViewModel {
     private final RecrutementRepository repository = new RecrutementRepository();
     private final MutableLiveData<List<Recrutement>> recrutements = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<RecrutementStats> stats = new MutableLiveData<>();
 
     public LiveData<List<Recrutement>> getRecrutements() { return recrutements; }
+    public LiveData<RecrutementStats> getStats() { return stats; }
 
     public void loadRecrutements() {
         repository.getRecrutements().enqueue(new Callback<List<Recrutement>>() {
@@ -33,6 +36,24 @@ public class RecrutementViewModel extends ViewModel {
             @Override
             public void onFailure(Call<List<Recrutement>> call, Throwable t) {
                 recrutements.postValue(new ArrayList<>());
+            }
+        });
+    }
+
+    public void loadStats() {
+        repository.getStats().enqueue(new Callback<RecrutementStats>() {
+            @Override
+            public void onResponse(Call<RecrutementStats> call, Response<RecrutementStats> response) {
+                if (response.isSuccessful()) {
+                    stats.postValue(response.body());
+                } else {
+                    stats.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RecrutementStats> call, Throwable t) {
+                stats.postValue(null);
             }
         });
     }

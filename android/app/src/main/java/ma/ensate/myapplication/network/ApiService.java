@@ -17,6 +17,7 @@ import ma.ensate.myapplication.model.LoginResponse;
 import ma.ensate.myapplication.model.PasswordChangeRequest;
 import ma.ensate.myapplication.model.PersonnelOption;
 import ma.ensate.myapplication.model.RecrutementPipeline;
+import ma.ensate.myapplication.model.RecrutementStats;
 import ma.ensate.myapplication.model.Recrutement;
 import ma.ensate.myapplication.model.Depense;
 import ma.ensate.myapplication.model.BudgetSummary;
@@ -147,6 +148,9 @@ public interface ApiService {
 
     @GET("api/v1/recrutements/{id}/rankings")
     Call<List<CandidatureRanking>> getRecrutementRankings(@Path("id") Long id);
+
+    @GET("api/v1/recrutements/stats")
+    Call<RecrutementStats> getRecrutementStats();
 
     // Candidatures recrutement
     @GET("api/v1/candidatures-recrutement/by-recrutement/{recrutementId}")

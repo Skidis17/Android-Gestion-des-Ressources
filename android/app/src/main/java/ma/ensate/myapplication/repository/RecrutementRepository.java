@@ -4,6 +4,7 @@ import java.util.List;
 
 import ma.ensate.myapplication.model.Recrutement;
 import ma.ensate.myapplication.model.RecrutementPipeline;
+import ma.ensate.myapplication.model.RecrutementStats;
 import ma.ensate.myapplication.model.CandidatureRanking;
 import ma.ensate.myapplication.network.ApiService;
 import ma.ensate.myapplication.network.RetrofitClient;
@@ -19,4 +20,5 @@ public class RecrutementRepository {
     public Call<Recrutement> changeStatus(Long id, String statut) { return api.changeRecrutementStatus(id, statut); }
     public Call<RecrutementPipeline> getPipeline(Long id) { return api.getRecrutementPipeline(id); }
     public Call<List<CandidatureRanking>> getRankings(Long id) { return api.getRecrutementRankings(id); }
+    public Call<RecrutementStats> getStats() { return api.getRecrutementStats(); }
 }
