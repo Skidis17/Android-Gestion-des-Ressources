@@ -1,24 +1,61 @@
 package ma.ensate.myapplication.network;
 
+import ma.ensate.myapplication.AddUserBottomSheet;
+import ma.ensate.myapplication.model.AddUserRequest;
+import ma.ensate.myapplication.model.AddUserResponse;
 import ma.ensate.myapplication.model.Besoin;
 import ma.ensate.myapplication.model.Commande;
+import ma.ensate.myapplication.model.LoginRequest;
+import ma.ensate.myapplication.model.LoginResponse;
+import ma.ensate.myapplication.model.PasswordChangeRequest;
+import ma.ensate.myapplication.model.PersonnelOption;
 import ma.ensate.myapplication.model.Recrutement;
 import ma.ensate.myapplication.model.Depense;
+import ma.ensate.myapplication.model.BudgetSummary;
 import ma.ensate.myapplication.model.CandidatureRecrutement;
 import ma.ensate.myapplication.model.Demande;
 import ma.ensate.myapplication.model.UploadResponse;
+import ma.ensate.myapplication.model.UserItem;
 import retrofit2.Call;
 import retrofit2.http.*;
 import okhttp3.MultipartBody;
 
 import java.util.List;
+import java.util.Map;
+import ma.ensate.myapplication.model.Recette;
 
 public interface ApiService {
+
+    // Auth
+    @POST("auth/login")
+    Call<LoginResponse> login(@Body LoginRequest request);
+
+    //change password
+    @PUT("auth/{id}/change-password")
+    Call<String> changePassword(
+            @Path("id") Long id,
+            @Body PasswordChangeRequest request
+    );
+//update profile
+    @PUT("users/{id}/profile")
+    Call<String> updateProfile(@Path("id") Long id, @Body ma.ensate.myapplication.model.UpdateProfileRequest request);
+
+    // ✅ Personnels
+
+    @GET("users/all")
+    Call<List<UserItem>> getUsers(@Header("Authorization") String auth);
+
+    @GET("api/personnels")
+    Call<List<PersonnelOption>> getAllPersonnels(@Header("Authorization") String auth);
+
+    @POST("users/addUser")
+    Call<AddUserResponse> addUser(@Header("Authorization") String auth, @Body AddUserRequest req);
+
+
 
     // Besoins
     @GET("api/v1/besoins")
     Call<List<Besoin>> getBesoins();
-
     @GET("api/v1/besoins/{id}")
     Call<Besoin> getBesoin(@Path("id") Long id);
 
@@ -29,7 +66,8 @@ public interface ApiService {
     Call<Besoin> updateBesoin(@Path("id") Long id, @Body Besoin besoin);
 
     @POST("api/v1/besoins/{id}/status")
-    Call<Besoin> changeBesoinStatus(@Path("id") Long id, @Query("statut") String statut, @Query("traitePar") Long traitePar, @Query("commentaire") String commentaire);
+    Call<Besoin> changeBesoinStatus(@Path("id") Long id, @Query("statut") String statut,
+            @Query("traitePar") Long traitePar, @Query("commentaire") String commentaire);
 
     @DELETE("api/v1/besoins/{id}")
     Call<Void> deleteBesoin(@Path("id") Long id);
@@ -66,6 +104,20 @@ public interface ApiService {
     @GET("api/v1/commandes/by-besoin/{besoinId}")
     Call<List<Commande>> getCommandesByBesoin(@Path("besoinId") Long besoinId);
 
+    // Recettes
+    @GET("api/v1/recettes")
+    Call<List<Recette>> getRecettes();
+
+    @POST("api/v1/recettes")
+    Call<Recette> createRecette(@Body Recette recette);
+
+    @PUT("api/v1/recettes/{id}")
+    Call<Recette> updateRecette(@Path("id") Long id, @Body Recette recette);
+
+    // Budget summary
+    @GET("api/v1/budget/summary")
+    Call<BudgetSummary> getBudgetSummary();
+
     // Recrutements
     @GET("api/v1/recrutements")
     Call<List<Recrutement>> getRecrutements();
@@ -94,12 +146,12 @@ public interface ApiService {
 
     @POST("api/v1/candidatures-recrutement/{id}/status")
     Call<CandidatureRecrutement> updateCandidatureStatus(@Path("id") Long id,
-                                                         @Query("statut") String statut,
-                                                         @Query("sendEmail") boolean sendEmail);
+            @Query("statut") String statut,
+            @Query("sendEmail") boolean sendEmail);
 
     @POST("api/v1/recrutements/{id}/select")
     Call<List<CandidatureRecrutement>> selectAcceptedCandidates(@Path("id") Long recrutementId,
-                                                                 @Query("sendEmail") boolean sendEmail);
+            @Query("sendEmail") boolean sendEmail);
 
     @Multipart
     @POST("api/v1/uploads")

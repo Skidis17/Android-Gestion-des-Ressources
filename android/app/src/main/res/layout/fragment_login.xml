@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:text="Connexion"
             android:textColor="#1A1A1A"
+            android:layout_marginTop="12dp"
             android:textSize="32sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
@@ -62,7 +63,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_mail"
-                    android:tint="#9CA3AF" />
+                    app:tint="#9CA3AF" />
 
                 <EditText
                     android:id="@+id/etEmail"
@@ -105,7 +106,7 @@
                     android:layout_height="20dp"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_lock"
-                    android:tint="#9CA3AF" />
+                    app:tint="#9CA3AF" />
 
                 <EditText
                     android:id="@+id/etPassword"
@@ -130,7 +131,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_eye"
-                    android:tint="#9CA3AF"
+                    app:tint="#9CA3AF"
                     android:contentDescription="Afficher/Masquer mot de passe" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -141,7 +142,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:text="Mot de passe oublié ?"
+            android:text=""
             android:textColor="#3B82F6"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/cardPassword"
@@ -177,7 +178,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
-            android:text="Vous n'avez pas de compte ? S'inscrire"
+            android:text=""
             android:textColor="#6B7280"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/cardLogin"

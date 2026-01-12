@@ -31,4 +31,33 @@ public class EmailService {
                 "Cordialement.");
         mailSender.send(msg);
     }
+
+
+    private void ensureFromConfigured() {
+        if (from == null || from.isBlank()) {
+            throw new IllegalStateException("Email sender not configured (app.mail.from)");
+        }
+    }
+
+    // ✅ NEW: email d’invitation
+    public void sendUserInvitationEmail(String toEmail, String username, String email, String rawPassword) {
+        ensureFromConfigured();
+
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom(from);
+        msg.setTo(toEmail);
+        msg.setSubject("Invitation - Création de votre compte");
+        msg.setText(
+                "Bonjour " + (username != null ? username : "") + ",\n\n" +
+                        "Votre compte a été créé.\n\n" +
+                        "Identifiants:\n" +
+                        "Email: " + email + "\n" +
+                        "Mot de passe: " + rawPassword + "\n\n" +
+                        "Merci de changer votre mot de passe après votre première connexion.\n\n" +
+                        "Cordialement."
+        );
+
+        mailSender.send(msg);
+    }
+
 }

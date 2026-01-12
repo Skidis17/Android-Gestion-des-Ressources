@@ -2,7 +2,6 @@ package ma.ensate.myapplication;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -22,22 +21,25 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button btnGoLogin = view.findViewById(R.id.btnGoLogin);
         ImageView btnMenu = view.findViewById(R.id.btn_menu);
 
-        btnGoLogin.setOnClickListener(v -> {
-            NavController navController = Navigation.findNavController(view);
-            navController.navigate(R.id.loginFragment);
-        });
-
-        // Open drawer when hamburger menu is clicked
-        btnMenu.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                DrawerLayout drawerLayout = getActivity().findViewById(R.id.drawer_layout);
-                if (drawerLayout != null) {
-                    drawerLayout.open();
+        if (btnMenu != null) {
+            btnMenu.setOnClickListener(v -> {
+                if (getActivity() != null) {
+                    DrawerLayout drawerLayout = getActivity().findViewById(R.id.drawer_layout);
+                    if (drawerLayout != null) drawerLayout.open();
                 }
-            }
-        });
+            });
+        }
+
+        // Navigate to Budget screen when budget card is clicked
+        View cardBudget = view.findViewById(R.id.card_budget);
+        if (cardBudget != null) {
+            cardBudget.setOnClickListener(v -> {
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.budgetFragment);
+
+            });
+        }
     }
 }

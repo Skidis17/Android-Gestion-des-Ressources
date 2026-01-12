@@ -80,7 +80,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_search"
-                        android:tint="#9CA3AF" />
+                        app:tint="#9CA3AF" />
 
                     <EditText
                         android:layout_width="match_parent"
@@ -109,7 +109,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_filter"
-                    android:tint="#1A1A1A" />
+                    app:tint="#1A1A1A" />
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
@@ -202,7 +202,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    android:tint="#9CA3AF" />
+                    app:tint="#9CA3AF" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -293,7 +293,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    android:tint="#9CA3AF" />
+                    app:tint="#9CA3AF" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -384,7 +384,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    android:tint="#9CA3AF" />
+                    app:tint="#9CA3AF" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -475,7 +475,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    android:tint="#9CA3AF" />
+                    app:tint="#9CA3AF" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -566,7 +566,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    android:tint="#9CA3AF" />
+                    app:tint="#9CA3AF" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -657,7 +657,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right"
-                    android:tint="#9CA3AF" />
+                    app:tint="#9CA3AF" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 

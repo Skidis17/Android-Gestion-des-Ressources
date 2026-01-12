@@ -5,19 +5,17 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.util.concurrent.TimeUnit;
 
 public class RetrofitClient {
-    private static final String DEFAULT_BASE_URL = BuildConfig.BASE_URL; // set in build.gradle via buildConfigField
+
     private static Retrofit retrofit;
 
     public static Retrofit getClient() {
-        return getClient(DEFAULT_BASE_URL);
-    }
+        if (retrofit == null) {
 
-    public static Retrofit getClient(String baseUrl) {
-        if (retrofit == null || !retrofit.baseUrl().toString().equals(baseUrl)) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -28,8 +26,10 @@ public class RetrofitClient {
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(baseUrl)
+                    .baseUrl(BuildConfig.BASE_URL)
                     .client(client)
+                    // ✅ ORDRE CRITIQUE
+                    .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
@@ -40,3 +40,4 @@ public class RetrofitClient {
         return getClient().create(ApiService.class);
     }
 }
+
