@@ -1,5 +1,7 @@
 package ma.ensate.myapplication.network;
 
+import java.util.Map;
+
 import ma.ensate.myapplication.model.AddUserRequest;
 import ma.ensate.myapplication.model.AddUserResponse;
 import ma.ensate.myapplication.model.Besoin;
@@ -215,4 +217,17 @@ public interface ApiService {
 
     @POST("api/v1/demandes/{id}/status")
     Call<Demande> updateDemandeStatus(@Path("id") Long id, @Query("statut") String statut);
+
+    // Notifications
+    @GET("api/v1/notifications")
+    Call<List<ma.ensate.myapplication.model.Notification>> getNotifications();
+
+    @GET("api/v1/notifications/unread-count")
+    Call<Map<String, Long>> getUnreadCount();
+
+    @PUT("api/v1/notifications/{id}/read")
+    Call<ma.ensate.myapplication.model.Notification> markNotificationAsRead(@Path("id") Long id);
+
+    @PUT("api/v1/notifications/mark-all-read")
+    Call<Void> markAllNotificationsAsRead();
 }
