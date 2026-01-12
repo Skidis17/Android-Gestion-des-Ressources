@@ -1,18 +1,29 @@
 package ma.ensate.myapplication.network;
 
-import ma.ensate.myapplication.AddUserBottomSheet;
 import ma.ensate.myapplication.model.AddUserRequest;
 import ma.ensate.myapplication.model.AddUserResponse;
 import ma.ensate.myapplication.model.Besoin;
 import ma.ensate.myapplication.model.Commande;
+import ma.ensate.myapplication.model.CandidatureRanking;
+import ma.ensate.myapplication.model.CandidatureScore;
+import ma.ensate.myapplication.model.CandidatureScoreRequest;
+import ma.ensate.myapplication.model.CandidatureStatusHistory;
+import ma.ensate.myapplication.model.Entretien;
+import ma.ensate.myapplication.model.EntretienRequest;
+import ma.ensate.myapplication.model.EntretienScore;
+import ma.ensate.myapplication.model.EntretienScoreRequest;
 import ma.ensate.myapplication.model.LoginRequest;
 import ma.ensate.myapplication.model.LoginResponse;
 import ma.ensate.myapplication.model.PasswordChangeRequest;
 import ma.ensate.myapplication.model.PersonnelOption;
+import ma.ensate.myapplication.model.RecrutementPipeline;
+import ma.ensate.myapplication.model.RecrutementStats;
 import ma.ensate.myapplication.model.Recrutement;
 import ma.ensate.myapplication.model.Depense;
 import ma.ensate.myapplication.model.BudgetSummary;
 import ma.ensate.myapplication.model.CandidatureRecrutement;
+import ma.ensate.myapplication.model.StatusChangeRequest;
+import ma.ensate.myapplication.model.Demande;
 import ma.ensate.myapplication.model.UploadResponse;
 import ma.ensate.myapplication.model.UserInfoDto;
 import ma.ensate.myapplication.model.UserItem;
@@ -137,6 +148,15 @@ public interface ApiService {
     @POST("api/v1/recrutements/{id}/status")
     Call<Recrutement> changeRecrutementStatus(@Path("id") Long id, @Query("statut") String statut);
 
+    @GET("api/v1/recrutements/{id}/pipeline")
+    Call<RecrutementPipeline> getRecrutementPipeline(@Path("id") Long id);
+
+    @GET("api/v1/recrutements/{id}/rankings")
+    Call<List<CandidatureRanking>> getRecrutementRankings(@Path("id") Long id);
+
+    @GET("api/v1/recrutements/stats")
+    Call<RecrutementStats> getRecrutementStats();
+
     // Candidatures recrutement
     @GET("api/v1/candidatures-recrutement/by-recrutement/{recrutementId}")
     Call<List<CandidatureRecrutement>> getCandidaturesByRecrutement(@Path("recrutementId") Long recrutementId);
@@ -152,6 +172,33 @@ public interface ApiService {
             @Query("statut") String statut,
             @Query("sendEmail") boolean sendEmail);
 
+    @POST("api/v1/candidatures-recrutement/{id}/status-detail")
+    Call<CandidatureRecrutement> updateCandidatureStatusDetail(@Path("id") Long id,
+            @Body StatusChangeRequest request);
+
+    @GET("api/v1/candidatures-recrutement/{id}/history")
+    Call<List<CandidatureStatusHistory>> getCandidatureHistory(@Path("id") Long id);
+
+    @GET("api/v1/candidatures-recrutement/{id}/scores")
+    Call<List<CandidatureScore>> getCandidatureScores(@Path("id") Long id);
+
+    @POST("api/v1/candidatures-recrutement/{id}/scores")
+    Call<CandidatureScore> addCandidatureScore(@Path("id") Long id,
+            @Body CandidatureScoreRequest request);
+
+    @GET("api/v1/candidatures-recrutement/{id}/entretiens")
+    Call<List<Entretien>> getEntretiens(@Path("id") Long id);
+
+    @POST("api/v1/candidatures-recrutement/{id}/entretiens")
+    Call<Entretien> createEntretien(@Path("id") Long id, @Body EntretienRequest request);
+
+    @GET("api/v1/candidatures-recrutement/entretiens/{entretienId}/scores")
+    Call<List<EntretienScore>> getEntretienScores(@Path("entretienId") Long entretienId);
+
+    @POST("api/v1/candidatures-recrutement/entretiens/{entretienId}/scores")
+    Call<EntretienScore> addEntretienScore(@Path("entretienId") Long entretienId,
+            @Body EntretienScoreRequest request);
+
     @POST("api/v1/recrutements/{id}/select")
     Call<List<CandidatureRecrutement>> selectAcceptedCandidates(@Path("id") Long recrutementId,
             @Query("sendEmail") boolean sendEmail);
@@ -159,4 +206,17 @@ public interface ApiService {
     @Multipart
     @POST("api/v1/uploads")
     Call<UploadResponse> uploadFile(@Part MultipartBody.Part file);
+
+    // Demandes
+    @GET("api/v1/demandes")
+    Call<List<Demande>> getDemandes(@Query("statut") String statut);
+
+    @GET("api/v1/demandes/{id}")
+    Call<Demande> getDemande(@Path("id") Long id);
+
+    @POST("api/v1/demandes")
+    Call<Demande> createDemande(@Body Demande demande);
+
+    @POST("api/v1/demandes/{id}/status")
+    Call<Demande> updateDemandeStatus(@Path("id") Long id, @Query("statut") String statut);
 }
