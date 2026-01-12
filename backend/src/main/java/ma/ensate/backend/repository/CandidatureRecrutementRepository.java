@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface CandidatureRecrutementRepository extends JpaRepository<CandidatureRecrutement, Long> {
     List<CandidatureRecrutement> findByRecrutementId(Long recrutementId);
+    boolean existsByRecrutementIdAndEmail(Long recrutementId, String email);
 }
