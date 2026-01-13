@@ -44,8 +44,11 @@ public class DemandeController {
     }
 
     @PostMapping("/{id}/status")
-    public ResponseEntity<DemandeDto> updateStatus(@PathVariable Long id, @RequestParam String statut) {
-        Demande updated = demandeService.updateStatus(id, DemandeStatut.valueOf(statut));
+    public ResponseEntity<DemandeDto> updateStatus(
+            @PathVariable Long id, 
+            @RequestParam String statut,
+            @RequestParam(defaultValue = "true") boolean sendEmail) {
+        Demande updated = demandeService.updateStatus(id, DemandeStatut.valueOf(statut), sendEmail);
         return ResponseEntity.ok(DemandeMapper.toDto(updated));
     }
 }

@@ -78,4 +78,48 @@ public class EmailService {
         mailSender.send(msg);
     }
 
+    public void sendDemandeStatusChangeEmail(ma.ensate.backend.domain.Demande demande, String personnelName, String personnelEmail) {
+        ensureFromConfigured();
+        if (personnelEmail == null || personnelEmail.isBlank()) {
+            return; // No email to send to
+        }
+        
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom(from);
+        msg.setTo(personnelEmail);
+        
+        String statutText = "";
+        String statutSubject = "";
+        switch (demande.getStatut()) {
+            case ACCEPTEE:
+                statutText = "acceptée";
+                statutSubject = "Demande acceptée";
+                break;
+            case REFUSEE:
+                statutText = "refusée";
+                statutSubject = "Demande refusée";
+                break;
+            case EN_ATTENTE:
+                statutText = "remise en attente";
+                statutSubject = "Demande en attente";
+                break;
+        }
+        
+        msg.setSubject(statutSubject + " - " + demande.getType().name());
+        
+        String greeting = personnelName != null && !personnelName.isBlank() 
+            ? "Bonjour " + personnelName 
+            : "Bonjour";
+        
+        msg.setText(greeting + ",\n\n" +
+                "Votre demande de " + demande.getType().name().toLowerCase() + 
+                " du " + demande.getDateDebut() + " au " + demande.getDateFin() + 
+                " a été " + statutText + ".\n\n" +
+                "Motif: " + (demande.getMotif() != null ? demande.getMotif() : "Non spécifié") + "\n\n" +
+                "Cordialement,\n" +
+                "Service des Ressources Humaines");
+        
+        mailSender.send(msg);
+    }
+
 }
