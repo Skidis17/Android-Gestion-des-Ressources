@@ -3,6 +3,7 @@ package ma.ensate.myapplication.ui;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,13 +22,28 @@ public class RecetteAdapter extends RecyclerView.Adapter<RecetteAdapter.VH> {
     private final List<Recette> itemsFiltered = new ArrayList<>();
     private DecimalFormat df = new DecimalFormat("#,###.00");
     private OnRecetteClickListener clickListener;
+    private OnRecetteDeleteListener deleteListener;
+    private boolean isDirecteur = false;
 
     public interface OnRecetteClickListener {
         void onRecetteClick(Recette recette);
     }
 
+    public interface OnRecetteDeleteListener {
+        void onRecetteDelete(Recette recette);
+    }
+
     public void setOnRecetteClickListener(OnRecetteClickListener listener) {
         this.clickListener = listener;
+    }
+
+    public void setOnRecetteDeleteListener(OnRecetteDeleteListener listener) {
+        this.deleteListener = listener;
+    }
+
+    public void setDirecteur(boolean isDirecteur) {
+        this.isDirecteur = isDirecteur;
+        notifyDataSetChanged();
     }
 
     public void setItems(List<Recette> list, DecimalFormat df) {
@@ -74,6 +90,19 @@ public class RecetteAdapter extends RecyclerView.Adapter<RecetteAdapter.VH> {
         holder.tvMontant.setText(r.montant != null ? df.format(r.montant) + " DH" : "—");
         String meta = (r.date != null ? r.date : "—") + "    " + (r.reference != null ? r.reference : "");
         holder.tvMeta.setText(meta);
+
+        // Show delete button only for directeur
+        if (isDirecteur) {
+            holder.ivDelete.setVisibility(View.VISIBLE);
+            holder.ivDelete.setOnClickListener(v -> {
+                if (deleteListener != null) {
+                    deleteListener.onRecetteDelete(r);
+                }
+            });
+        } else {
+            holder.ivDelete.setVisibility(View.GONE);
+        }
+
         holder.itemView.setOnClickListener(v -> {
             if (clickListener != null) {
                 clickListener.onRecetteClick(r);
@@ -88,12 +117,14 @@ public class RecetteAdapter extends RecyclerView.Adapter<RecetteAdapter.VH> {
 
     static class VH extends RecyclerView.ViewHolder {
         TextView tvSource, tvMontant, tvMeta;
+        ImageView ivDelete;
 
         public VH(@NonNull View itemView) {
             super(itemView);
             tvSource = itemView.findViewById(R.id.tvRecetteSource);
             tvMontant = itemView.findViewById(R.id.tvRecetteMontant);
             tvMeta = itemView.findViewById(R.id.tvRecetteMeta);
+            ivDelete = itemView.findViewById(R.id.ivDeleteRecette);
         }
     }
 }

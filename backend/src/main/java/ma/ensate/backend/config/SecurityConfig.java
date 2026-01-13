@@ -37,8 +37,7 @@ public class SecurityConfig {
 
                 // ⚠️ IMPORTANT: Configuration de session stateless
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
                         // Endpoints publics (pas besoin d'authentification)
@@ -48,6 +47,17 @@ public class SecurityConfig {
                         .requestMatchers("/api/personnels/**").permitAll()
                         .requestMatchers("/api/v1/recrutements/**", "/api/v1/candidatures-recrutement/**")
                         .hasAnyRole("RH", "recruteur", "admin")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/recettes/**")
+                        .hasRole("directeur")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/budget/total")
+                        .hasRole("directeur")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/recettes/**")
+                        .hasAnyRole("directeur", "secretaire_general")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/recettes/**")
+                        .hasAnyRole("directeur", "secretaire_general")
+                        .requestMatchers("/api/v1/budget/**", "/api/v1/recettes/**", "/api/v1/depenses/**",
+                                "/api/v1/commandes/**")
+                        .hasAnyRole("directeur", "Directeur_adjoint", "secretaire_general")
                         .requestMatchers("/api/v1/demandes/**").hasRole("RH")
                         .requestMatchers("/api/users/**").hasAuthority("admin")
                         .requestMatchers(HttpMethod.POST, "/users/{id}/profile").permitAll()
@@ -57,8 +67,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/**").authenticated()
 
                         // Le reste est public par défaut
-                        .anyRequest().permitAll()
-                )
+                        .anyRequest().permitAll())
 
                 // ⚠️ CRITIQUE: Ajouter le filtre JWT AVANT UsernamePasswordAuthenticationFilter
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -75,14 +84,13 @@ public class SecurityConfig {
                 "http://localhost:8081",
                 "http://127.0.0.1:8081",
                 "http://localhost:1880",
-                "http://localhost"           // we are working with caddy 
+                "http://localhost" // we are working with caddy
         ));
 
         config.setAllowedOriginPatterns(List.of("*"));
 
         config.setAllowedMethods(List.of(
-                "GET", "POST", "PUT", "DELETE", "OPTIONS"
-        ));
+                "GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

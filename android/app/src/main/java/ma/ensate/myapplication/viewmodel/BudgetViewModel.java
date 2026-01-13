@@ -15,8 +15,13 @@ public class BudgetViewModel extends ViewModel {
     private final MutableLiveData<BudgetSummary> budget = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>(false);
 
-    public LiveData<BudgetSummary> getBudget() { return budget; }
-    public LiveData<Boolean> getLoading() { return loading; }
+    public LiveData<BudgetSummary> getBudget() {
+        return budget;
+    }
+
+    public LiveData<Boolean> getLoading() {
+        return loading;
+    }
 
     public void loadBudget() {
         loading.postValue(true);
@@ -35,6 +40,34 @@ public class BudgetViewModel extends ViewModel {
             public void onFailure(Call<BudgetSummary> call, Throwable t) {
                 loading.postValue(false);
                 budget.postValue(null);
+            }
+        });
+    }
+
+    public interface UpdateCallback {
+        void onSuccess();
+
+        void onError(Throwable t);
+    }
+
+    public void updateBudgetTotal(Double newTotal, UpdateCallback callback) {
+        loading.postValue(true);
+        repository.updateBudgetTotal(newTotal).enqueue(new Callback<BudgetSummary>() {
+            @Override
+            public void onResponse(Call<BudgetSummary> call, Response<BudgetSummary> response) {
+                loading.postValue(false);
+                if (response.isSuccessful() && response.body() != null) {
+                    budget.postValue(response.body());
+                    callback.onSuccess();
+                } else {
+                    callback.onError(new Exception("Update failed: " + response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BudgetSummary> call, Throwable t) {
+                loading.postValue(false);
+                callback.onError(t);
             }
         });
     }

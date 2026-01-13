@@ -12,4 +12,6 @@ public interface RecetteService {
     Recette create(Recette recette);
 
     Recette update(Long id, Recette recette);
+
+    void delete(Long id);
 }

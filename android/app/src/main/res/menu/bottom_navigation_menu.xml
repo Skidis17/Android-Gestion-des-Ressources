@@ -21,10 +21,6 @@
         android:icon="@drawable/ic_recrutement"
         android:title="@string/nav_recrutement" />
 
-    <item
-        android:id="@+id/notificationsFragment"
-        android:icon="@drawable/ic_notifications"
-        android:title="Alertes" />
 
 
     <item

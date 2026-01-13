@@ -64,8 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 // si tu as vraiment ces fragments dans ton graph, tu peux les garder:
                 R.id.recettesFragment,
                 R.id.budgetFragment,
-                R.id.loginFragment
-        ).setOpenableLayout(drawerLayout).build();
+                R.id.loginFragment).setOpenableLayout(drawerLayout).build();
 
         // Drawer ↔ NavController
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -163,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
     public void navigateAfterLogin(String role) {
         currentRole = role;
         applyBottomMenuForRole(role);
+        applyDrawerMenuForRole(role);
 
         int destId;
         if ("admin".equalsIgnoreCase(role)) {
@@ -180,6 +180,20 @@ public class MainActivity extends AppCompatActivity {
 
         navController.navigate(destId, null, options);
         updateUiForDestination(destId);
+    }
+
+    private void applyDrawerMenuForRole(String role) {
+        if (navigationView == null)
+            return;
+
+        boolean canAccessBudget = "directeur".equalsIgnoreCase(role) ||
+                "Directeur_adjoint".equalsIgnoreCase(role) ||
+                "secretaire_general".equalsIgnoreCase(role);
+
+        navigationView.getMenu().findItem(R.id.budgetFragment).setVisible(canAccessBudget);
+        navigationView.getMenu().findItem(R.id.recettesFragment).setVisible(canAccessBudget);
+        navigationView.getMenu().findItem(R.id.depensesFragment).setVisible(canAccessBudget);
+        navigationView.getMenu().findItem(R.id.commandesFragment).setVisible(canAccessBudget);
     }
 
     public void openProfile() {

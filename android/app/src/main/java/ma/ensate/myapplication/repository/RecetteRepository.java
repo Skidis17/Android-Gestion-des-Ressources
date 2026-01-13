@@ -25,4 +25,8 @@ public class RecetteRepository {
     public Call<Recette> updateRecette(Long id, Recette r) {
         return api.updateRecette(id, r);
     }
+
+    public Call<Void> deleteRecette(Long id) {
+        return api.deleteRecette(id);
+    }
 }

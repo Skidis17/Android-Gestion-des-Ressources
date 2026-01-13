@@ -40,4 +40,10 @@ public class RecetteController {
         Recette updated = recetteService.update(id, RecetteMapper.toEntity(request));
         return ResponseEntity.ok(RecetteMapper.toDto(updated));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        recetteService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

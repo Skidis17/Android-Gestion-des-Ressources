@@ -20,54 +20,69 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BudgetServiceImpl implements BudgetService {
 
-    private final BudgetRepository budgetRepository;
-    private final RecetteRepository recetteRepository;
-    private final DepenseRepository depenseRepository;
+        private final BudgetRepository budgetRepository;
+        private final RecetteRepository recetteRepository;
+        private final DepenseRepository depenseRepository;
 
-    @Override
-    public BudgetSummaryDto getBudgetSummary() {
-        // Get current year's budget or use default
-        int currentYear = Year.now().getValue();
-        Budget budget = budgetRepository.findByAnnee(currentYear)
-                .orElse(Budget.builder()
-                        .annee(currentYear)
-                        .montantTotal(BigDecimal.ZERO)
-                        .build());
+        @Override
+        public BudgetSummaryDto getBudgetSummary() {
+                // Get current year's budget or use default
+                int currentYear = Year.now().getValue();
+                Budget budget = budgetRepository.findByAnnee(currentYear)
+                                .orElse(Budget.builder()
+                                                .annee(currentYear)
+                                                .montantTotal(BigDecimal.ZERO)
+                                                .build());
 
-        // Calculate total recettes
-        List<Recette> recettes = recetteRepository.findAll();
-        BigDecimal totalRecettes = recettes.stream()
-                .map(Recette::getMontant)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                // Calculate total recettes
+                List<Recette> recettes = recetteRepository.findAll();
+                BigDecimal totalRecettes = recettes.stream()
+                                .map(Recette::getMontant)
+                                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // Calculate total depenses
-        List<Depense> depenses = depenseRepository.findAll();
-        BigDecimal totalDepenses = depenses.stream()
-                .map(Depense::getMontant)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                // Calculate total depenses
+                List<Depense> depenses = depenseRepository.findAll();
+                BigDecimal totalDepenses = depenses.stream()
+                                .map(Depense::getMontant)
+                                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // Calculate montant disponible = montant_total + total_recettes -
-        // total_depenses
-        BigDecimal montantTotal = budget.getMontantTotal() != null ? budget.getMontantTotal() : BigDecimal.ZERO;
-        BigDecimal montantDisponible = montantTotal.add(totalRecettes).subtract(totalDepenses);
+                // Calculate montant disponible = montant_total + total_recettes -
+                // total_depenses
+                BigDecimal montantTotal = budget.getMontantTotal() != null ? budget.getMontantTotal() : BigDecimal.ZERO;
+                BigDecimal montantDisponible = montantTotal.add(totalRecettes).subtract(totalDepenses);
 
-        // Calculate percentage used = (total_depenses / (montant_total +
-        // total_recettes)) * 100
-        BigDecimal totalBudget = montantTotal.add(totalRecettes);
-        double pourcentageUtilise = 0.0;
-        if (totalBudget.compareTo(BigDecimal.ZERO) > 0) {
-            pourcentageUtilise = totalDepenses
-                    .multiply(BigDecimal.valueOf(100))
-                    .divide(totalBudget, 2, RoundingMode.HALF_UP)
-                    .doubleValue();
+                // Calculate percentage used = (total_depenses / (montant_total +
+                // total_recettes)) * 100
+                BigDecimal totalBudget = montantTotal.add(totalRecettes);
+                double pourcentageUtilise = 0.0;
+                if (totalBudget.compareTo(BigDecimal.ZERO) > 0) {
+                        pourcentageUtilise = totalDepenses
+                                        .multiply(BigDecimal.valueOf(100))
+                                        .divide(totalBudget, 2, RoundingMode.HALF_UP)
+                                        .doubleValue();
+                }
+
+                return BudgetSummaryDto.builder()
+                                .montantTotal(montantTotal)
+                                .totalRecettes(totalRecettes)
+                                .totalDepenses(totalDepenses)
+                                .montantDisponible(montantDisponible)
+                                .pourcentageUtilise(pourcentageUtilise)
+                                .build();
         }
 
-        return BudgetSummaryDto.builder()
-                .montantTotal(montantTotal)
-                .totalRecettes(totalRecettes)
-                .totalDepenses(totalDepenses)
-                .montantDisponible(montantDisponible)
-                .pourcentageUtilise(pourcentageUtilise)
-                .build();
-    }
+        @Override
+        public BudgetSummaryDto updateBudgetTotal(BigDecimal newTotal) {
+                int currentYear = Year.now().getValue();
+                Budget budget = budgetRepository.findByAnnee(currentYear)
+                                .orElse(Budget.builder()
+                                                .annee(currentYear)
+                                                .montantTotal(BigDecimal.ZERO)
+                                                .build());
+
+                budget.setMontantTotal(newTotal);
+                budgetRepository.save(budget);
+
+                return getBudgetSummary();
+        }
 }

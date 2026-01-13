@@ -18,6 +18,7 @@ import java.util.Locale;
 
 import ma.ensate.myapplication.R;
 import ma.ensate.myapplication.model.Recette;
+import ma.ensate.myapplication.network.TokenManager;
 
 public class RecetteDetailFragment extends Fragment {
 
@@ -47,6 +48,15 @@ public class RecetteDetailFragment extends Fragment {
             if (recette != null) {
                 displayRecetteDetails();
             }
+        }
+
+        // Check if user can edit
+        TokenManager tokenManager = new TokenManager(requireContext());
+        String role = tokenManager.getRole();
+        boolean canEdit = "directeur".equalsIgnoreCase(role) || "secretaire_general".equalsIgnoreCase(role);
+
+        if (!canEdit) {
+            btnEditRecette.setVisibility(View.GONE);
         }
 
         // Edit button click

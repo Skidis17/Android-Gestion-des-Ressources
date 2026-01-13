@@ -197,7 +197,21 @@ INSERT INTO personnel (cin, nom, prenom, email, telephone, type_personnel, grade
 VALUES
 ('AB123456', 'Admin', 'RH', 'admin.rh@ensa.ma', '0612345678', 'ADMINISTRATIF', 'Responsable', 'RH', 'ACTIF'),
 ('CD789012', 'Admin', 'ECO', 'admin.eco@ensa.ma', '0612345679', 'ADMINISTRATIF', 'Responsable', 'Économique', 'ACTIF'),
-('EF345678', 'Alaoui', 'Ahmed', 'ahmed.alaoui@ensa.ma', '0612345680', 'ENSEIGNANT', 'Professeur', 'GI', 'ACTIF');
+('EF345678', 'Alaoui', 'Ahmed', 'ahmed.alaoui@ensa.ma', '0612345680', 'ENSEIGNANT', 'Professeur', 'GI', 'ACTIF'),
+('GH901234', 'Benali', 'Fatima', 'fatima.benali@ensa.ma', '0612345681', 'ENSEIGNANT', 'Professeur', 'GE', 'ACTIF'),
+('IJ567890', 'Tazi', 'Youssef', 'youssef.tazi@ensa.ma', '0612345682', 'ENSEIGNANT', 'Maître de Conférences', 'GM', 'ACTIF'),
+('KL234567', 'Mansouri', 'Khadija', 'khadija.mansouri@ensa.ma', '0612345683', 'ADMINISTRATIF', 'Secrétaire', 'Administration', 'ACTIF'),
+('MN890123', 'Chakir', 'Mohamed', 'mohamed.chakir@ensa.ma', '0612345684', 'TECHNIQUE', 'Technicien', 'Informatique', 'ACTIF'),
+('OP456789', 'Zahraoui', 'Samira', 'samira.zahraoui@ensa.ma', '0612345685', 'ENSEIGNANT', 'Professeur Assistant', 'GI', 'ACTIF'),
+('QR012345', 'Idrissi', 'Hassan', 'hassan.idrissi@ensa.ma', '0612345686', 'ADMINISTRATIF', 'Comptable', 'Finance', 'ACTIF'),
+('ST678901', 'Amrani', 'Laila', 'laila.amrani@ensa.ma', '0612345687', 'ENSEIGNANT', 'Professeur', 'GC', 'ACTIF'),
+('UV234567', 'Bennani', 'Omar', 'omar.bennani@ensa.ma', '0612345688', 'TECHNIQUE', 'Technicien Supérieur', 'Laboratoire', 'ACTIF'),
+('WX890123', 'Fassi', 'Salma', 'salma.fassi@ensa.ma', '0612345689', 'ADMINISTRATIF', 'Assistant RH', 'RH', 'ACTIF'),
+('YZ456789', 'Rami', 'Karim', 'karim.rami@ensa.ma', '0612345690', 'ENSEIGNANT', 'Maître de Conférences', 'GE', 'ACTIF'),
+('AA012345', 'Sefiani', 'Nadia', 'nadia.sefiani@ensa.ma', '0612345691', 'ADMINISTRATIF', 'Responsable Scolarité', 'Scolarité', 'ACTIF'),
+('BB678901', 'Ouazzani', 'Rachid', 'rachid.ouazzani@ensa.ma', '0612345692', 'TECHNIQUE', 'Chef Atelier', 'Maintenance', 'ACTIF'),
+('CC234567', 'Berrada', 'Zineb', 'zineb.berrada@ensa.ma', '0612345693', 'ENSEIGNANT', 'Professeur', 'GM', 'ACTIF'),
+('DD890123', 'Lahlou', 'Mehdi', 'mehdi.lahlou@ensa.ma', '0612345694', 'ADMINISTRATIF', 'Gestionnaire', 'Logistique', 'ACTIF');
 
 INSERT INTO utilisateurs (personnel_id, username, password_hash, role, is_active)
 VALUES

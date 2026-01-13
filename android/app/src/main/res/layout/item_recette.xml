@@ -9,38 +9,56 @@
     app:strokeColor="#E5E7EB"
     app:strokeWidth="1dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:padding="12dp">
 
-        <TextView
-            android:id="@+id/tvRecetteSource"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Formation Continue"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="#1A1A1A" />
+            android:layout_toStartOf="@id/ivDeleteRecette"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvRecetteMontant"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="15,000.00 DH"
-            android:textSize="14sp"
-            android:textColor="#1A1A1A"
-            android:layout_marginTop="4dp" />
+            <TextView
+                android:id="@+id/tvRecetteSource"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Formation Continue"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="#1A1A1A" />
 
-        <TextView
-            android:id="@+id/tvRecetteMeta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="15 Dec 2025    REF-001"
-            android:textSize="12sp"
-            android:textColor="#6B7280"
-            android:layout_marginTop="6dp" />
+            <TextView
+                android:id="@+id/tvRecetteMontant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15,000.00 DH"
+                android:textSize="14sp"
+                android:textColor="#1A1A1A"
+                android:layout_marginTop="4dp" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tvRecetteMeta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15 Dec 2025    REF-001"
+                android:textSize="12sp"
+                android:textColor="#6B7280"
+                android:layout_marginTop="6dp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivDeleteRecette"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:src="@android:drawable/ic_menu_delete"
+            android:tint="#EF4444"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>

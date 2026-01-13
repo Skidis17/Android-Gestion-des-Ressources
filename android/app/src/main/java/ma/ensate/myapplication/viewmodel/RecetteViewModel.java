@@ -93,4 +93,32 @@ public class RecetteViewModel extends ViewModel {
             }
         });
     }
+
+    public interface DeleteCallback {
+        void onSuccess();
+
+        void onError(Throwable t);
+    }
+
+    public void deleteRecette(Long id, DeleteCallback cb) {
+        loading.postValue(true);
+        repository.deleteRecette(id).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                loading.postValue(false);
+                if (response.isSuccessful()) {
+                    loadRecettes();
+                    cb.onSuccess();
+                } else {
+                    cb.onError(new Exception("Delete failed: " + response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                loading.postValue(false);
+                cb.onError(t);
+            }
+        });
+    }
 }

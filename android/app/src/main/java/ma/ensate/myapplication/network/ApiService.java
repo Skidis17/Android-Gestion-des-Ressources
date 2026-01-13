@@ -39,186 +39,192 @@ import ma.ensate.myapplication.model.Recette;
 
 public interface ApiService {
 
-    // Auth
-    @POST("auth/login")
-    Call<LoginResponse> login(@Body LoginRequest request);
+        // Auth
+        @POST("auth/login")
+        Call<LoginResponse> login(@Body LoginRequest request);
 
-    //change password
-    @PUT("auth/{id}/change-password")
-    Call<String> changePassword(
-            @Path("id") Long id,
-            @Body PasswordChangeRequest request
-    );
-//update profile
-    @PUT("users/{id}/profile")
-    Call<String> updateProfile(@Path("id") Long id, @Body ma.ensate.myapplication.model.UpdateProfileRequest request);
+        // change password
+        @PUT("auth/{id}/change-password")
+        Call<String> changePassword(
+                        @Path("id") Long id,
+                        @Body PasswordChangeRequest request);
 
-    // ✅ Personnels
+        // update profile
+        @PUT("users/{id}/profile")
+        Call<String> updateProfile(@Path("id") Long id,
+                        @Body ma.ensate.myapplication.model.UpdateProfileRequest request);
 
-    @GET("users/all")
-    Call<List<UserItem>> getUsers(@Header("Authorization") String auth);
+        // ✅ Personnels
 
-    @GET("api/personnels")
-    Call<List<PersonnelOption>> getAllPersonnels(@Header("Authorization") String auth);
+        @GET("users/all")
+        Call<List<UserItem>> getUsers(@Header("Authorization") String auth);
 
-    @POST("users/addUser")
-    Call<AddUserResponse> addUser(@Header("Authorization") String auth, @Body AddUserRequest req);
+        @GET("api/personnels")
+        Call<List<PersonnelOption>> getAllPersonnels(@Header("Authorization") String auth);
 
-    @GET("users/{id}/info")
-    Call<UserInfoDto> getUserInfo(@Header("Authorization") String auth,
-                                  @Path("id") Long id);
+        @POST("users/addUser")
+        Call<AddUserResponse> addUser(@Header("Authorization") String auth, @Body AddUserRequest req);
 
+        @GET("users/{id}/info")
+        Call<UserInfoDto> getUserInfo(@Header("Authorization") String auth,
+                        @Path("id") Long id);
 
-    // Besoins
-    @GET("api/v1/besoins")
-    Call<List<Besoin>> getBesoins();
-    @GET("api/v1/besoins/{id}")
-    Call<Besoin> getBesoin(@Path("id") Long id);
+        // Besoins
+        @GET("api/v1/besoins")
+        Call<List<Besoin>> getBesoins();
 
-    @POST("api/v1/besoins")
-    Call<Besoin> createBesoin(@Body Besoin besoin);
+        @GET("api/v1/besoins/{id}")
+        Call<Besoin> getBesoin(@Path("id") Long id);
 
-    @PUT("api/v1/besoins/{id}")
-    Call<Besoin> updateBesoin(@Path("id") Long id, @Body Besoin besoin);
+        @POST("api/v1/besoins")
+        Call<Besoin> createBesoin(@Body Besoin besoin);
 
-    @POST("api/v1/besoins/{id}/status")
-    Call<Besoin> changeBesoinStatus(@Path("id") Long id, @Query("statut") String statut,
-            @Query("traitePar") Long traitePar, @Query("commentaire") String commentaire);
+        @PUT("api/v1/besoins/{id}")
+        Call<Besoin> updateBesoin(@Path("id") Long id, @Body Besoin besoin);
 
-    @DELETE("api/v1/besoins/{id}")
-    Call<Void> deleteBesoin(@Path("id") Long id);
+        @POST("api/v1/besoins/{id}/status")
+        Call<Besoin> changeBesoinStatus(@Path("id") Long id, @Query("statut") String statut,
+                        @Query("traitePar") Long traitePar, @Query("commentaire") String commentaire);
 
-    // Depenses
-    @GET("api/v1/depenses")
-    Call<List<Depense>> getDepenses();
+        @DELETE("api/v1/besoins/{id}")
+        Call<Void> deleteBesoin(@Path("id") Long id);
 
-    @GET("api/v1/depenses/{id}")
-    Call<Depense> getDepense(@Path("id") Long id);
+        // Depenses
+        @GET("api/v1/depenses")
+        Call<List<Depense>> getDepenses();
 
-    @POST("api/v1/depenses")
-    Call<Depense> createDepense(@Body Depense depense);
+        @GET("api/v1/depenses/{id}")
+        Call<Depense> getDepense(@Path("id") Long id);
 
-    @PUT("api/v1/depenses/{id}")
-    Call<Depense> updateDepense(@Path("id") Long id, @Body Depense depense);
+        @POST("api/v1/depenses")
+        Call<Depense> createDepense(@Body Depense depense);
 
-    @GET("api/v1/depenses/by-besoin/{besoinId}")
-    Call<List<Depense>> getDepensesByBesoin(@Path("besoinId") Long besoinId);
+        @PUT("api/v1/depenses/{id}")
+        Call<Depense> updateDepense(@Path("id") Long id, @Body Depense depense);
 
-    // Commandes
-    @GET("api/v1/commandes")
-    Call<List<Commande>> getCommandes();
+        @GET("api/v1/depenses/by-besoin/{besoinId}")
+        Call<List<Depense>> getDepensesByBesoin(@Path("besoinId") Long besoinId);
 
-    @GET("api/v1/commandes/{id}")
-    Call<Commande> getCommande(@Path("id") Long id);
+        // Commandes
+        @GET("api/v1/commandes")
+        Call<List<Commande>> getCommandes();
 
-    @POST("api/v1/commandes")
-    Call<Commande> createCommande(@Body Commande commande);
+        @GET("api/v1/commandes/{id}")
+        Call<Commande> getCommande(@Path("id") Long id);
 
-    @PUT("api/v1/commandes/{id}")
-    Call<Commande> updateCommande(@Path("id") Long id, @Body Commande commande);
+        @POST("api/v1/commandes")
+        Call<Commande> createCommande(@Body Commande commande);
 
-    @GET("api/v1/commandes/by-besoin/{besoinId}")
-    Call<List<Commande>> getCommandesByBesoin(@Path("besoinId") Long besoinId);
+        @PUT("api/v1/commandes/{id}")
+        Call<Commande> updateCommande(@Path("id") Long id, @Body Commande commande);
 
-    // Recettes
-    @GET("api/v1/recettes")
-    Call<List<Recette>> getRecettes();
+        @GET("api/v1/commandes/by-besoin/{besoinId}")
+        Call<List<Commande>> getCommandesByBesoin(@Path("besoinId") Long besoinId);
 
-    @POST("api/v1/recettes")
-    Call<Recette> createRecette(@Body Recette recette);
+        // Recettes
+        @GET("api/v1/recettes")
+        Call<List<Recette>> getRecettes();
 
-    @PUT("api/v1/recettes/{id}")
-    Call<Recette> updateRecette(@Path("id") Long id, @Body Recette recette);
+        @POST("api/v1/recettes")
+        Call<Recette> createRecette(@Body Recette recette);
 
-    // Budget summary
-    @GET("api/v1/budget/summary")
-    Call<BudgetSummary> getBudgetSummary();
+        @PUT("api/v1/recettes/{id}")
+        Call<Recette> updateRecette(@Path("id") Long id, @Body Recette recette);
 
-    // Recrutements
-    @GET("api/v1/recrutements")
-    Call<List<Recrutement>> getRecrutements();
+        @DELETE("api/v1/recettes/{id}")
+        Call<Void> deleteRecette(@Path("id") Long id);
 
-    @GET("api/v1/recrutements/{id}")
-    Call<Recrutement> getRecrutement(@Path("id") Long id);
+        // Budget
+        @GET("api/v1/budget/summary")
+        Call<BudgetSummary> getBudgetSummary();
 
-    @POST("api/v1/recrutements")
-    Call<Recrutement> createRecrutement(@Body Recrutement recrutement);
+        @PUT("api/v1/budget/total")
+        Call<BudgetSummary> updateBudgetTotal(@Body Map<String, Double> request);
 
-    @PUT("api/v1/recrutements/{id}")
-    Call<Recrutement> updateRecrutement(@Path("id") Long id, @Body Recrutement recrutement);
+        Call<List<Recrutement>> getRecrutements();
 
-    @POST("api/v1/recrutements/{id}/status")
-    Call<Recrutement> changeRecrutementStatus(@Path("id") Long id, @Query("statut") String statut);
+        @GET("api/v1/recrutements/{id}")
+        Call<Recrutement> getRecrutement(@Path("id") Long id);
 
-    @GET("api/v1/recrutements/{id}/pipeline")
-    Call<RecrutementPipeline> getRecrutementPipeline(@Path("id") Long id);
+        @POST("api/v1/recrutements")
+        Call<Recrutement> createRecrutement(@Body Recrutement recrutement);
 
-    @GET("api/v1/recrutements/{id}/rankings")
-    Call<List<CandidatureRanking>> getRecrutementRankings(@Path("id") Long id);
+        @PUT("api/v1/recrutements/{id}")
+        Call<Recrutement> updateRecrutement(@Path("id") Long id, @Body Recrutement recrutement);
 
-    @GET("api/v1/recrutements/stats")
-    Call<RecrutementStats> getRecrutementStats();
+        @POST("api/v1/recrutements/{id}/status")
+        Call<Recrutement> changeRecrutementStatus(@Path("id") Long id, @Query("statut") String statut);
 
-    // Candidatures recrutement
-    @GET("api/v1/candidatures-recrutement/by-recrutement/{recrutementId}")
-    Call<List<CandidatureRecrutement>> getCandidaturesByRecrutement(@Path("recrutementId") Long recrutementId);
+        @GET("api/v1/recrutements/{id}/pipeline")
+        Call<RecrutementPipeline> getRecrutementPipeline(@Path("id") Long id);
 
-    @GET("api/v1/candidatures-recrutement/{id}")
-    Call<CandidatureRecrutement> getCandidature(@Path("id") Long id);
+        @GET("api/v1/recrutements/{id}/rankings")
+        Call<List<CandidatureRanking>> getRecrutementRankings(@Path("id") Long id);
 
-    @POST("api/v1/candidatures-recrutement")
-    Call<CandidatureRecrutement> createCandidature(@Body CandidatureRecrutement candidature);
+        @GET("api/v1/recrutements/stats")
+        Call<RecrutementStats> getRecrutementStats();
 
-    @POST("api/v1/candidatures-recrutement/{id}/status")
-    Call<CandidatureRecrutement> updateCandidatureStatus(@Path("id") Long id,
-            @Query("statut") String statut,
-            @Query("sendEmail") boolean sendEmail);
+        // Candidatures recrutement
+        @GET("api/v1/candidatures-recrutement/by-recrutement/{recrutementId}")
+        Call<List<CandidatureRecrutement>> getCandidaturesByRecrutement(@Path("recrutementId") Long recrutementId);
 
-    @POST("api/v1/candidatures-recrutement/{id}/status-detail")
-    Call<CandidatureRecrutement> updateCandidatureStatusDetail(@Path("id") Long id,
-            @Body StatusChangeRequest request);
+        @GET("api/v1/candidatures-recrutement/{id}")
+        Call<CandidatureRecrutement> getCandidature(@Path("id") Long id);
 
-    @GET("api/v1/candidatures-recrutement/{id}/history")
-    Call<List<CandidatureStatusHistory>> getCandidatureHistory(@Path("id") Long id);
+        @POST("api/v1/candidatures-recrutement")
+        Call<CandidatureRecrutement> createCandidature(@Body CandidatureRecrutement candidature);
 
-    @GET("api/v1/candidatures-recrutement/{id}/scores")
-    Call<List<CandidatureScore>> getCandidatureScores(@Path("id") Long id);
+        @POST("api/v1/candidatures-recrutement/{id}/status")
+        Call<CandidatureRecrutement> updateCandidatureStatus(@Path("id") Long id,
+                        @Query("statut") String statut,
+                        @Query("sendEmail") boolean sendEmail);
 
-    @POST("api/v1/candidatures-recrutement/{id}/scores")
-    Call<CandidatureScore> addCandidatureScore(@Path("id") Long id,
-            @Body CandidatureScoreRequest request);
+        @POST("api/v1/candidatures-recrutement/{id}/status-detail")
+        Call<CandidatureRecrutement> updateCandidatureStatusDetail(@Path("id") Long id,
+                        @Body StatusChangeRequest request);
 
-    @GET("api/v1/candidatures-recrutement/{id}/entretiens")
-    Call<List<Entretien>> getEntretiens(@Path("id") Long id);
+        @GET("api/v1/candidatures-recrutement/{id}/history")
+        Call<List<CandidatureStatusHistory>> getCandidatureHistory(@Path("id") Long id);
 
-    @POST("api/v1/candidatures-recrutement/{id}/entretiens")
-    Call<Entretien> createEntretien(@Path("id") Long id, @Body EntretienRequest request);
+        @GET("api/v1/candidatures-recrutement/{id}/scores")
+        Call<List<CandidatureScore>> getCandidatureScores(@Path("id") Long id);
 
-    @GET("api/v1/candidatures-recrutement/entretiens/{entretienId}/scores")
-    Call<List<EntretienScore>> getEntretienScores(@Path("entretienId") Long entretienId);
+        @POST("api/v1/candidatures-recrutement/{id}/scores")
+        Call<CandidatureScore> addCandidatureScore(@Path("id") Long id,
+                        @Body CandidatureScoreRequest request);
 
-    @POST("api/v1/candidatures-recrutement/entretiens/{entretienId}/scores")
-    Call<EntretienScore> addEntretienScore(@Path("entretienId") Long entretienId,
-            @Body EntretienScoreRequest request);
+        @GET("api/v1/candidatures-recrutement/{id}/entretiens")
+        Call<List<Entretien>> getEntretiens(@Path("id") Long id);
 
-    @POST("api/v1/recrutements/{id}/select")
-    Call<List<CandidatureRecrutement>> selectAcceptedCandidates(@Path("id") Long recrutementId,
-            @Query("sendEmail") boolean sendEmail);
+        @POST("api/v1/candidatures-recrutement/{id}/entretiens")
+        Call<Entretien> createEntretien(@Path("id") Long id, @Body EntretienRequest request);
 
-    @Multipart
-    @POST("api/v1/uploads")
-    Call<UploadResponse> uploadFile(@Part MultipartBody.Part file);
+        @GET("api/v1/candidatures-recrutement/entretiens/{entretienId}/scores")
+        Call<List<EntretienScore>> getEntretienScores(@Path("entretienId") Long entretienId);
 
-    // Demandes
-    @GET("api/v1/demandes")
-    Call<List<Demande>> getDemandes(@Query("statut") String statut);
+        @POST("api/v1/candidatures-recrutement/entretiens/{entretienId}/scores")
+        Call<EntretienScore> addEntretienScore(@Path("entretienId") Long entretienId,
+                        @Body EntretienScoreRequest request);
 
-    @GET("api/v1/demandes/{id}")
-    Call<Demande> getDemande(@Path("id") Long id);
+        @POST("api/v1/recrutements/{id}/select")
+        Call<List<CandidatureRecrutement>> selectAcceptedCandidates(@Path("id") Long recrutementId,
+                        @Query("sendEmail") boolean sendEmail);
 
-    @POST("api/v1/demandes")
-    Call<Demande> createDemande(@Body Demande demande);
+        @Multipart
+        @POST("api/v1/uploads")
+        Call<UploadResponse> uploadFile(@Part MultipartBody.Part file);
 
-    @POST("api/v1/demandes/{id}/status")
-    Call<Demande> updateDemandeStatus(@Path("id") Long id, @Query("statut") String statut, @Query("sendEmail") boolean sendEmail);
+        // Demandes
+        @GET("api/v1/demandes")
+        Call<List<Demande>> getDemandes(@Query("statut") String statut);
+
+        @GET("api/v1/demandes/{id}")
+        Call<Demande> getDemande(@Path("id") Long id);
+
+        @POST("api/v1/demandes")
+        Call<Demande> createDemande(@Body Demande demande);
+
+        @POST("api/v1/demandes/{id}/status")
+        Call<Demande> updateDemandeStatus(@Path("id") Long id, @Query("statut") String statut,
+                        @Query("sendEmail") boolean sendEmail);
 }
