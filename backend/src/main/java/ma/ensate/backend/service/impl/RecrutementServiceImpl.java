@@ -11,6 +11,8 @@ import ma.ensate.backend.exception.ResourceNotFoundException;
 import ma.ensate.backend.repository.CandidatureRecrutementRepository;
 import ma.ensate.backend.repository.EntretienRepository;
 import ma.ensate.backend.repository.RecrutementRepository;
+import ma.ensate.backend.service.FileStorageService;
+import ma.ensate.backend.service.OfferPdfService;
 import ma.ensate.backend.service.RecrutementService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,8 @@ public class RecrutementServiceImpl implements RecrutementService {
     private final RecrutementRepository recrutementRepository;
     private final CandidatureRecrutementRepository candidatureRecrutementRepository;
     private final EntretienRepository entretienRepository;
+    private final OfferPdfService offerPdfService;
+    private final FileStorageService fileStorageService;
 
     @Override
     public List<Recrutement> findAll() {
@@ -61,7 +65,16 @@ public class RecrutementServiceImpl implements RecrutementService {
         if (recrutement.getCreatedAt() == null) {
             recrutement.setCreatedAt(LocalDateTime.now());
         }
-        return recrutementRepository.save(recrutement);
+        Recrutement saved = recrutementRepository.save(recrutement);
+        try {
+            byte[] pdf = offerPdfService.generateOfferPdf(saved);
+            String filename = "offre-recrutement-" + saved.getId() + ".pdf";
+            String stored = fileStorageService.storeBytes(pdf, filename, "offres");
+            saved.setPdfUrl("/uploads/" + stored);
+            return recrutementRepository.save(saved);
+        } catch (Exception ex) {
+            throw new IllegalStateException("Failed to generate offer PDF", ex);
+        }
     }
 
     @Override
