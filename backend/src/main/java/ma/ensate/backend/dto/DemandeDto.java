@@ -18,6 +18,5 @@ public class DemandeDto {
     private String justificatifUrl;
     private String statut;
     private Long createdBy;
-    private String createdByName; // nom + prenom du personnel
     private LocalDateTime createdAt;
 }

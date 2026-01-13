@@ -45,7 +45,6 @@ import ma.ensate.myapplication.viewmodel.DemandeViewModel;
 import ma.ensate.myapplication.model.UploadResponse;
 import ma.ensate.myapplication.network.ApiService;
 import ma.ensate.myapplication.network.RetrofitClient;
-import ma.ensate.myapplication.network.TokenManager;
 
 public class DemandeFormFragment extends Fragment {
 
@@ -119,12 +118,7 @@ public class DemandeFormFragment extends Fragment {
 
             if (hasError) return;
 
-            TokenManager tokenManager = new TokenManager(requireContext());
-            Long createdBy = tokenManager.getUserId();
-            if (createdBy == null) {
-                Toast.makeText(requireContext(), "Erreur: utilisateur non identifié", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            Long createdBy = 1L;
 
             Demande demande = new Demande();
             demande.setType(type);

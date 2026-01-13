@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandeViewModel extends ViewModel {
-    private final CommandeRepository repository = new CommandeRepository();
+    public final CommandeRepository repository = new CommandeRepository();
     private final MutableLiveData<List<Commande>> commandes = new MutableLiveData<>(new ArrayList<>());
     public interface ActionCallback { void onSuccess(Commande created); void onError(Throwable t); }
 

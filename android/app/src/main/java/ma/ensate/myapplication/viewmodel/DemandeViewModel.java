@@ -16,12 +16,10 @@ import retrofit2.Response;
 public class DemandeViewModel extends ViewModel {
     private final DemandeRepository repository = new DemandeRepository();
     private final MutableLiveData<List<Demande>> demandes = new MutableLiveData<>(new ArrayList<>());
-    private final MutableLiveData<List<Demande>> allDemandesForStats = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>(false);
     private final MutableLiveData<Demande> selected = new MutableLiveData<>();
 
     public LiveData<List<Demande>> getDemandes() { return demandes; }
-    public LiveData<List<Demande>> getAllDemandesForStats() { return allDemandesForStats; }
     public LiveData<Boolean> getLoading() { return loading; }
     public LiveData<Demande> getSelected() { return selected; }
 
@@ -42,24 +40,6 @@ public class DemandeViewModel extends ViewModel {
             public void onFailure(Call<List<Demande>> call, Throwable t) {
                 loading.postValue(false);
                 demandes.postValue(new ArrayList<>());
-            }
-        });
-    }
-
-    public void loadAllDemandesForStats() {
-        repository.getDemandes(null).enqueue(new Callback<List<Demande>>() {
-            @Override
-            public void onResponse(Call<List<Demande>> call, Response<List<Demande>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    allDemandesForStats.postValue(response.body());
-                } else {
-                    allDemandesForStats.postValue(new ArrayList<>());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Demande>> call, Throwable t) {
-                allDemandesForStats.postValue(new ArrayList<>());
             }
         });
     }

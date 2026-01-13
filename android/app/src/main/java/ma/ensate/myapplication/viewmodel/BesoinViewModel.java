@@ -112,8 +112,8 @@ public class BesoinViewModel extends ViewModel {
         });
     }
 
-    public void changeStatus(Long id, String statut, Long traitePar, String commentaire, ActionCallback callback) {
-        repository.changeStatus(id, statut, traitePar, commentaire).enqueue(new Callback<Besoin>() {
+    public void changeStatus(Long id, String statut, String commentaire, ActionCallback callback) {
+        repository.changeStatus(id, statut, commentaire).enqueue(new Callback<Besoin>() {
             @Override
             public void onResponse(Call<Besoin> call, Response<Besoin> response) {
                 loadBesoins();

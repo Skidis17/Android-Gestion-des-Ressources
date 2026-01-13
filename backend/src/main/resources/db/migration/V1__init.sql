@@ -202,7 +202,7 @@ VALUES
 INSERT INTO utilisateurs (personnel_id, username, password_hash, role, is_active)
 VALUES
 (1, 'admin.rh', '$2a$10$dummyhash1', 'directeur',1),
-(2, 'admin.eco', '$2a$10$dummyhash2', 'admin',1),
+(2, 'admin.eco', '$2a$10$dummyhash2', 'RH',1),
 (3, 'ahmed.alaoui', '$2a$10$dummyhash3', 'recruteur',1);
 
 INSERT INTO budget (annee, montant_total, montant_disponible, statut, created_by)

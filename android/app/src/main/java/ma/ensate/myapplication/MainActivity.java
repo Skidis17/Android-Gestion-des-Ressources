@@ -16,7 +16,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
-import ma.ensate.myapplication.network.RetrofitClient;
 import ma.ensate.myapplication.network.TokenManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,9 +33,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Initialize RetrofitClient with application context
-        RetrofitClient.init(getApplicationContext());
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -58,13 +54,14 @@ public class MainActivity extends AppCompatActivity {
                 R.id.personnelFragment,
                 R.id.demandesFragment,
                 R.id.recrutementFragment,
-                R.id.notificationsFragment,
+                //R.id.notificationsFragment,
                 R.id.profileFragment,
                 R.id.adminUsersFragment,
                 // si tu as vraiment ces fragments dans ton graph, tu peux les garder:
                 R.id.recettesFragment,
                 R.id.budgetFragment,
                 R.id.loginFragment
+                //R.id.notificationsFragment
         ).setOpenableLayout(drawerLayout).build();
 
         // Drawer ↔ NavController
@@ -90,8 +87,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             boolean handled = NavigationUI.onNavDestinationSelected(item, navController);
-            if (handled)
-                drawerLayout.closeDrawers();
+            if (handled) drawerLayout.closeDrawers();
             return handled;
         });
 
@@ -124,8 +120,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void applyBottomMenuForRole(String role) {
-        if (bottomNavigationView == null)
-            return;
+        if (bottomNavigationView == null) return;
 
         bottomNavigationView.getMenu().clear();
 
@@ -137,9 +132,33 @@ public class MainActivity extends AppCompatActivity {
 
         // IMPORTANT : re-lier après changement de menu
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        
+        // Configure drawer menu based on role
+        configureDrawerMenuForRole(role);
+    }
+    
+    private void configureDrawerMenuForRole(String role) {
+        if (navigationView == null) return;
+        
+        android.view.Menu menu = navigationView.getMenu();
+        
+        // Only secretaire_general, Directeur_adjoint, and directeur have access to commandes and depenses
+        boolean hasFinanceAccess = "secretaire_general".equalsIgnoreCase(role) 
+                                 || "Directeur_adjoint".equalsIgnoreCase(role) 
+                                 || "directeur".equalsIgnoreCase(role)
+                                 || "admin".equalsIgnoreCase(role);
+        
+        android.view.MenuItem commandesItem = menu.findItem(R.id.commandesFragment);
+        android.view.MenuItem depensesItem = menu.findItem(R.id.depensesFragment);
+        
+        if (commandesItem != null) {
+            commandesItem.setVisible(hasFinanceAccess);
+        }
+        if (depensesItem != null) {
+            depensesItem.setVisible(hasFinanceAccess);
+        }
     }
 
-    // Tu avais un nom "refreshBottomLoginTitle" : je le garde, mais corrigé
     public void refreshBottomLoginTitle() {
         applyBottomMenuForRole(currentRole);
     }

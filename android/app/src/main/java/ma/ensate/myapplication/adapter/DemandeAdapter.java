@@ -44,7 +44,7 @@ public class DemandeAdapter extends RecyclerView.Adapter<DemandeAdapter.DemandeV
         holder.badge.setText(labelForStatus(d.getStatut()));
         holder.badge.setBackgroundResource(badgeForStatus(d.getStatut()));
         holder.badge.setTextColor(colorForStatus(d.getStatut()));
-        holder.createdBy.setText(createdByFor(d));
+        holder.createdBy.setText(createdByFor(d.getCreatedBy()));
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onClick(d);
         });
@@ -81,11 +81,7 @@ public class DemandeAdapter extends RecyclerView.Adapter<DemandeAdapter.DemandeV
         return "Du " + deb + " au " + fin;
     }
 
-    private String createdByFor(Demande d) {
-        if (d.getCreatedByName() != null && !d.getCreatedByName().trim().isEmpty()) {
-            return d.getCreatedByName();
-        }
-        Long createdBy = d.getCreatedBy();
+    private String createdByFor(Long createdBy) {
         return createdBy == null ? "Employé inconnu" : "Employé #" + createdBy;
     }
 

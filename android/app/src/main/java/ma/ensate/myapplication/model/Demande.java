@@ -9,7 +9,6 @@ public class Demande {
     private String justificatifUrl;
     private String statut;
     private Long createdBy;
-    private String createdByName;
     private String createdAt;
 
     public Demande() {}
@@ -53,7 +52,4 @@ public class Demande {
 
     public String getCreatedAt() { return createdAt; }
     public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
-
-    public String getCreatedByName() { return createdByName; }
-    public void setCreatedByName(String createdByName) { this.createdByName = createdByName; }
 }

@@ -1,7 +1,5 @@
 package ma.ensate.myapplication.network;
 
-import java.util.Map;
-
 import ma.ensate.myapplication.model.AddUserRequest;
 import ma.ensate.myapplication.model.AddUserResponse;
 import ma.ensate.myapplication.model.Besoin;
@@ -82,8 +80,7 @@ public interface ApiService {
     Call<Besoin> updateBesoin(@Path("id") Long id, @Body Besoin besoin);
 
     @POST("api/v1/besoins/{id}/status")
-    Call<Besoin> changeBesoinStatus(@Path("id") Long id, @Query("statut") String statut,
-            @Query("traitePar") Long traitePar, @Query("commentaire") String commentaire);
+    Call<Besoin> changeBesoinStatus(@Path("id") Long id, @Body StatusChangeRequest request);
 
     @DELETE("api/v1/besoins/{id}")
     Call<Void> deleteBesoin(@Path("id") Long id);
@@ -119,6 +116,12 @@ public interface ApiService {
 
     @GET("api/v1/commandes/by-besoin/{besoinId}")
     Call<List<Commande>> getCommandesByBesoin(@Path("besoinId") Long besoinId);
+
+    @POST("api/v1/commandes/from-besoin/{besoinId}")
+    Call<Commande> createCommandeFromBesoin(@Path("besoinId") Long besoinId, @Body java.util.Map<String, String> request);
+
+    @PATCH("api/v1/commandes/{id}")
+    Call<Commande> updateCommandeLimited(@Path("id") Long id, @Body java.util.Map<String, String> request);
 
     // Recettes
     @GET("api/v1/recettes")
@@ -220,5 +223,5 @@ public interface ApiService {
     Call<Demande> createDemande(@Body Demande demande);
 
     @POST("api/v1/demandes/{id}/status")
-    Call<Demande> updateDemandeStatus(@Path("id") Long id, @Query("statut") String statut, @Query("sendEmail") boolean sendEmail);
+    Call<Demande> updateDemandeStatus(@Path("id") Long id, @Query("statut") String statut);
 }

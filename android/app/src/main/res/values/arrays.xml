@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="commande_status_options">
+        <item>EN_COURS</item>
+        <item>LIVRÉ</item>
+        <item>ANNULÉ</item>
+    </string-array>
+</resources>

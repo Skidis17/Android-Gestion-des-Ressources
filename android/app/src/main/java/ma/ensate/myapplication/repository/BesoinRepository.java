@@ -1,6 +1,7 @@
 package ma.ensate.myapplication.repository;
 
 import ma.ensate.myapplication.model.Besoin;
+import ma.ensate.myapplication.model.StatusChangeRequest;
 import ma.ensate.myapplication.network.ApiService;
 import ma.ensate.myapplication.network.RetrofitClient;
 import retrofit2.Call;
@@ -30,8 +31,13 @@ public class BesoinRepository {
         return api.updateBesoin(id, b);
     }
 
-    public Call<Besoin> changeStatus(Long id, String statut, Long traitePar, String commentaire) {
-        return api.changeBesoinStatus(id, statut, traitePar, commentaire);
+    public Call<Besoin> changeStatus(Long id, String statut, String commentaire) {
+        StatusChangeRequest request = new StatusChangeRequest(statut, commentaire, false, null);
+        return api.changeBesoinStatus(id, request);
+    }
+
+    public Call<ma.ensate.myapplication.model.Commande> createCommandeFromBesoin(Long besoinId, java.util.Map<String, String> request) {
+        return api.createCommandeFromBesoin(besoinId, request);
     }
 
     public retrofit2.Call<Void> deleteBesoin(Long id) {

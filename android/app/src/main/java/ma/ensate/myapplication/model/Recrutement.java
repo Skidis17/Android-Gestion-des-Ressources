@@ -14,7 +14,6 @@ public class Recrutement {
     private String statut;
     private Long createdBy;
     private String createdAt; // ISO date-time
-    private String pdfUrl;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -38,6 +37,4 @@ public class Recrutement {
     public void setCreatedBy(Long createdBy) { this.createdBy = createdBy; }
     public String getCreatedAt() { return createdAt; }
     public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
-    public String getPdfUrl() { return pdfUrl; }
-    public void setPdfUrl(String pdfUrl) { this.pdfUrl = pdfUrl; }
 }

@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import ma.ensate.backend.Enum.Role;
 import ma.ensate.backend.domain.Besoin;
+import ma.ensate.backend.domain.User;
 import ma.ensate.backend.exception.ResourceNotFoundException;
 import ma.ensate.backend.repository.BesoinRepository;
 import ma.ensate.backend.service.BesoinService;
@@ -103,16 +105,19 @@ public class BesoinServiceImpl implements BesoinService {
             return true;
         }
         
-        // Define valid transitions
+        // Define valid transitions based on the workflow:
+        // EN_ATTENTE → VALIDÉ/REFUSÉ (by Directeur_adjoint)
+        // VALIDÉ → APPROUVÉ/REFUSÉ (by Directeur)
+        // APPROUVÉ → TRANSMIS (by Secretaire_general)
         switch (current) {
             case "EN_ATTENTE":
                 return "VALIDÉ".equals(next) || "REFUSÉ".equals(next);
             case "VALIDÉ":
                 return "APPROUVÉ".equals(next) || "REFUSÉ".equals(next);
             case "APPROUVÉ":
-                return "TRANSMIS_A_ECO".equals(next);
+                return "TRANSMIS".equals(next);
             case "REFUSÉ":
-            case "TRANSMIS_A_ECO":
+            case "TRANSMIS":
                 return false; // Terminal states
             default:
                 return false;
@@ -122,5 +127,76 @@ public class BesoinServiceImpl implements BesoinService {
     @Override
     public List<Besoin> findByPersonnelId(Long personnelId) {
         return besoinRepository.findByPersonnelId(personnelId);
+    }
+    
+    @Override
+    @Transactional
+    public Besoin changeStatusWithUser(Long id, String statut, User currentUser, String commentaireAdmin) {
+        Besoin existing = findById(id);
+        String currentStatut = existing.getStatut() != null ? existing.getStatut() : "EN_ATTENTE";
+        
+        // Validate status transitions
+        if (!isValidStatusTransition(currentStatut, statut)) {
+            throw new IllegalStateException("Transition de statut invalide: " + currentStatut + " -> " + statut);
+        }
+        
+        // Validate role permissions for status changes
+        if (!hasPermissionForStatusChange(currentUser, currentStatut, statut)) {
+            throw new IllegalStateException("Vous n'avez pas les permissions pour effectuer cette transition de statut");
+        }
+        
+        existing.setStatut(statut);
+        if (currentUser.getPersonnelId() != null) {
+            existing.setTraitePar(currentUser.getPersonnelId());
+        }
+        if (commentaireAdmin != null && !commentaireAdmin.trim().isEmpty()) {
+            existing.setCommentaireAdmin(commentaireAdmin);
+        }
+        existing.setDateTraitement(LocalDateTime.now());
+        return besoinRepository.save(existing);
+    }
+    
+    private boolean hasPermissionForStatusChange(User user, String currentStatut, String nextStatut) {
+        if (user == null || user.getRole() == null) {
+            return false;
+        }
+        
+        Role userRole = user.getRole();
+        
+        // Allow same status change (just adding/editing comment) for ALL roles
+        if (currentStatut.equals(nextStatut)) {
+            return true;
+        }
+        
+        // EN_ATTENTE → VALIDÉ/REFUSÉ: only Directeur_adjoint
+        if ("EN_ATTENTE".equals(currentStatut)) {
+            if ("VALIDÉ".equals(nextStatut) || "REFUSÉ".equals(nextStatut)) {
+                return userRole == Role.Directeur_adjoint || userRole == Role.admin;
+            }
+        }
+        
+        // VALIDÉ → APPROUVÉ/REFUSÉ: only Directeur
+        if ("VALIDÉ".equals(currentStatut)) {
+            if ("APPROUVÉ".equals(nextStatut) || "REFUSÉ".equals(nextStatut)) {
+                return userRole == Role.directeur || userRole == Role.admin;
+            }
+        }
+        
+        // APPROUVÉ → TRANSMIS: only Secretaire_general
+        if ("APPROUVÉ".equals(currentStatut) && "TRANSMIS".equals(nextStatut)) {
+            return userRole == Role.secretaire_general || userRole == Role.admin;
+        }
+        
+        // Allow admin to make any valid transition
+        return userRole == Role.admin;
+    }
+
+    @Override
+    @Transactional
+    public Besoin markAsTransmitted(Long id) {
+        Besoin besoin = findById(id);
+        besoin.setStatut("TRANSMIS");
+        besoin.setDateTraitement(LocalDateTime.now());
+        return besoinRepository.save(besoin);
     }
 }
