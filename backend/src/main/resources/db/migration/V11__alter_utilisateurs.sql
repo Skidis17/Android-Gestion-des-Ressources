@@ -1,3 +1,3 @@
 update utilisateurs set email = 'imane12067@gmail.com' ,password_hash='$2a$10$/L4n6sS2tVmu2Y0rnIk.vOJ5m9D8K7gZkR1pZE.Az.y227keJw7oa' where id = 1;
-update utilisateurs set email = 'ayajd@gmail.com' ,password_hash='$2a$10$/L4n6sS2tVmu2Y0rnIk.vOJ5m9D8K7gZkR1pZE.Az.y227keJw7oa' where id = 2;
+update utilisateurs set email = 'ayaa15029@gmail.com' ,password_hash='$2a$10$/L4n6sS2tVmu2Y0rnIk.vOJ5m9D8K7gZkR1pZE.Az.y227keJw7oa' where id = 2;
 update utilisateurs set email = 'achraf567@gmail.com' ,password_hash='$2a$10$/L4n6sS2tVmu2Y0rnIk.vOJ5m9D8K7gZkR1pZE.Az.y227keJw7oa' where id = 3;
