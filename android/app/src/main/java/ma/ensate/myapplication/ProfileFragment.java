@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import ma.ensate.myapplication.network.TokenManager;
 import ma.ensate.myapplication.viewmodel.ProfileViewModel;
@@ -57,7 +56,6 @@ public class ProfileFragment extends Fragment {
         tvEmail.setText(email);
         tvRole.setText(role);
 
-        // Initiale dans le cercle
         if (username != null && !username.trim().isEmpty()) {
             tvInitials.setText(username.trim().substring(0, 1).toUpperCase());
         } else {
@@ -65,24 +63,42 @@ public class ProfileFragment extends Fragment {
         }
 
         ProfileViewModel vm = new ViewModelProvider(this).get(ProfileViewModel.class);
+
+        // Messages (Toast)
         vm.getMessage().observe(getViewLifecycleOwner(), msg -> {
             if (msg != null && !msg.isEmpty()) {
                 Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show();
             }
         });
 
-        // ✅ CLICK SUR LE CRAYON -> Dialog pour changer username
+        // ✅ LOGOUT automatique après succès changement password
+        vm.getLogoutAfterPasswordChange().observe(getViewLifecycleOwner(), shouldLogout -> {
+            if (Boolean.TRUE.equals(shouldLogout)) {
+
+                // nettoyer champs (optionnel)
+                etOld.setText("");
+                etNew.setText("");
+                etConf.setText("");
+
+                // éviter relogout
+                vm.consumeLogoutEvent();
+
+                // logout
+                if (getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).logout();
+                }
+            }
+        });
+
+        // ✏️ Edit username
         btnEditProfile.setOnClickListener(v -> {
-            Log.d(TAG, "CLICK EDIT PROFILE");
 
             if (userId == null) {
                 Toast.makeText(requireContext(), "Utilisateur introuvable", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            View dialogView = getLayoutInflater()
-                    .inflate(R.layout.dialog_edit_username, null);
-
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_username, null);
             TextInputEditText etUsername = dialogView.findViewById(R.id.etUsername);
             etUsername.setText(tvUsername.getText());
 
@@ -102,10 +118,8 @@ public class ProfileFragment extends Fragment {
                             return;
                         }
 
-                        // 🔁 API
                         vm.updateProfile(userId, newUsername);
 
-                        // ⚡ Update UI immédiate
                         tm.setUsername(newUsername);
                         tvUsername.setText(newUsername);
                         tvInitials.setText(newUsername.substring(0, 1).toUpperCase());
@@ -113,7 +127,7 @@ public class ProfileFragment extends Fragment {
                     .show();
         });
 
-        // ✅ Change password
+        // 🔒 Change password
         btnUpdatePassword.setOnClickListener(v -> {
             if (userId == null) {
                 Toast.makeText(requireContext(), "Utilisateur introuvable", Toast.LENGTH_SHORT).show();
@@ -137,7 +151,7 @@ public class ProfileFragment extends Fragment {
             vm.changePassword(userId, oldP, newP);
         });
 
-        // ✅ Logout
+        // 🚪 Logout manuel
         cardLogout.setOnClickListener(v -> {
             if (getActivity() instanceof MainActivity) {
                 ((MainActivity) getActivity()).logout();

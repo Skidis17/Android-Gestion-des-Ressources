@@ -19,20 +19,31 @@ public class ProfileViewModel extends AndroidViewModel {
 
     private static final String TAG = "PROFILE_VM";
 
-    private final AuthRepository repo; // ✅
+    private final AuthRepository repo;
     private final MutableLiveData<String> message = new MutableLiveData<>();
+
+    // ✅ AJOUT : event logout après changement password
+    private final MutableLiveData<Boolean> logoutAfterPasswordChange = new MutableLiveData<>(false);
 
     public LiveData<String> getMessage() {
         return message;
     }
 
+    // ✅ AJOUT
+    public LiveData<Boolean> getLogoutAfterPasswordChange() {
+        return logoutAfterPasswordChange;
+    }
+
     public ProfileViewModel(@NonNull Application application) {
         super(application);
-        repo = new AuthRepository(); // ✅ plus de context
+        repo = new AuthRepository();
     }
 
     public void changePassword(Long userId, String oldPass, String newPass) {
         Log.d(TAG, "changePassword userId=" + userId);
+
+        // reset event
+        logoutAfterPasswordChange.postValue(false);
 
         repo.changePassword(userId, new PasswordChangeRequest(oldPass, newPass))
                 .enqueue(new Callback<String>() {
@@ -41,9 +52,16 @@ public class ProfileViewModel extends AndroidViewModel {
                         Log.d(TAG, "HTTP=" + response.code());
                         if (response.isSuccessful()) {
                             message.postValue(response.body() != null ? response.body() : "Succès");
+
+                            // ✅ déclenche logout
+                            logoutAfterPasswordChange.postValue(true);
                         } else {
                             try {
-                                message.postValue(response.errorBody() != null ? response.errorBody().string() : "Erreur");
+                                message.postValue(
+                                        response.errorBody() != null
+                                                ? response.errorBody().string()
+                                                : "Erreur"
+                                );
                             } catch (Exception e) {
                                 message.postValue("Erreur inconnue");
                             }
@@ -70,7 +88,11 @@ public class ProfileViewModel extends AndroidViewModel {
                             message.postValue(response.body() != null ? response.body() : "Profil mis à jour");
                         } else {
                             try {
-                                message.postValue(response.errorBody() != null ? response.errorBody().string() : "Erreur");
+                                message.postValue(
+                                        response.errorBody() != null
+                                                ? response.errorBody().string()
+                                                : "Erreur"
+                                );
                             } catch (Exception e) {
                                 message.postValue("Erreur inconnue");
                             }
@@ -83,5 +105,10 @@ public class ProfileViewModel extends AndroidViewModel {
                         message.postValue("Erreur réseau: " + t.getMessage());
                     }
                 });
+    }
+
+    // ✅ pour éviter relogout lors de rotation / retour fragment
+    public void consumeLogoutEvent() {
+        logoutAfterPasswordChange.postValue(false);
     }
 }
