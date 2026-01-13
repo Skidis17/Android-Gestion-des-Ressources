@@ -16,6 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import ma.ensate.myapplication.network.RetrofitClient;
 import ma.ensate.myapplication.network.TokenManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize RetrofitClient with application context
+        RetrofitClient.init(getApplicationContext());
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -60,8 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 // si tu as vraiment ces fragments dans ton graph, tu peux les garder:
                 R.id.recettesFragment,
                 R.id.budgetFragment,
-                R.id.loginFragment,
-                R.id.notificationsFragment
+                R.id.loginFragment
         ).setOpenableLayout(drawerLayout).build();
 
         // Drawer ↔ NavController
@@ -87,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             boolean handled = NavigationUI.onNavDestinationSelected(item, navController);
-            if (handled) drawerLayout.closeDrawers();
+            if (handled)
+                drawerLayout.closeDrawers();
             return handled;
         });
 
@@ -120,7 +124,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void applyBottomMenuForRole(String role) {
-        if (bottomNavigationView == null) return;
+        if (bottomNavigationView == null)
+            return;
 
         bottomNavigationView.getMenu().clear();
 

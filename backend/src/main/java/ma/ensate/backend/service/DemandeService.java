@@ -11,4 +11,5 @@ public interface DemandeService {
     List<Demande> findByStatut(DemandeStatut statut);
     Demande findById(Long id);
     Demande updateStatus(Long id, DemandeStatut statut);
+    Demande updateStatus(Long id, DemandeStatut statut, boolean sendEmail);
 }

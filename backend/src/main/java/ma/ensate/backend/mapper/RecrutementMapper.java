@@ -20,6 +20,7 @@ public class RecrutementMapper {
                 .statut(r.getStatut())
                 .createdBy(r.getCreatedBy())
                 .createdAt(r.getCreatedAt())
+                .pdfUrl(r.getPdfUrl())
                 .build();
     }
 

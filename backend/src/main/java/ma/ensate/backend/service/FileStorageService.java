@@ -35,4 +35,23 @@ public class FileStorageService {
         Files.copy(file.getInputStream(), target);
         return filename;
     }
+
+    public String storeBytes(byte[] data, String filename, String subdir) throws IOException {
+        if (data == null || data.length == 0) {
+            throw new IOException("Empty data");
+        }
+        Path baseDir = uploadDir;
+        if (subdir != null && !subdir.isBlank()) {
+            if (subdir.contains("..")) {
+                throw new IOException("Invalid subdir");
+            }
+            baseDir = uploadDir.resolve(subdir);
+        }
+        Files.createDirectories(baseDir);
+        String safeName = filename != null && !filename.isBlank() ? filename : "document.pdf";
+        Path target = baseDir.resolve(safeName);
+        Files.write(target, data);
+        String prefix = subdir != null && !subdir.isBlank() ? subdir + "/" : "";
+        return prefix + safeName;
+    }
 }

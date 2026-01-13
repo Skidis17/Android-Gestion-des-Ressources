@@ -21,6 +21,18 @@ public class DemandeMapper {
 
     public static DemandeDto toDto(Demande d) {
         if (d == null) return null;
+        
+        String personnelName = null;
+        if (d.getCreatedByUser() != null && d.getCreatedByUser().getPersonnel() != null) {
+            var p = d.getCreatedByUser().getPersonnel();
+            String nom = p.getNom() != null ? p.getNom() : "";
+            String prenom = p.getPrenom() != null ? p.getPrenom() : "";
+            personnelName = (nom + " " + prenom).trim();
+            if (personnelName.isEmpty()) {
+                personnelName = null;
+            }
+        }
+        
         return DemandeDto.builder()
                 .id(d.getId())
                 .type(d.getType().name())
@@ -30,6 +42,7 @@ public class DemandeMapper {
                 .justificatifUrl(d.getJustificatifUrl())
                 .statut(d.getStatut().name())
                 .createdBy(d.getCreatedBy())
+                .createdByName(personnelName)
                 .createdAt(d.getCreatedAt())
                 .build();
     }

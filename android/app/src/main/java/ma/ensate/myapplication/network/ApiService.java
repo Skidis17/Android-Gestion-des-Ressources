@@ -1,5 +1,7 @@
 package ma.ensate.myapplication.network;
 
+import java.util.Map;
+
 import ma.ensate.myapplication.model.AddUserRequest;
 import ma.ensate.myapplication.model.AddUserResponse;
 import ma.ensate.myapplication.model.Besoin;
@@ -218,5 +220,5 @@ public interface ApiService {
     Call<Demande> createDemande(@Body Demande demande);
 
     @POST("api/v1/demandes/{id}/status")
-    Call<Demande> updateDemandeStatus(@Path("id") Long id, @Query("statut") String statut);
+    Call<Demande> updateDemandeStatus(@Path("id") Long id, @Query("statut") String statut, @Query("sendEmail") boolean sendEmail);
 }

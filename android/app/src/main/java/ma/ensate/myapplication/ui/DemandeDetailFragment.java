@@ -59,7 +59,12 @@ public class DemandeDetailFragment extends Fragment {
             tvDates.setText("Du " + safe(d.getDateDebut()) + " au " + safe(d.getDateFin()));
             tvMotif.setText(d.getMotif());
             tvStatut.setText(d.getStatut() != null ? d.getStatut() : "EN_ATTENTE");
-            tvCreatedBy.setText(d.getCreatedBy() != null ? "Employé #" + d.getCreatedBy() : "Employé inconnu");
+            // Show personnel name if available, otherwise fallback to ID
+            if (d.getCreatedByName() != null && !d.getCreatedByName().trim().isEmpty()) {
+                tvCreatedBy.setText(d.getCreatedByName());
+            } else {
+                tvCreatedBy.setText(d.getCreatedBy() != null ? "Employé #" + d.getCreatedBy() : "Employé inconnu");
+            }
             tvCreatedAt.setText(d.getCreatedAt() != null ? d.getCreatedAt() : "-");
 
             if (d.getJustificatifUrl() != null && !d.getJustificatifUrl().isBlank()) {
