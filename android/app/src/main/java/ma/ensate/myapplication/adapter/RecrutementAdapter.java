@@ -19,9 +19,15 @@ public class RecrutementAdapter extends RecyclerView.Adapter<RecrutementAdapter.
     private List<Recrutement> items = new ArrayList<>();
     public interface OnItemClick { void onClick(Recrutement r); }
     private OnItemClick onItemClick;
+    public interface OnPdfClick { void onClick(Recrutement r); }
+    private OnPdfClick onPdfClick;
 
     public void setOnItemClick(OnItemClick listener) {
         this.onItemClick = listener;
+    }
+
+    public void setOnPdfClick(OnPdfClick listener) {
+        this.onPdfClick = listener;
     }
 
     public void setItems(List<Recrutement> list) {
@@ -49,6 +55,11 @@ public class RecrutementAdapter extends RecyclerView.Adapter<RecrutementAdapter.
                 " → " + (r.getDateCloture() != null ? r.getDateCloture() : "?");
         holder.tvDates.setText(dates);
         holder.tvDescription.setText(r.getDescription() != null ? r.getDescription() : "Aucune description");
+        boolean hasPdf = r.getPdfUrl() != null && !r.getPdfUrl().trim().isEmpty();
+        holder.btnPdf.setVisibility(hasPdf ? View.VISIBLE : View.GONE);
+        holder.btnPdf.setOnClickListener(v -> {
+            if (onPdfClick != null) onPdfClick.onClick(r);
+        });
 
         holder.itemView.setOnClickListener(v -> {
             if (onItemClick != null) onItemClick.onClick(r);
@@ -62,6 +73,7 @@ public class RecrutementAdapter extends RecyclerView.Adapter<RecrutementAdapter.
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvPoste, tvStatut, tvDepartement, tvMeta, tvDates, tvDescription;
+        View btnPdf;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,6 +83,7 @@ public class RecrutementAdapter extends RecyclerView.Adapter<RecrutementAdapter.
             tvMeta = itemView.findViewById(R.id.tv_meta);
             tvDates = itemView.findViewById(R.id.tv_dates);
             tvDescription = itemView.findViewById(R.id.tv_description);
+            btnPdf = itemView.findViewById(R.id.btn_offer_pdf);
         }
     }
 }

@@ -47,4 +47,7 @@ public class Recrutement {
     
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "pdf_url")
+    private String pdfUrl;
 }
