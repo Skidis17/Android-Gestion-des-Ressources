@@ -21,8 +21,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "personnel_id")
+ @Column(name = "personnel_id")
     private Long personnelId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "personnel_id", insertable = false, updatable = false)
+    private Personnel personnel;
+
 
     private String username;
     @Column(name = "password_hash")

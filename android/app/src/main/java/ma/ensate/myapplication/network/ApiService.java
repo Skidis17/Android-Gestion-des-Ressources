@@ -27,6 +27,7 @@ import ma.ensate.myapplication.model.CandidatureRecrutement;
 import ma.ensate.myapplication.model.StatusChangeRequest;
 import ma.ensate.myapplication.model.Demande;
 import ma.ensate.myapplication.model.UploadResponse;
+import ma.ensate.myapplication.model.UserInfoDto;
 import ma.ensate.myapplication.model.UserItem;
 import retrofit2.Call;
 import retrofit2.http.*;
@@ -63,6 +64,9 @@ public interface ApiService {
     @POST("users/addUser")
     Call<AddUserResponse> addUser(@Header("Authorization") String auth, @Body AddUserRequest req);
 
+    @GET("users/{id}/info")
+    Call<UserInfoDto> getUserInfo(@Header("Authorization") String auth,
+                                  @Path("id") Long id);
 
 
     // Besoins
@@ -216,6 +220,5 @@ public interface ApiService {
     Call<Demande> createDemande(@Body Demande demande);
 
     @POST("api/v1/demandes/{id}/status")
-    Call<Demande> updateDemandeStatus(@Path("id") Long id, @Query("statut") String statut);
-
+    Call<Demande> updateDemandeStatus(@Path("id") Long id, @Query("statut") String statut, @Query("sendEmail") boolean sendEmail);
 }

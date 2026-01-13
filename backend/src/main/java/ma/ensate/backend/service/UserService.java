@@ -1,11 +1,12 @@
 package ma.ensate.backend.service;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import ma.ensate.backend.Enum.Role;
 import ma.ensate.backend.domain.Personnel;
 import ma.ensate.backend.domain.User;
 import ma.ensate.backend.dto.AddUserRequest;
 import ma.ensate.backend.dto.AddUserResponse;
+import ma.ensate.backend.dto.UserInfoDto;
 import ma.ensate.backend.repository.PersonnelRepository;
 import ma.ensate.backend.repository.UserRepository;
 import org.springframework.security.core.Authentication;
@@ -70,7 +71,9 @@ public class UserService {
         user.setUsername(request.getUsername().trim());
         user.setRole(role);
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        user.setPersonnel(personnel);
         user.setPersonnelId(request.getPersonnelId());
+       
 
         User saved = userRepository.save(user);
 
@@ -117,4 +120,35 @@ public class UserService {
         userRepository.save(user);
     }
 
+
+    @Transactional(readOnly = true)
+    public UserInfoDto getInfoUserById(Long userId) {
+
+        User u = userRepository.findWithPersonnelById(userId)
+                .orElseThrow(() -> new RuntimeException("User introuvable: " + userId));
+
+        Personnel p = u.getPersonnel(); // déjà chargé grâce à JOIN FETCH
+
+        return UserInfoDto.builder()
+                // user
+                .userId(u.getId())
+                .username(u.getUsername())
+                .email(u.getEmail())
+                .role(u.getRole() != null ? u.getRole().name() : null)
+                .isActive(u.getIs_active())
+
+                // personnel
+                .personnelId(p != null ? p.getId() : null)
+                .cin(p != null ? p.getCin() : null)
+                .nom(p != null ? p.getNom() : null)
+                .prenom(p != null ? p.getPrenom() : null)
+                .telephone(p != null ? p.getTelephone() : null)
+                .typePersonnel(p != null ? p.getType_personnel() : null)
+                .grade(p != null ? p.getGrade() : null)
+                .echelon(p != null ? p.getEchelon() : null)
+                .personnelEmail(p != null ? p.getEmail() : null)
+                .departement(p != null ? p.getDepartement() : null)
+                .statut(p != null ? p.getStatut() : null)
+                .build();
+    }
 }
