@@ -218,5 +218,5 @@ public interface ApiService {
     Call<Demande> createDemande(@Body Demande demande);
 
     @POST("api/v1/demandes/{id}/status")
-    Call<Demande> updateDemandeStatus(@Path("id") Long id, @Query("statut") String statut);
+    Call<Demande> updateDemandeStatus(@Path("id") Long id, @Query("statut") String statut, @Query("sendEmail") boolean sendEmail);
 }
