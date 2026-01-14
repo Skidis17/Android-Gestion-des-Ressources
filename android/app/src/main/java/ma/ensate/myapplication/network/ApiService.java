@@ -148,6 +148,7 @@ public interface ApiService {
         @PUT("api/v1/budget/total")
         Call<BudgetSummary> updateBudgetTotal(@Body Map<String, Double> request);
 
+        @GET("api/v1/recrutements")
         Call<List<Recrutement>> getRecrutements();
 
         @GET("api/v1/recrutements/{id}")
