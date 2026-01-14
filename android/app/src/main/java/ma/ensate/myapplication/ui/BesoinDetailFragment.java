@@ -71,10 +71,10 @@ public class BesoinDetailFragment extends Fragment {
         }
 
         // Set up action buttons
-        btnValidate.setOnClickListener(v -> showStatusChangeDialog("VALIDÉ", "Valider le besoin"));
+        btnValidate.setOnClickListener(v -> showStatusChangeDialog("VALIDÉ", "Accepter le besoin"));
         btnReject.setOnClickListener(v -> showStatusChangeDialog("REFUSÉ", "Refuser le besoin"));
         btnApprove.setOnClickListener(v -> showStatusChangeDialog("APPROUVÉ", "Approuver le besoin"));
-        btnTransmit.setOnClickListener(v -> showStatusChangeDialog("TRANSMIS_A_ECO", "Transmettre à Économique"));
+        btnTransmit.setOnClickListener(v -> createCommandeFromBesoin());
         btnAddComment.setOnClickListener(v -> showAddCommentDialog());
     }
 
@@ -142,7 +142,7 @@ public class BesoinDetailFragment extends Fragment {
             case "APPROUVÉ":
                 color = 0xFF10B981; // Green
                 break;
-            case "TRANSMIS_A_ECO":
+            case "TRANSMIS":
                 color = 0xFF8B5CF6; // Purple
                 break;
             case "REFUSÉ":
@@ -161,18 +161,31 @@ public class BesoinDetailFragment extends Fragment {
         btnApprove.setVisibility(View.GONE);
         btnTransmit.setVisibility(View.GONE);
 
-        // Show appropriate buttons based on status
+        // Get current user role
+        String userRole = new ma.ensate.myapplication.network.TokenManager(requireContext()).getRole();
+        if (userRole == null) return;
+
+        // Show appropriate buttons based on status and role
         switch (statut) {
             case "EN_ATTENTE":
-                btnValidate.setVisibility(View.VISIBLE);
-                btnReject.setVisibility(View.VISIBLE);
+                // Only Directeur_adjoint can accept/refuse
+                if ("Directeur_adjoint".equals(userRole) || "admin".equals(userRole)) {
+                    btnValidate.setVisibility(View.VISIBLE);
+                    btnReject.setVisibility(View.VISIBLE);
+                }
                 break;
             case "VALIDÉ":
-                btnApprove.setVisibility(View.VISIBLE);
-                btnReject.setVisibility(View.VISIBLE);
+                // Only Directeur can approve/refuse
+                if ("directeur".equals(userRole) || "admin".equals(userRole)) {
+                    btnApprove.setVisibility(View.VISIBLE);
+                    btnReject.setVisibility(View.VISIBLE);
+                }
                 break;
             case "APPROUVÉ":
-                btnTransmit.setVisibility(View.VISIBLE);
+                // Only Secretaire_general can transmit
+                if ("secretaire_general".equals(userRole) || "admin".equals(userRole)) {
+                    btnTransmit.setVisibility(View.VISIBLE);
+                }
                 break;
         }
     }
@@ -212,8 +225,7 @@ public class BesoinDetailFragment extends Fragment {
     }
 
     private void changeStatus(String newStatus, String commentaire) {
-        Long traitePar = 1L; // TODO: Get from logged-in user
-        viewModel.changeStatus(besoin.getId(), newStatus, traitePar, commentaire, new BesoinViewModel.ActionCallback() {
+        viewModel.changeStatus(besoin.getId(), newStatus, commentaire, new BesoinViewModel.ActionCallback() {
             @Override
             public void onSuccess(Besoin updated) {
                 besoin = updated;
@@ -226,6 +238,89 @@ public class BesoinDetailFragment extends Fragment {
                 Toast.makeText(requireContext(), "Erreur: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void createCommandeFromBesoin() {
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_create_commande, null);
+        
+        EditText etFournisseur = dialogView.findViewById(R.id.et_fournisseur);
+        EditText etMontant = dialogView.findViewById(R.id.et_montant);
+        EditText etDateLivraison = dialogView.findViewById(R.id.et_date_livraison);
+        EditText etBonNumero = dialogView.findViewById(R.id.et_bon_numero);
+        EditText etNotes = dialogView.findViewById(R.id.et_notes);
+        TextView tvBesoinInfo = dialogView.findViewById(R.id.tv_besoin_info);
+        
+        // Pre-fill from besoin
+        if (besoin.getMontantEstime() != null) {
+            etMontant.setText(besoin.getMontantEstime().toString());
+        }
+        if (besoin.getDateLivraison() != null) {
+            etDateLivraison.setText(besoin.getDateLivraison());
+        }
+        if (besoin.getDescription() != null) {
+            etNotes.setText("Commande créée depuis le besoin: " + besoin.getDescription());
+        }
+        
+        tvBesoinInfo.setText("Besoin #" + besoin.getId() + ": " + besoin.getDescription());
+        
+        new AlertDialog.Builder(requireContext())
+                .setView(dialogView)
+                .setPositiveButton("Créer", (dialog, which) -> {
+                    String fournisseur = etFournisseur.getText().toString().trim();
+                    if (fournisseur.isEmpty()) {
+                        Toast.makeText(requireContext(), "Le fournisseur est obligatoire", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    
+                    java.util.Map<String, String> request = new java.util.HashMap<>();
+                    request.put("fournisseur", fournisseur);
+                    
+                    String montant = etMontant.getText().toString().trim();
+                    if (!montant.isEmpty()) {
+                        request.put("montantTotal", montant);
+                    }
+                    
+                    String dateLivraison = etDateLivraison.getText().toString().trim();
+                    if (!dateLivraison.isEmpty()) {
+                        request.put("dateLivraisonPrevue", dateLivraison);
+                    }
+                    
+                    String bonNumero = etBonNumero.getText().toString().trim();
+                    if (!bonNumero.isEmpty()) {
+                        request.put("bonCommandeNumero", bonNumero);
+                    }
+                    
+                    String notes = etNotes.getText().toString().trim();
+                    if (!notes.isEmpty()) {
+                        request.put("notes", notes);
+                    }
+                    
+                    viewModel.repository.createCommandeFromBesoin(besoin.getId(), request).enqueue(new Callback<ma.ensate.myapplication.model.Commande>() {
+                        @Override
+                        public void onResponse(Call<ma.ensate.myapplication.model.Commande> call, Response<ma.ensate.myapplication.model.Commande> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(requireContext(), "Commande créée avec succès", Toast.LENGTH_SHORT).show();
+                                // Reload besoin to update status to TRANSMIS
+                                loadBesoin(besoin.getId());
+                            } else {
+                                String errorMsg = "Erreur lors de la création";
+                                if (response.code() == 403) {
+                                    errorMsg = "Vous n'avez pas les permissions nécessaires";
+                                } else if (response.code() == 400) {
+                                    errorMsg = "Le besoin doit être approuvé";
+                                }
+                                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ma.ensate.myapplication.model.Commande> call, Throwable t) {
+                            Toast.makeText(requireContext(), "Erreur: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                })
+                .setNegativeButton("Annuler", null)
+                .show();
     }
 }
 

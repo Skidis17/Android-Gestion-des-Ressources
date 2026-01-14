@@ -71,10 +71,10 @@
             app:argType="long" />
     </fragment>
 
-        <fragment
+        <!-- <fragment
             android:id="@+id/notificationsFragment"
             android:name="ma.ensate.myapplication.NotificationsFragment"
-            android:label="@string/nav_notifications" />
+            android:label="@string/nav_notifications" /> -->
 
         <fragment
             android:id="@+id/besoinsFragment"

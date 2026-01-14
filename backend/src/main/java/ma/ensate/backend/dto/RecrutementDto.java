@@ -21,5 +21,4 @@ public class RecrutementDto {
     private String statut;
     private Long createdBy;
     private LocalDateTime createdAt;
-    private String pdfUrl;
 }

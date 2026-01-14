@@ -118,7 +118,7 @@ public class BesoinAdapter extends RecyclerView.Adapter<BesoinAdapter.ViewHolder
                 return 0xFF3B82F6; // Blue
             case "APPROUVÉ":
                 return 0xFF10B981; // Green
-            case "TRANSMIS_A_ECO":
+            case "TRANSMIS":
                 return 0xFF8B5CF6; // Purple
             case "REFUSÉ":
                 return 0xFFEF4444; // Red

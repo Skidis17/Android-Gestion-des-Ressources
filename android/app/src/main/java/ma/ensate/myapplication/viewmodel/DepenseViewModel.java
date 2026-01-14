@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DepenseViewModel extends ViewModel {
-    private final DepenseRepository repository = new DepenseRepository();
+    public final DepenseRepository repository = new DepenseRepository();
     private final MutableLiveData<List<Depense>> depenses = new MutableLiveData<>(new ArrayList<>());
 
     public LiveData<List<Depense>> getDepenses() { return depenses; }

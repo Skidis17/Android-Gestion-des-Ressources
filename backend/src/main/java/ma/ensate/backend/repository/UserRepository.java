@@ -10,23 +10,21 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
+
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
-
     boolean existsByEmail(String email);
 
-    List<User> findByRole(String role);
-
     @Query("""
-                SELECT new ma.ensate.backend.dto.UserItemDto(
-                    u.id,
-                    u.username,
-                    u.email,
-                    u.role
-                )
-                FROM User u
-                ORDER BY u.username ASC
-            """)
+    SELECT new ma.ensate.backend.dto.UserItemDto(
+        u.id,
+        u.username,
+        u.email,
+        u.role
+    )
+    FROM User u
+    ORDER BY u.username ASC
+""")
     List<UserItemDto> findAllUsers();
 
  @Query("""

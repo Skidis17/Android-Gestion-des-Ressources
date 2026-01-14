@@ -19,4 +19,10 @@ public class CommandeRepository {
     public Call<Commande> createCommande(Commande c) { return api.createCommande(c); }
     public Call<Commande> updateCommande(Long id, Commande c) { return api.updateCommande(id, c); }
     public Call<List<Commande>> getByBesoin(Long besoinId) { return api.getCommandesByBesoin(besoinId); }
+    public Call<Commande> createCommandeFromBesoin(Long besoinId, java.util.Map<String, String> request) {
+        return api.createCommandeFromBesoin(besoinId, request);
+    }
+    public Call<Commande> updateCommandeLimited(Long id, java.util.Map<String, String> request) { 
+        return api.updateCommandeLimited(id, request); 
+    }
 }

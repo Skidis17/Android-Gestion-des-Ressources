@@ -1,7 +1,5 @@
 package ma.ensate.myapplication.network;
 
-import java.util.Map;
-
 import ma.ensate.myapplication.model.AddUserRequest;
 import ma.ensate.myapplication.model.AddUserResponse;
 import ma.ensate.myapplication.model.Besoin;
@@ -79,12 +77,13 @@ public interface ApiService {
         @POST("api/v1/besoins")
         Call<Besoin> createBesoin(@Body Besoin besoin);
 
+
         @PUT("api/v1/besoins/{id}")
         Call<Besoin> updateBesoin(@Path("id") Long id, @Body Besoin besoin);
 
-        @POST("api/v1/besoins/{id}/status")
-        Call<Besoin> changeBesoinStatus(@Path("id") Long id, @Query("statut") String statut,
-                        @Query("traitePar") Long traitePar, @Query("commentaire") String commentaire);
+    @POST("api/v1/besoins/{id}/status")
+    Call<Besoin> changeBesoinStatus(@Path("id") Long id, @Body StatusChangeRequest request);
+
 
         @DELETE("api/v1/besoins/{id}")
         Call<Void> deleteBesoin(@Path("id") Long id);
@@ -118,8 +117,16 @@ public interface ApiService {
         @PUT("api/v1/commandes/{id}")
         Call<Commande> updateCommande(@Path("id") Long id, @Body Commande commande);
 
+
         @GET("api/v1/commandes/by-besoin/{besoinId}")
         Call<List<Commande>> getCommandesByBesoin(@Path("besoinId") Long besoinId);
+
+    @POST("api/v1/commandes/from-besoin/{besoinId}")
+    Call<Commande> createCommandeFromBesoin(@Path("besoinId") Long besoinId, @Body java.util.Map<String, String> request);
+
+    @PATCH("api/v1/commandes/{id}")
+    Call<Commande> updateCommandeLimited(@Path("id") Long id, @Body java.util.Map<String, String> request);
+
 
         // Recettes
         @GET("api/v1/recettes")
@@ -214,6 +221,7 @@ public interface ApiService {
         @POST("api/v1/uploads")
         Call<UploadResponse> uploadFile(@Part MultipartBody.Part file);
 
+
         // Demandes
         @GET("api/v1/demandes")
         Call<List<Demande>> getDemandes(@Query("statut") String statut);
@@ -227,4 +235,5 @@ public interface ApiService {
         @POST("api/v1/demandes/{id}/status")
         Call<Demande> updateDemandeStatus(@Path("id") Long id, @Query("statut") String statut,
                         @Query("sendEmail") boolean sendEmail);
+
 }

@@ -12,11 +12,7 @@ import ma.ensate.backend.dto.RecrutementRequest;
 import ma.ensate.backend.mapper.CandidatureRecrutementMapper;
 import ma.ensate.backend.mapper.RecrutementMapper;
 import ma.ensate.backend.service.CandidatureRecrutementService;
-import ma.ensate.backend.service.OfferPdfService;
 import ma.ensate.backend.service.RecrutementService;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +29,6 @@ public class RecrutementController {
 
     private final RecrutementService recrutementService;
     private final CandidatureRecrutementService candidatureRecrutementService;
-    private final OfferPdfService offerPdfService;
 
     @GetMapping
     public List<RecrutementDto> listAll() {
@@ -99,17 +94,5 @@ public class RecrutementController {
     @GetMapping("/stats")
     public RecrutementStatsDto stats() {
         return recrutementService.stats();
-    }
-
-    @GetMapping(value = "/{id}/offre.pdf", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<byte[]> offerPdf(@PathVariable Long id) {
-        Recrutement recrutement = recrutementService.findById(id);
-        byte[] pdf = offerPdfService.generateOfferPdf(recrutement);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDisposition(ContentDisposition.attachment()
-                .filename("offre-recrutement-" + id + ".pdf")
-                .build());
-        return ResponseEntity.ok().headers(headers).body(pdf);
     }
 }

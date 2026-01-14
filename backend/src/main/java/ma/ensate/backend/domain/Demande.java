@@ -41,10 +41,6 @@ public class Demande {
     @Column(name = "created_by", nullable = false)
     private Long createdBy;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", insertable = false, updatable = false)
-    private User createdByUser;
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 }

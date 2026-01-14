@@ -72,13 +72,8 @@ public class AdminUsersFragment extends Fragment {
         loadUsers();
 
         etSearchUser.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -91,8 +86,7 @@ public class AdminUsersFragment extends Fragment {
 
     private String authHeader() {
         String token = new TokenManager(requireContext()).getToken();
-        if (token == null || token.trim().isEmpty())
-            return null;
+        if (token == null || token.trim().isEmpty()) return null;
         return "Bearer " + token;
     }
 
@@ -157,14 +151,10 @@ public class AdminUsersFragment extends Fragment {
                 int admin = 0, rh = 0, recruteur = 0, directeur = 0;
                 for (UserItem u : allUsers) {
                     String r = (u.role == null) ? "" : u.role.trim();
-                    if ("admin".equalsIgnoreCase(r))
-                        admin++;
-                    else if ("RH".equalsIgnoreCase(r))
-                        rh++;
-                    else if ("recruteur".equalsIgnoreCase(r))
-                        recruteur++;
-                    else if ("directeur".equalsIgnoreCase(r))
-                        directeur++;
+                    if ("admin".equalsIgnoreCase(r)) admin++;
+                    else if ("RH".equalsIgnoreCase(r)) rh++;
+                    else if ("recruteur".equalsIgnoreCase(r)) recruteur++;
+                    else if ("directeur".equalsIgnoreCase(r)) directeur++;
                 }
 
                 tvAdminCount.setText(String.valueOf(admin));
@@ -194,8 +184,7 @@ public class AdminUsersFragment extends Fragment {
         for (UserItem u : allUsers) {
             String email = (u.email != null) ? u.email.toLowerCase(Locale.ROOT) : "";
             String username = (u.username != null) ? u.username.toLowerCase(Locale.ROOT) : "";
-            if (email.contains(query) || username.contains(query))
-                filtered.add(u);
+            if (email.contains(query) || username.contains(query)) filtered.add(u);
         }
         adapter.setData(filtered);
     }

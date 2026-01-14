@@ -1,6 +1,11 @@
 package ma.ensate.backend.service;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ma.ensate.backend.Enum.Role;
 import ma.ensate.backend.domain.Personnel;
 import ma.ensate.backend.domain.User;
@@ -9,10 +14,6 @@ import ma.ensate.backend.dto.AddUserResponse;
 import ma.ensate.backend.dto.UserInfoDto;
 import ma.ensate.backend.repository.PersonnelRepository;
 import ma.ensate.backend.repository.UserRepository;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
@@ -67,13 +68,12 @@ public class UserService {
 
         // 5) créer user
         User user = new User();
+        user.setPersonnelId(request.getPersonnelId());
         user.setEmail(email);
         user.setUsername(request.getUsername().trim());
         user.setRole(role);
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         user.setPersonnel(personnel);
-        user.setPersonnelId(request.getPersonnelId());
-       
 
         User saved = userRepository.save(user);
 
