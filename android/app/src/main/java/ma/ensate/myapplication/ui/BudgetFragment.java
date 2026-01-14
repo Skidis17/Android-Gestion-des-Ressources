@@ -62,7 +62,7 @@ public class BudgetFragment extends Fragment {
         TextView tvDepensesValue = view.findViewById(R.id.tvDepensesValue);
         TextView tvSoldeValue = view.findViewById(R.id.tvSoldeValue);
         TextView tvPercentValue = view.findViewById(R.id.tvPercentValue);
-        TextView tvBudgetSummaryValue = view.findViewById(R.id.tvBudgetSummaryValue);
+        // TextView tvBudgetSummaryValue = view.findViewById(R.id.tvBudgetSummaryValue);
         ProgressBar progressBudget = view.findViewById(R.id.progressBudget);
         ProgressBar loading = view.findViewById(R.id.loadingBudget);
         ImageView btnRefresh = view.findViewById(R.id.btnRefreshBudget);
@@ -87,7 +87,7 @@ public class BudgetFragment extends Fragment {
                 tvDepensesValue.setText("—");
                 tvSoldeValue.setText("—");
                 tvPercentValue.setText("—");
-                tvBudgetSummaryValue.setText("—");
+                // tvBudgetSummaryValue.setText("—");
                 progressBudget.setProgress(0);
             } else {
                 tvTotalBudgetValue.setText(formatMoney(df, b.montantTotal));
@@ -98,7 +98,7 @@ public class BudgetFragment extends Fragment {
                 // Calculate total available funds (Budget Total + Recettes)
                 double totalAvailable = (b.montantTotal != null ? b.montantTotal : 0.0) +
                         (b.totalRecettes != null ? b.totalRecettes : 0.0);
-                tvBudgetSummaryValue.setText(formatMoney(df, totalAvailable));
+                // tvBudgetSummaryValue.setText(formatMoney(df, totalAvailable));
 
                 int perc = b.pourcentageUtilise == null ? 0 : (int) Math.round(b.pourcentageUtilise);
                 tvPercentValue.setText(perc + "%");

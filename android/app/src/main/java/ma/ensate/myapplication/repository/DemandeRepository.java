@@ -13,5 +13,5 @@ public class DemandeRepository {
     public Call<List<Demande>> getDemandes(String statut) { return api.getDemandes(statut); }
     public Call<Demande> getDemande(Long id) { return api.getDemande(id); }
     public Call<Demande> createDemande(Demande demande) { return api.createDemande(demande); }
-    public Call<Demande> updateStatus(Long id, String statut) { return api.updateDemandeStatus(id, statut); }
+    public Call<Demande> updateStatus(Long id, String statut) { return api.updateDemandeStatus(id, statut, false); }
 }

@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.personnelFragment,
                 R.id.demandesFragment,
                 R.id.recrutementFragment,
-                R.id.notificationsFragment,
+                // R.id.notificationsFragment,
                 R.id.profileFragment,
                 R.id.adminUsersFragment,
                 // si tu as vraiment ces fragments dans ton graph, tu peux les garder:
